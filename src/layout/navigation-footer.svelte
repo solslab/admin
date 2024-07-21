@@ -8,9 +8,9 @@
 		<ContainerGrid></ContainerGrid>
 		<ContainerGrid flexAlignCenter>
 			<div class="powered-by">
-				<a href="https://cosmostation.io" target="_blank">
+				<a href="https://github.com/solslab" target="_blank">
 					Powered by
-					<b> Cosmostation</b>
+					<b>Sols lab</b>
 				</a>
 			</div>
 		</ContainerGrid>
