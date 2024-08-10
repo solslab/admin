@@ -22,50 +22,29 @@
 
 <div class="navigation-header">
 	<FieldGrid
-		column="250px auto"
+		column="auto"
 		gap={1}
 		full
 		style={{ paddingRight: '8px' }}
 	>
-		<ContainerGrid flexAlignCenter>
-			<div
-				style={css({
-					height: '100%',
-					width: '100%',
-					display: 'flex',
-					alignItems: 'center',
-					borderRight: 'solid 1px var(--hq-base-2100)'
-				})}
-			>
-				<Icon
-					styleContainer={{
-						marginLeft: '-4px'
-					}}
-					style={{ width: '180px' }}
-					icon={{
-						type: IconPropType.IMAGE,
-						src: '/favicon.png'
-					}}
-				></Icon>
-			</div>
-		</ContainerGrid>
+	
 		<!-- layout menu영역  -->
 	
-		<ContainerGrid flexAlignCenter>
+		<!-- <ContainerGrid flexAlignCenter>
 			{#each TabItems as { id, text }}
 			<Button size="ct" selected={selectedTab === id} on:click={() => selectTab(id)}
 				>{text}</Button
 			>
 		{/each}
-		</ContainerGrid>
+		</ContainerGrid> -->
 	</FieldGrid>
 </div>
 
 <style lang="scss">
 	.navigation-header {
 		height: 100%;
-		background: var(--hq-base-2200);
-		border-bottom: solid 1px var(--hq-base-2100);
+		background: var(--hq-base-0200);
+		border-bottom: solid 1px var(--hq-transparent-inverse-0300);
 		color: var(--hq-base-0400);
 		font-size: 14px;
 	}
