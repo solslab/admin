@@ -37,7 +37,6 @@
 						<ContainerGrid style={{ padding: '0.5rem 0 0.5rem 1.3rem' }}>
 							<BCUnit.Image src="/assets/icons/solslab.png" />
 						</ContainerGrid>
-
 						{#if $openDrawer}
 							<ContainerGrid flexAlignCenter>
 								<TypoText
@@ -62,17 +61,17 @@
 			<NavGroup
 				slot="forwards"
 				group={{
-					path: '/',
-				 	items: [
-				{
-					title: 'Portfolio',
-					icon: { ...DefIcons.Common.All, scale: 1 },
-					link: 'wallet/portfolio',
-					outbound: false,
-				},
-			],
-					icon: { src: '', type: IconPropType.PATH },
-					title: 'Explorer'
+					path: '/analytics',
+						title: 'Analytics',
+						icon: DefIcons.Common.Wallet,
+						items: [
+					{
+						title: '방문자수',
+						icon: { ...DefIcons.Common.All, scale: 1 },
+						link: 'analytics/visitor',
+						outbound: false,
+					},
+				],
 				}}
 			>
 			</NavGroup>
