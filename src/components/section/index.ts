@@ -1,1 +1,1 @@
-export { default as SectionDivider } from './divider/index.svelte';
+export { default as SectionDivider } from "./divider/index.svelte";

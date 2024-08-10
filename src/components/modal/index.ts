@@ -1,6 +1,6 @@
-export { default as Modal } from './index.svelte';
+export { default as Modal } from "./index.svelte";
 
 export enum ModalPosition {
-	BOTTOM = 'bottom',
-	CENTER = 'center'
+  BOTTOM = "bottom",
+  CENTER = "center",
 }
