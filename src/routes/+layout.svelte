@@ -20,8 +20,6 @@
 		});
 	}
 
-
-
 	// support & feedback 은 status 상태로 넘겨줄 거임 company 안에 job들어가고 기업 선택시 tab 나오게 하면 될듯.
 </script>
 

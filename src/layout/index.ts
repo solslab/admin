@@ -1,7 +1,6 @@
 export const TabItems = [
-	{ id: 'user-management', text: 'User Management' },
-	{ id: 'company-management', text: 'Company Management' },
-	{ id: 'jon-management', text: 'Job Management' },
-	{ id: 'support-feedback', text: 'Support & Feedback' },
-	{ id: 'visitor-statistics', text: 'Visitor Statistics' },
+	{ id: 'user-management', text: '회원 관리' },
+	{ id: 'company-management', text: '기업관리' },
+	{ id: 'support-feedback', text: '1대1 문의' },
+	{ id: 'visitor-statistics', text: '방문객수' },
 ];
