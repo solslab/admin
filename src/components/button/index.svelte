@@ -39,7 +39,7 @@
 		cursor: pointer;
 
 		@include hover {
-			background-color: var(--base03);
+			background-color: var(--hq-base-0300);
 		}
 
 		border: solid 1px var(--border-color);
@@ -65,7 +65,7 @@
 			}
 		}
 		&[data-selected] {
-			color: var(--hq-base-0300) !important;
+			color: var(--hq-base-2300) !important;
 			font-weight: bold;
 			// background: var(--hq-prussian-blue-0300);
 			// border-bottom: solid 1px var(--hq-sapphire-blue-1600);

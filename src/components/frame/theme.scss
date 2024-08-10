@@ -1,0 +1,120 @@
+:global(:root) {
+	--ui-00: #1e202b;
+	--ui-01: #262a35;
+	--ui-00-rev: #151515;
+	--ui-01-rev: #2a2a2a;
+	--ui-border-01: #343434;
+	--ui-border-02: #404040;
+	--ui-border-03: #505050;
+
+	--cds-ui-00: #1a1a1a;
+	--cds-text-sub-01: #7e899a;
+	--cds-bg-sub-01: #2c2f33;
+
+	--bg-normal: #1f1f1f;
+
+	--base01: #222222;
+	--base02: #2c2f33;
+	--base03: #434a54;
+	--base04: #7e899a;
+	--base04-opa: #7e899a4f;
+	--base05: #89909b;
+	--base06: #ffffff;
+	--accent-green: #27bd69;
+	--accent-red: #e33f3f;
+	--accent-blue: #2974e5;
+	--accent-point: #0f73ed;
+	--accent-grad-start: #a97fff;
+	--accent-grad-start: #05d2dd;
+	--accent-support-01: #da1e28;
+	--accent-support-02: #198038;
+	--accent-support-03: #f1c21b;
+	--accent-support-04: #0043ce;
+	--accent-support-05: RGB(140, 207, 255);
+	--accent-inverse-support-01: #fa4d56;
+	--accent-inverse-support-02: #42be65;
+	--accent-inverse-support-03: #f1c21b;
+	--accent-inverse-support-04: #0f62fe;
+	--accent-inverse-support-05: RGB(140, 207, 255);
+
+	--accent-purple: #a48ed0;
+	--accent-inverse-purple: #c4aee0;
+
+	--tooltip-background: #465666;
+
+	--support-01: #00b1fd;
+	--support-01-opa: #00b1fd1a;
+	--shadow-default: rgba(0, 0, 0, 0.323);
+	--overlay-half: rgba(255, 255, 255, 0.025);
+	--overlay: rgba(255, 255, 255, 0.05);
+	--overlay-1-5x: rgba(255, 255, 255, 0.075);
+	--overlay-2x: rgba(255, 255, 255, 0.1);
+	--overlay-3x: rgba(255, 255, 255, 0.15);
+	--overlay-4x: rgba(255, 255, 255, 0.2);
+	--overlay-10x: rgba(255, 255, 255, 0.4);
+	--overlay-20x: rgba(255, 255, 255, 0.8);
+	--overlay-invert: rgba(0, 0, 0, 0.05);
+	--overlay-invert-1-5x: rgba(0, 0, 0, 0.075);
+	--overlay-invert-2x: rgba(0, 0, 0, 0.1);
+	--overlay-invert-3x: rgba(0, 0, 0, 0.15);
+	--overlay-invert-4x: rgba(0, 0, 0, 0.2);
+	--overlay-invert-10x: rgba(0, 0, 0, 0.4);
+	--overlay-invert-20x: rgba(0, 0, 0, 0.8);
+
+	--border-color: rgba(255, 255, 255, 0.09);
+	--border-color-w1: rgba(255, 255, 255, 0.06);
+	--border-color-s1: rgba(255, 255, 255, 0.15);
+
+	--progress-grad-01: #302241;
+	--progress-grad-02: #001025;
+	--progress-inner-line: rgba(255, 255, 255, 0.5);
+
+	--ui-header: #131313;
+	--ui-cover-bg: rgba(0, 0, 0, 0.6);
+
+	--ui-nav-bg: #131323;
+
+	--vis-guide-accent: #7d9dc5;
+	--vis-guide-default: #5c718a;
+	--vis-guide-text-accent: #bcd1e8;
+	--vis-guide-text: #99b0c9;
+	--vis-positive: #0ecb81;
+	--vis-negative: #f6465d;
+
+	--component-base00: #111111;
+	--component-base01: #1b1e23;
+	--component-base01-opa-5: #1b1e2388;
+	--component-base01-opa-8: #1b1e23cc;
+	--component-base02: #2a2f37;
+	--component-base03: #3e4551;
+	--component-base04: #474f5c;
+	--component-base05: #616a76;
+	--component-base06: #758195;
+	--component-base06_1: #a3abb8;
+	--component-base06_2: #bac0ca;
+	--component-base06_5: #d1d5dc;
+	--component-base07: #ffffff;
+
+	--component-accent-white: #ffffff;
+	--component-accent-purple: #7c4ffc;
+	--component-accent-purple-d1: #633fca;
+	--component-accent-green: #1ba858;
+	--component-accent-red: #e33f3f;
+	--component-accent-orange: rgb(212, 122, 38);
+	--component-accent-blue: #1291c8;
+	--component-box-shadow: rgba(0, 0, 0, 0.1);
+
+	--component-overlay-base02: #2c2f33aa;
+
+	--component-accent-progress: #7c4ffc;
+
+	--dev-activity-freq-1: #0a3069;
+	--dev-activity-freq-2: #0969da;
+	--dev-activity-freq-3: #54aeff;
+	--dev-activity-freq-4: #b6e3ff;
+
+	// --dev-activity-freq-1: #0e4429;
+	// --dev-activity-freq-2: #006d32;
+	// --dev-activity-freq-3: #26a641;
+	// --dev-activity-freq-4: #39d353;
+}

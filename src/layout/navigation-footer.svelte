@@ -20,8 +20,8 @@
 <style lang="scss">
 	.footer {
 		height: 100%;
-		background: var(--hq-base-2200);
-		border-top: solid 1px var(--hq-base-2100);
+		background: var(--hq-base-0200);
+		border-top: solid 1px var(--hq-base-0400);
 		.powered-by {
 			font-size: 11px;
 			font-weight: 400;
