@@ -18,6 +18,6 @@ export namespace __Company {
 			throw new Error(errorData.message || 'Error executing request');
 		}
 
-		return await response.json(); // For POST requests, we might not always return data.
+		return await response.json();
 	}
 }
