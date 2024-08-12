@@ -1,18 +1,18 @@
 <script lang="ts">
 	import { BCTypo } from '@src/components/typo';
-	import { Input } from '@src/components/input';	
+	import { Input } from '@src/components/input';
 	import { browser } from '$app/environment';
 	import { ContainerGrid } from '@src/components/container';
 	import { CardContentAccentArea } from '@src/components/content/index';
-	import { FieldGrid,FieldFlex } from '@src/components/field';
-	import {Button} from '@src/components/button';
+	import { FieldGrid, FieldFlex } from '@src/components/field';
+	import { Button } from '@src/components/button';
 	import { TypoText } from '@src/components/typo';
 	import { BCUnit } from '@src/components/unit/index';
-	import {ComponentSizeProps	} from '@src/util/component';
+	import { ComponentSizeProps } from '@src/util/component';
 	import NavigationFooter from '@src/layout/navigation-footer.svelte';
 	import NavigationHeader from '@src/layout/navigation-header.svelte';
+	import { ModalGlobal } from '@src/components-global/modal';
 	import { Frame } from '@src/components/frame';
-
 
 	let isLogin = false;
 	let id: string = '';
@@ -21,8 +21,12 @@
 </script>
 
 {#if !isLogin}
-	<FieldGrid style={{background:'var(--hq-base-0100)'}}>
-		<ContainerGrid flexAlignCenter flexJustifyCenter style={{ height: '100vh', minHeight: '32rem' }}>
+	<FieldGrid style={{ background: 'var(--hq-base-0100)' }}>
+		<ContainerGrid
+			flexAlignCenter
+			flexJustifyCenter
+			style={{ height: '100vh', minHeight: '32rem' }}
+		>
 			<FieldGrid column="1fr 32rem 1fr">
 				<ContainerGrid />
 				<CardContentAccentArea
@@ -31,20 +35,20 @@
 					style={{ padding: '3rem 0rem 0rem 0rem ' }}
 				>
 					<FieldGrid gap={1}>
-						<ContainerGrid flexJustifyCenter style={{marginRight:'1.5rem'}}>
-								<ContainerGrid style={{ padding: '0.5rem 0 0.5rem 1.3rem', width:'4rem' }}>
-									<BCUnit.Image src="/assets/icons/solslab.png" />
-								</ContainerGrid>
-									<ContainerGrid flexAlignCenter>
-										<TypoText
-											h={5}
-											style={{
-												padding: '0.15rem 0 0 0.8rem',
-												letterSpacing: '0.1rem'
-											}}
-										color="var(--hq-base-2300)">SOLSLAB</TypoText
-										>
-									</ContainerGrid>
+						<ContainerGrid flexJustifyCenter style={{ marginRight: '1.5rem' }}>
+							<ContainerGrid style={{ padding: '0.5rem 0 0.5rem 1.3rem', width: '4rem' }}>
+								<BCUnit.Image src="/assets/icons/solslab.png" />
+							</ContainerGrid>
+							<ContainerGrid flexAlignCenter>
+								<TypoText
+									h={5}
+									style={{
+										padding: '0.15rem 0 0 0.8rem',
+										letterSpacing: '0.1rem'
+									}}
+									color="var(--hq-base-2300)">SOLSLAB</TypoText
+								>
+							</ContainerGrid>
 						</ContainerGrid>
 						<ContainerGrid style={{ padding: '0 3rem' }}>
 							<FieldFlex direction="column" gap={0.6}>
@@ -99,7 +103,7 @@
 									padding: '1.5rem',
 									border: '1px solid var(--hq-base-0200)',
 									borderRadius: '0.25rem',
-									background:'var(--hq-base-0300)'		
+									background: 'var(--hq-base-0300)'
 								}}
 								size={ComponentSizeProps.LG}
 								on:click={() => {
@@ -130,26 +134,27 @@
 		</ContainerGrid>
 	</FieldGrid>
 {:else}
-<Frame>
-<div class="root">
-	<FieldGrid full row="54px 1fr 3rem">
-		<ContainerGrid>
-			<NavigationHeader></NavigationHeader>
-		</ContainerGrid>
-		<ContainerGrid>
-			<div class="content">
-				{#if browser}
-					<slot />
-				{/if}
-			</div>
-		</ContainerGrid>
-		<ContainerGrid>
-			<NavigationFooter></NavigationFooter>
-		</ContainerGrid>
-	</FieldGrid>
-</div>
-</Frame>
+	<Frame>
+		<div class="root">
+			<FieldGrid full row="54px 1fr 3rem">
+				<ContainerGrid>
+					<NavigationHeader></NavigationHeader>
+				</ContainerGrid>
+				<ContainerGrid>
+					<div class="content">
+						{#if browser}
+							<slot />
+						{/if}
+					</div>
+				</ContainerGrid>
+				<ContainerGrid>
+					<NavigationFooter></NavigationFooter>
+				</ContainerGrid>
+			</FieldGrid>
+		</div>
+	</Frame>
 {/if}
+<ModalGlobal />
 
 <style lang="scss">
 	@import './__layout_hub_colors.scss';
@@ -157,7 +162,7 @@
 	.root {
 		width: 100%;
 		height: 100%;
-		background: var(--hq-base-1000);
+
 		.content {
 			height: 100%;
 		}
