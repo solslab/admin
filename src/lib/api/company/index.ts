@@ -5,6 +5,25 @@ import { accessToken } from '../admin/index';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export namespace __Company {
+	// 기업 전체 조회 함수
+	export async function getAllCompanies(): Promise<any> {
+		const url = `${BASE_URL}/company`;
+
+		// GET 요청이므로 body는 필요 없음
+		return await fetchData({ url, method: 'GET' });
+	}
+
+	// 회원 상세 조회 함수
+	export async function getCompanyDetails(args: { companyId: string }): Promise<any> {
+		const url = `${BASE_URL}/company/${args.companyId}`;
+
+		// GET 요청이므로 body는 필요 없음
+		return await fetchData({
+			url,
+			method: 'GET'
+		});
+	}
+
 	// 기업을 생성하는 함수
 	export async function createCompany(args: {
 		company_name: string;

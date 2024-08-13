@@ -14,7 +14,7 @@ export namespace __Task {
 			hidden_case: args.hidden_case || null,
 			exam_mode: args.exam_mode || null,
 			test_place: args.test_place || null,
-			note: args.note || null,
+			note: args.note || null
 		};
 
 		return await fetchData({ url, method: 'POST', body });
@@ -33,7 +33,7 @@ export namespace __Task {
 			hidden_case: args.hidden_case ?? null,
 			exam_mode: args.exam_mode ?? null,
 			test_place: args.test_place ?? null,
-			note: args.note ?? null,
+			note: args.note ?? null
 		};
 
 		return await fetchData({ url, method: 'PUT', body });
@@ -47,7 +47,7 @@ export namespace __Task {
 		return await fetchData({
 			url,
 			method: 'DELETE',
-			body: { token: args.token },
+			body: { token: args.token }
 		});
 	}
 
@@ -71,9 +71,9 @@ export namespace __Task {
 		const response = await fetch(args.url, {
 			method: args.method,
 			headers: {
-				'Content-Type': 'application/json',
+				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(args.body),
+			body: JSON.stringify(args.body)
 		});
 
 		if (!response.ok) {
