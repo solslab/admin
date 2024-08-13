@@ -10,8 +10,6 @@
 
 	let { openStatus, data } = __MemberListDetailModal;
 
-	$: console.log($data);
-
 	$: asyncMemberDetailData = exec(async () => {
 		if ($data) {
 			return await API.Member.getMemberDetails({ memberKey: $data.data.member_key });

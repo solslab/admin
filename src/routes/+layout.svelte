@@ -1,4 +1,8 @@
 <script lang="ts">
+	import { onMount, onDestroy } from 'svelte';
+	import { get } from 'svelte/store';
+	import { accessToken, isLogin } from '@src/lib/api/admin';
+	import { API } from '@src/lib/api';
 	import { BCTypo } from '@src/components/typo';
 	import { Input } from '@src/components/input';
 	import { browser } from '$app/environment';
@@ -13,14 +17,64 @@
 	import NavigationHeader from '@src/layout/navigation-header.svelte';
 	import { ModalGlobal } from '@src/components-global/modal';
 	import { Frame } from '@src/components/frame';
+	import { onMountBrowser } from '@src/util/svelte';
 
-	let isLogin = false;
 	let id: string = '';
 	let password: string = '';
-	// support & feedback 은 status 상태로 넘겨줄 거임 company 안에 job들어가고 기업 선택시 tab 나오게 하면 될듯.
+	let errorMessage = '';
+	let intervalId: number;
+
+	async function handleLogin() {
+		try {
+			await API.Admin.adminLogin(id, password);
+			isLogin.set(true); // 로그인 성공 시 상태 업데이트
+		} catch (error) {}
+	}
+
+	function checkLoginStatus() {
+		const token = get(accessToken);
+		if (!token) {
+			isLogin.set(false); // 토큰이 없으면 로그아웃 처리
+			alert('로그인 세션이 만료되었습니다.');
+		} else {
+			isLogin.set(true); // 토큰이 있으면 로그인 처리
+		}
+	}
+
+	onMountBrowser(() => {
+		checkLoginStatus();
+		intervalId = window.setInterval(checkLoginStatus, 60000);
+	});
+
+	onDestroy(() => {
+		// 컴포넌트가 언마운트될 때 타이머 제거
+		clearInterval(intervalId);
+	});
 </script>
 
-{#if !isLogin}
+{#if $isLogin}
+	<!-- 로그인 후 화면 -->
+	<Frame>
+		<div class="root">
+			<FieldGrid full row="54px 1fr 3rem">
+				<ContainerGrid>
+					<NavigationHeader></NavigationHeader>
+				</ContainerGrid>
+				<ContainerGrid>
+					<div class="content">
+						{#if browser}
+							<slot />
+						{/if}
+					</div>
+				</ContainerGrid>
+				<ContainerGrid>
+					<NavigationFooter></NavigationFooter>
+				</ContainerGrid>
+			</FieldGrid>
+		</div>
+	</Frame>
+{:else}
+	<!-- 로그인 화면 -->
 	<FieldGrid style={{ background: 'var(--hq-base-0100)' }}>
 		<ContainerGrid
 			flexAlignCenter
@@ -106,13 +160,7 @@
 									background: 'var(--hq-base-0300)'
 								}}
 								size={ComponentSizeProps.LG}
-								on:click={() => {
-									if (id === 'admin' && password === '1234') {
-										isLogin = true;
-									} else {
-										alert('아이디와 비밀번호를 잘 생각해보십쇼.');
-									}
-								}}
+								on:click={handleLogin}
 							>
 								<BCTypo.Text
 									prop={{
@@ -128,31 +176,14 @@
 							>
 						</ContainerGrid>
 					</FieldGrid>
+					{#if errorMessage}
+						<p style="color: red;">{errorMessage}</p>
+					{/if}
 				</CardContentAccentArea>
 				<ContainerGrid />
 			</FieldGrid>
 		</ContainerGrid>
 	</FieldGrid>
-{:else}
-	<Frame>
-		<div class="root">
-			<FieldGrid full row="54px 1fr 3rem">
-				<ContainerGrid>
-					<NavigationHeader></NavigationHeader>
-				</ContainerGrid>
-				<ContainerGrid>
-					<div class="content">
-						{#if browser}
-							<slot />
-						{/if}
-					</div>
-				</ContainerGrid>
-				<ContainerGrid>
-					<NavigationFooter></NavigationFooter>
-				</ContainerGrid>
-			</FieldGrid>
-		</div>
-	</Frame>
 {/if}
 <ModalGlobal />
 

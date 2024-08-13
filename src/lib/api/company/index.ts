@@ -1,11 +1,14 @@
 import { __Model } from './model';
+import { get } from 'svelte/store';
+import { accessToken } from '../admin/index';
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export namespace __Company {
 	// 기업을 생성하는 함수
 	export async function createCompany(args: {
 		company_name: string;
 		industry_type: __Model.IndustryType[];
-		token: string;
 	}): Promise<any> {
 		const url = `${BASE_URL}/company`;
 		const body = {
@@ -13,7 +16,7 @@ export namespace __Company {
 			industry_type: args.industry_type
 		};
 
-		return await fetchData({ url, method: 'POST', body, token: args.token });
+		return await fetchData({ url, method: 'POST', body });
 	}
 
 	// 기업 로고를 등록하거나 변경하는 함수
@@ -21,7 +24,6 @@ export namespace __Company {
 		companyId: string;
 		file: File;
 		fileName: string;
-		token: string;
 	}): Promise<any> {
 		const url = `${BASE_URL}/company/${args.companyId}/logo`;
 
@@ -32,24 +34,19 @@ export namespace __Company {
 		return await fetchData({
 			url,
 			method: 'POST',
-			token: args.token,
 			body: formData,
 			isFormData: true // FormData 사용 여부를 true로 설정
 		});
 	}
 
 	// 기업 로고를 삭제하는 함수
-	export async function deleteCompanyLogo(args: {
-		companyId: string;
-		token: string;
-	}): Promise<any> {
+	export async function deleteCompanyLogo(args: { companyId: string }): Promise<any> {
 		const url = `${BASE_URL}/company/${args.companyId}/logo`;
 
 		// DELETE 요청은 body 없이 보냄
 		return await fetchData({
 			url,
-			method: 'DELETE',
-			token: args.token
+			method: 'DELETE'
 		});
 	}
 
@@ -57,8 +54,7 @@ export namespace __Company {
 	export async function updateCompany(args: {
 		companyId: string;
 		company_name: string;
-		industry_type: __Model.IndustryType[]; // 변경된 부분
-		token: string;
+		industry_type: __Model.IndustryType[];
 	}): Promise<any> {
 		const url = `${BASE_URL}/company/${args.companyId}`;
 		const body = {
@@ -69,35 +65,35 @@ export namespace __Company {
 		return await fetchData({
 			url,
 			method: 'PUT',
-			token: args.token,
 			body
 		});
 	}
 
 	// 기업을 삭제하는 함수
-	export async function deleteCompany(args: {
-		companyId: number; // companyId의 타입을 number로 변경
-		token: string;
-	}): Promise<any> {
+	export async function deleteCompany(args: { companyId: number }): Promise<any> {
 		const url = `${BASE_URL}/company/${args.companyId}`;
 
 		// DELETE 요청은 body 없이 보냄
 		return await fetchData({
 			url,
-			method: 'DELETE',
-			token: args.token
+			method: 'DELETE'
 		});
 	}
 
 	async function fetchData(args: {
 		url: string;
 		method: 'POST' | 'PUT' | 'GET' | 'DELETE';
-		token: string; // Token을 인자로 받음
 		body?: any;
 		isFormData?: boolean; // FormData 여부를 나타내는 옵션 추가
 	}): Promise<any> {
+		const token = get(accessToken); // 저장된 토큰을 가져오기
+
+		if (!token) {
+			throw new Error('No access token available');
+		}
+
 		const headers: Record<string, string> = {
-			Authorization: `Bearer ${args.token}` // Authorization 헤더 추가
+			Authorization: `Bearer ${token}` // Authorization 헤더에 토큰 추가
 		};
 
 		if (!args.isFormData) {
