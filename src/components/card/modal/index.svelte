@@ -33,7 +33,7 @@
 </script>
 
 <CardContentAccentArea
-	backgroundPaint={{ harmonyShade: 2000, harmonyName: backgroundHarmonyName }}
+	backgroundPaint={{ harmonyShade: 200, harmonyName: backgroundHarmonyName }}
 	height={containerHeight}
 	style={{ padding: padding, zIndex, position: 'relative' }}
 >
@@ -88,7 +88,7 @@
 							icon={{
 								type: IconPropType.PATH,
 								src: mdiCloseThick,
-								scale: 0.6
+								scale: 1.2
 							}}
 							size={ComponentSizeProps.SM}
 							style={{ paddingTop: '0.3rem' }}

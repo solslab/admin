@@ -3,9 +3,12 @@
 	import { FieldGrid } from '@src/components/field';
 	import { ContainerGrid } from '@src/components/container';
 	import { BCTypo } from '@src/components/typo';
+	import { ButtonIcon } from '@src/components/buttonicon';
+	import { IconPropType } from '@src/components/icon';
 	import { BCLayout } from '@src/components/layout';
 	import { SectionDivider } from '@src/components/section';
 	import { exec } from '@src/util/util.function';
+	import { DefIcons } from '@src/icons/defines';
 	import ComapanyListItem from './item.svelte';
 
 	$: asyncCompanyList = exec(async () => {
@@ -18,7 +21,7 @@
 	contentStyle={{ overflow: 'hidden' }}
 	rootStyle={{ paddingTop: '1rem', backgroundColor: 'transparent' }}
 >
-	<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
+	<FieldGrid full column="1fr auto" gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
 			<ContainerGrid flexAlignCenter>
 				<BCTypo.Text
@@ -27,6 +30,9 @@
 					text="Company List"
 				/>
 			</ContainerGrid>
+		</ContainerGrid>
+		<ContainerGrid>
+			<ButtonIcon icon={DefIcons.Common.Upload} />
 		</ContainerGrid>
 	</FieldGrid>
 
