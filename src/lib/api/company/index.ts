@@ -48,13 +48,20 @@ export namespace __Company {
 
 		// FormData를 사용하여 파일 및 기타 데이터 전송
 		const formData = new FormData();
-		formData.append('file', args.file, args.fileName);
+		formData.append('file', args.file);
+		formData.append('fileName', args.fileName);
 
+		// FormData의 모든 키-값 쌍을 콘솔에 출력
+		for (let [key, value] of formData.entries()) {
+			console.log(`${key}:`, value);
+		}
+
+		// FormData 사용 시 Content-Type을 자동으로 설정하기 때문에, 별도로 설정하지 않음
 		return await fetchData({
 			url,
 			method: 'POST',
 			body: formData,
-			isFormData: true // FormData 사용 여부를 true로 설정
+			isFormData: true
 		});
 	}
 
@@ -89,7 +96,7 @@ export namespace __Company {
 	}
 
 	// 기업을 삭제하는 함수
-	export async function deleteCompany(args: { companyId: number }): Promise<any> {
+	export async function deleteCompany(args: { companyId: string }): Promise<any> {
 		const url = `${BASE_URL}/company/${args.companyId}`;
 
 		// DELETE 요청은 body 없이 보냄

@@ -37,9 +37,10 @@
 		height: 1.75rem;
 		color: #98a2ae;
 		cursor: pointer;
+		background-color: var(--hq-base-0300);
 
 		@include hover {
-			background-color: var(--hq-base-0300);
+			background-color: var(--hq-base-0200);
 		}
 
 		border: solid 1px var(--border-color);

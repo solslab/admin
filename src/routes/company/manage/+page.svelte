@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { RCCompany } from '@src/components-route/company';
-	import { ContainerGrid } from '@src/components/container/index';
+	import { FrameContent } from '@src/components/frame';
 </script>
 
-<ContainerGrid>
+<FrameContent>
 	<RCCompany.RootLite />
-</ContainerGrid>
+</FrameContent>

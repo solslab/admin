@@ -7,13 +7,15 @@
 	import { CardContentAccentArea } from '@src/components/content';
 	import { CardModal } from '@src/components/card/modal/index';
 	import { SectionDivider } from '@src/components/section';
+	import { mdiFileImagePlusOutline } from '@mdi/js';
 	import { Screen, screen } from '@src/store/env';
 	import { ContainerGrid } from '@src/components/container';
 	import { BCTypo, TypoTextWithIcon } from '@src/components/typo';
 	import { ValueRow } from '@src/components/value-row';
-	import { FieldGrid } from '@src/components/field';
+	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { IconPropType } from '@src/util/icon';
 	import { ComponentSizeProps } from '@src/util/component';
+	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon';
 
 	let { openStatus, data } = __CompanyListDetailModal;
 
@@ -23,6 +25,46 @@
 		}
 	});
 	$: headerWidth = 10;
+
+	// 파일 입력 요소에 대한 참조 생성
+	let fileInput: HTMLInputElement;
+
+	// 파일 선택 핸들러
+	async function handleFileSelect(event: Event) {
+		const target = event.target as HTMLInputElement;
+		const files = target.files;
+		if (files && files.length > 0 && data) {
+			const file = files[0];
+			const formData = new FormData();
+			formData.append('file', file);
+
+			// 디버깅을 위한 콘솔 로그
+			console.log('Selected file:', file.name);
+			console.log('FormData:', ...formData.entries());
+
+			try {
+				await API.Company.uploadCompanyLogo({
+					companyId: $data.data.company_id,
+					file: file,
+					fileName: file.name
+				});
+				alert('Company logo uploaded successfully.');
+				asyncCompanyDetailData = await API.Company.getCompanyDetails({
+					companyId: $data.data.company_id
+				});
+			} catch (error) {
+				console.error('Error uploading company logo:', error);
+				alert('Failed to upload company logo.');
+			}
+		}
+	}
+
+	// 파일 선택 다이얼로그 열기
+	function openFileDialog() {
+		if (fileInput) {
+			fileInput.click();
+		}
+	}
 </script>
 
 <BaseModal
@@ -36,7 +78,7 @@
 	})}
 	height={Screen.responsive($screen, {
 		xs: '100%',
-		sm: '41rem'
+		sm: '24rem'
 	})}
 	bind:active={$openStatus}
 >
@@ -56,16 +98,37 @@
 				<div>Loading...</div>
 			{:then companyDetailData}
 				<ContainerGrid style={{ paddingBottom: '0.5rem' }}>
-					<BCTypo.TextWithIcon
-						icon={{
-							type: IconPropType.IMAGE,
-							src: companyDetailData.company_logo || '/assets/icons/default_logo.png'
-						}}
-						iconComponentSize={ComponentSizeProps.LG}
-						prop={{ h: 4 }}
-						paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-						text={companyDetailData.company_name || '-'}
-					/>
+					<FieldFlex alignItems="center" justifyContent="space-between">
+						<BCTypo.TextWithIcon
+							icon={{
+								type: IconPropType.IMAGE,
+								src: companyDetailData.company_logo || '/assets/icons/default_logo.png'
+							}}
+							iconComponentSize={ComponentSizeProps.LG}
+							iconBorderRadius="0.25rem"
+							prop={{ h: 4 }}
+							paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+							text={companyDetailData.company_name || '-'}
+						/>
+						<!-- 파일 선택 버튼 -->
+						<ButtonIcon
+							icon={{
+								type: IconPropType.PATH,
+								src: mdiFileImagePlusOutline,
+								scale: 1.2
+							}}
+							size={ComponentSizeProps.SM}
+							ghost
+							on:click={openFileDialog}
+						/>
+						<input
+							type="file"
+							accept=".jpg, .jpeg, .png"
+							on:change={handleFileSelect}
+							bind:this={fileInput}
+							style="display: none;"
+						/>
+					</FieldFlex>
 				</ContainerGrid>
 				<CardContentAccentArea border contentStyle={{ padding: '0 0.6rem' }} height="fit-content">
 					<FieldGrid gap="0rem" full>

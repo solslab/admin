@@ -156,8 +156,7 @@
 								style={{
 									padding: '1.5rem',
 									border: '1px solid var(--hq-base-0200)',
-									borderRadius: '0.25rem',
-									background: 'var(--hq-base-0300)'
+									borderRadius: '0.25rem'
 								}}
 								size={ComponentSizeProps.LG}
 								on:click={handleLogin}

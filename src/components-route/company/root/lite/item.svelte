@@ -7,6 +7,9 @@
 	import { Modal } from '@src/components-global/modal';
 	import { SectionDivider } from '@src/components/section';
 	import { ComponentSizeProps } from '@src/util/component';
+	import { ButtonIcon } from '@src/components/buttonicon';
+	import { mdiDelete } from '@mdi/js';
+	import { API } from '@src/lib/api';
 
 	export let company: {
 		company_id: string;
@@ -18,7 +21,13 @@
 	// industry_type이 undefined나 null이면 빈 배열로 처리
 	const industryTypes = (company.industry_type || []).join(', ');
 
-	$: console.log(company);
+	// 회사 삭제 함수
+	async function deleteCompany(companyId: string) {
+		if (confirm('삭제하시겠습니까?')) {
+			await API.Company.deleteCompany({ companyId: companyId });
+			alert('삭제되었습니다.');
+		}
+	}
 </script>
 
 <ClickableListItem
@@ -40,11 +49,26 @@
 							src: company.company_logo || '/assets/icons/default_logo.png'
 						}}
 						iconComponentSize={ComponentSizeProps.LG}
+						iconBorderRadius="0.25rem"
 						prop={{ h: 4 }}
 						paint={{ harmonyName: 'base', harmonyShade: 2300 }}
 						text={company.company_name || '-'}
 					/>
 				</ContainerGrid>
+				<div on:click|stopPropagation on:keydown>
+					<ContainerGrid>
+						<ButtonIcon
+							icon={{
+								type: IconPropType.PATH,
+								src: mdiDelete,
+								scale: 1.2
+							}}
+							size={ComponentSizeProps.SM}
+							ghost
+							on:click={async () => await deleteCompany(company.company_id)}
+						/>
+					</ContainerGrid>
+				</div>
 			</FieldGrid>
 			<ContainerGrid style={{ padding: '0 0.5rem' }}>
 				<SectionDivider line height={1} />
