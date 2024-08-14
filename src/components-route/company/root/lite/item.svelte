@@ -6,6 +6,7 @@
 	import { FieldGrid } from '@src/components/field';
 	import { Modal } from '@src/components-global/modal';
 	import { SectionDivider } from '@src/components/section';
+	import { ComponentSizeProps } from '@src/util/component';
 
 	export let company: {
 		company_id: string;
@@ -33,14 +34,16 @@
 		<ContainerGrid>
 			<FieldGrid column="1fr auto" gap={0.2}>
 				<ContainerGrid flexAlignCenter>
-					<TypoTextWithIcon
+					<BCTypo.TextWithIcon
 						icon={{
 							type: IconPropType.IMAGE,
-							src: company.company_logo || '/assets/images/default_logo.png'
+							src: company.company_logo || '/assets/icons/default_logo.png'
 						}}
-						h={4}
-						textStyle={{ color: 'var(--hq-base-2300)' }}>{company.company_name}</TypoTextWithIcon
-					>
+						iconComponentSize={ComponentSizeProps.LG}
+						prop={{ h: 4 }}
+						paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+						text={company.company_name || '-'}
+					/>
 				</ContainerGrid>
 			</FieldGrid>
 			<ContainerGrid style={{ padding: '0 0.5rem' }}>

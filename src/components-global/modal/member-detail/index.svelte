@@ -63,7 +63,7 @@
 					</ContainerGrid>
 					<FieldGrid gap="0rem" full>
 						<ContainerGrid style={{ paddingBottom: '0.2rem' }}>
-							<FieldGrid gap={0.6}>
+							<FieldGrid gap={0.3}>
 								<ValueRow
 									{headerWidth}
 									titleSans
