@@ -8,6 +8,7 @@
 	import { SectionDivider } from '@src/components/section';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { ButtonIcon } from '@src/components/buttonicon';
+	import { gotoInHouse } from '@src/components/link/index.svelte';
 	import { mdiDelete } from '@mdi/js';
 	import { API } from '@src/lib/api';
 
@@ -37,7 +38,7 @@
 		border: 'solid 1px var(--hq-base-0400)',
 		borderRadius: '0.3rem'
 	}}
-	on:click={() => Modal.CompanyListDetailModal.set({ data: company }).open()}
+	on:click={(event) => gotoInHouse(`/company/manage/${company.company_id}`, event)}
 >
 	<FieldGrid>
 		<ContainerGrid>
@@ -72,71 +73,7 @@
 			</FieldGrid>
 			<ContainerGrid style={{ padding: '0 0.5rem' }}>
 				<SectionDivider line height={1} />
-				<FieldGrid column="1fr auto">
-					<ContainerGrid>
-						<FieldGrid>
-							<BCTypo.Text
-								prop={{
-									h: 4,
-									mid: true
-								}}
-								text="ID"
-								paint={{
-									harmonyName: 'base',
-									harmonyShade: 1500
-								}}
-							/>
-						</FieldGrid>
-					</ContainerGrid>
-					<ContainerGrid>
-						<FieldGrid>
-							<BCTypo.Text
-								prop={{
-									h: 4,
-									mid: true
-								}}
-								text={company.company_id}
-								paint={{
-									harmonyName: 'base',
-									harmonyShade: 1500
-								}}
-							/>
-						</FieldGrid>
-					</ContainerGrid>
-				</FieldGrid>
-				<SectionDivider height={0.2} />
-				<FieldGrid column="1fr auto">
-					<ContainerGrid>
-						<FieldGrid>
-							<BCTypo.Text
-								prop={{
-									h: 4,
-									mid: true
-								}}
-								text="Type"
-								paint={{
-									harmonyName: 'base',
-									harmonyShade: 1500
-								}}
-							/>
-						</FieldGrid>
-					</ContainerGrid>
-					<ContainerGrid>
-						<FieldGrid>
-							<BCTypo.Text
-								prop={{
-									h: 4,
-									mid: true
-								}}
-								text={industryTypes || '-'}
-								paint={{
-									harmonyName: 'base',
-									harmonyShade: 1500
-								}}
-							/>
-						</FieldGrid>
-					</ContainerGrid>
-				</FieldGrid>
+				<SectionDivider height={0.5} />
 			</ContainerGrid>
 		</ContainerGrid>
 	</FieldGrid>

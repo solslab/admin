@@ -49,12 +49,12 @@ export function createNavigationProps() {
 		groups: [
 			{
 				disableInMobile: true,
-				title: 'Member',
+				title: '회원',
 				path: '/member',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
-						title: '회원 조희',
+						title: '회원 정보 조희',
 						icon: { ...DefIcons.Common.All, scale: 1 },
 						link: 'member/list',
 						outbound: false
@@ -63,7 +63,7 @@ export function createNavigationProps() {
 			},
 			{
 				disableInMobile: true,
-				title: 'Company',
+				title: '기업',
 				path: '/company',
 				icon: DefIcons.Common.Wallet,
 				items: [
@@ -77,21 +77,7 @@ export function createNavigationProps() {
 			},
 			{
 				disableInMobile: true,
-				title: 'Position',
-				path: '/position',
-				icon: DefIcons.Common.Wallet,
-				items: [
-					{
-						title: '직무 전체 조회',
-						icon: { ...DefIcons.Common.All, scale: 1 },
-						link: 'position/list',
-						outbound: false
-					}
-				]
-			},
-			{
-				disableInMobile: true,
-				title: 'Test Review',
+				title: '테스트 리뷰',
 				path: '/test-review',
 				icon: DefIcons.Common.Wallet,
 				items: [

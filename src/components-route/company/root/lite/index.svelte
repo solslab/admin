@@ -15,10 +15,8 @@
 	import { SectionDivider } from '@src/components/section';
 	import { exec } from '@src/util/util.function';
 	import { DefIcons } from '@src/icons/defines';
-	import { css } from '@src/util/style';
 	import ComapanyListItem from './item.svelte';
 	import { ComponentSizeProps } from '@src/util/component';
-	import Image from '@src/components/unit/image.svelte';
 
 	let companyName = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
@@ -106,7 +104,7 @@
 		<div>Loading...</div>
 	{:then CompanyList}
 		<ContainerGrid overflow="scroll">
-			<FieldGrid gap={0.5}>
+			<FieldGrid column="1fr 1fr" gap={0.5}>
 				{#each CompanyList as company}
 					<ContainerGrid>
 						<ComapanyListItem {company} />
