@@ -1,30 +1,31 @@
 <script lang="ts">
 	import { __Model } from '@src/lib/api/company/model';
-	import { Modal } from '@src/components-global/modal';
 	import { API } from '@src/lib/api';
-	import { exec } from '@src/util/util.function';
 	import { CardContentAccentArea } from '@src/components/content';
 	import { SectionDivider } from '@src/components/section';
 	import { mdiFileImagePlusOutline, mdiCogOutline } from '@mdi/js';
-	import { Screen, screen } from '@src/store/env';
 	import { ContainerGrid } from '@src/components/container';
 	import { BCTypo, TypoTextWithIcon } from '@src/components/typo';
-	import { onMount } from 'svelte';
 	import { ValueRow } from '@src/components/value-row';
 	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { IconPropType } from '@src/util/icon';
+	import { BCUnitEmpty } from '@src/components/empty-box';
 	import { Input } from '@src/components/input';
 	import { Button } from '@src/components/button';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon';
 	import { BCUnit } from '@src/components/unit/index';
 	import { BCLayout } from '@src/components/layout';
+	import { onMountBrowser } from '@src/util/svelte';
+	import { default as PositionListItem } from './item.svelte';
 
 	export let companyId: string;
 
 	let isEditing = false;
 	let editedCompanyName = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
+	let companyDetailData: any = null;
+	let positionDetails: any[] = [];
 
 	const industryOptions: __Model.IndustryType[] = [
 		'IT 서비스',
@@ -41,9 +42,22 @@
 		'공기업'
 	];
 
-	$: asyncCompanyDetailData = exec(async () => {
-		return await API.Company.getCompanyDetails({ companyId: companyId });
-	});
+	// Fetch company details
+	async function fetchCompanyDetails() {
+		companyDetailData = await API.Company.getCompanyDetails({ companyId: companyId });
+
+		// If positions exist, fetch details for each position
+		if (companyDetailData && companyDetailData.positions) {
+			positionDetails = await Promise.all(
+				companyDetailData.positions.map(async (position: any) => {
+					const details = await API.Position.getPositionDetails({
+						positionId: position.position_id
+					});
+					return details;
+				})
+			);
+		}
+	}
 
 	$: headerWidth = 10;
 
@@ -75,9 +89,7 @@
 					fileName: file.name
 				});
 				alert('Company logo uploaded successfully.');
-				asyncCompanyDetailData = await API.Company.getCompanyDetails({
-					companyId: companyId
-				});
+				await fetchCompanyDetails();
 			} catch (error) {
 				alert('Failed to upload company logo.');
 			}
@@ -93,7 +105,7 @@
 				alert('로고가 삭제되었습니다.');
 
 				// Re-fetch company details after deletion
-				asyncCompanyDetailData = await API.Company.getCompanyDetails({ companyId });
+				await fetchCompanyDetails();
 			} catch (error) {
 				alert('로고 삭제에 실패했습니다.');
 			}
@@ -106,6 +118,13 @@
 			fileInput.click();
 		}
 	}
+
+	onMountBrowser(() => {
+		fetchCompanyDetails();
+	});
+
+	$: console.log('companyDetailData', companyDetailData);
+	$: console.log('positionDetails', positionDetails);
 </script>
 
 <BCLayout.ContentsCenter
@@ -113,9 +132,7 @@
 	rootStyle={{ paddingTop: '0.6rem !important', paddingBottom: '0rem !important' }}
 >
 	<CardContentAccentArea disableArea height="100%" style={{ padding: '0 0.8rem' }}>
-		{#await asyncCompanyDetailData}
-			<div>Loading...</div>
-		{:then companyDetailData}
+		{#if companyDetailData}
 			<ContainerGrid style={{ paddingBottom: '0.5rem' }}>
 				<FieldFlex alignItems="center" justifyContent="flex-end">
 					<ButtonIcon
@@ -234,7 +251,7 @@
 											company_name: editedCompanyName,
 											industry_type: industryList
 										});
-										asyncCompanyDetailData = await API.Company.getCompanyDetails({
+										companyDetailData = await API.Company.getCompanyDetails({
 											companyId: companyId
 										});
 										editedCompanyName = '';
@@ -328,11 +345,39 @@
 					</ContainerGrid>
 				</FieldGrid>
 			</CardContentAccentArea>
-		{/await}
+		{/if}
 	</CardContentAccentArea>
 </BCLayout.ContentsCenter>
 
-<BCLayout.ContentsCenter transparent rootStyle={{ paddingTop: '0.6rem' }}></BCLayout.ContentsCenter>
+<BCLayout.ContentsCenter transparent rootStyle={{ padding: '1.2rem 2.8rem 0rem 2.8rem' }}>
+	<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
+		<ContainerGrid style={{ padding: '0' }}>
+			<ContainerGrid flexAlignCenter>
+				<BCTypo.Text
+					prop={{ h: 4, bold: true }}
+					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+					text="직무 리스트"
+				/>
+			</ContainerGrid>
+		</ContainerGrid>
+	</FieldGrid>
+
+	<ContainerGrid style={{ paddingBottom: '1rem' }}>
+		<SectionDivider height={0.1} line lineColor="var(--hq-base-0400)" />
+	</ContainerGrid>
+
+	{#if positionDetails.length === 0}
+		<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
+			<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
+		</ContainerGrid>
+	{:else}
+		<ContainerGrid overflow="scroll" style={{}}>
+			<FieldGrid>
+				<PositionListItem {positionDetails} />
+			</FieldGrid>
+		</ContainerGrid>
+	{/if}
+</BCLayout.ContentsCenter>
 
 <style lang="scss">
 	.industry-tag {
