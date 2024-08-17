@@ -36,7 +36,7 @@
 		: Palette.Paint.from({ paint: paint }) ||
 			(link ? Palette.scss('sapphire-blue', 900) : undefined) ||
 			paletteColor ||
-			Palette.scss('base', 200);
+			Palette.scss('base', 2300);
 	let eleText: HTMLDivElement;
 
 	$: innerHtml && eleText && (eleText.innerHTML = innerHtml);
