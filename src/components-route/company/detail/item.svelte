@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Modal } from '@src/components-global/modal';
+
 	export let positionDetails: Array<{
 		exam_mode: string | null;
 		hidden_case: string | null;
@@ -29,7 +31,7 @@
 	</thead>
 	<tbody>
 		{#each positionDetails as position}
-			<tr>
+			<tr on:click={() => Modal.PositionListDetailModal.set({ data: position }).open()}>
 				<td>{position.position_name || '-'}</td>
 				<td>{position.exam_mode || '-'}</td>
 				<td>{position.hidden_case || '-'}</td>

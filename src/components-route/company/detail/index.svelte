@@ -40,6 +40,20 @@
 	let testPlace = '';
 	let note = '';
 
+	interface CreatePositionRequest {
+		companyId: string;
+		position_name: string;
+		support_languages: string[];
+		test_time?: string | null;
+		problem_info?: string | null;
+		permit_ide?: string | null;
+		permit_search?: string | null;
+		hidden_case?: string | null;
+		exam_mode?: string | null;
+		test_place?: string | null;
+		note?: string | null;
+	}
+
 	const industryOptions: __Model.IndustryType[] = [
 		'IT 서비스',
 		'금융',
@@ -58,7 +72,7 @@
 	$: enableModal = false;
 
 	async function createPosition() {
-		const positionData: __Model.CreatePositionRequest = {
+		const positionData: CreatePositionRequest = {
 			companyId,
 			position_name: positionName,
 			support_languages: supportLanguages.split(',').map((lang) => lang.trim()), // Convert comma-separated string to array
@@ -105,7 +119,10 @@
 					const details = await API.Position.getPositionDetails({
 						positionId: position.position_id
 					});
-					return details;
+					return {
+						positionId: position.position_id,
+						...details
+					};
 				})
 			);
 		}
