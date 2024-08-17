@@ -34,21 +34,15 @@
 	function checkLoginStatus() {
 		const token = get(accessToken);
 		if (!token) {
-			isLogin.set(false); // 토큰이 없으면 로그아웃 처리
+			isLogin.set(false);
 			alert('로그인 세션이 만료되었습니다.');
 		} else {
-			isLogin.set(true); // 토큰이 있으면 로그인 처리
+			isLogin.set(true);
 		}
 	}
 
 	onMountBrowser(() => {
 		checkLoginStatus();
-		intervalId = window.setInterval(checkLoginStatus, 60000);
-	});
-
-	onDestroy(() => {
-		// 컴포넌트가 언마운트될 때 타이머 제거
-		clearInterval(intervalId);
 	});
 </script>
 

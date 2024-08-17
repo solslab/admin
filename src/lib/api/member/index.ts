@@ -13,7 +13,6 @@ export namespace __Member {
 	}): Promise<any> {
 		const token = get(accessToken); // 저장된 토큰을 가져오기
 
-		console.log('token', token);
 		if (!token) {
 			throw new Error('No access token available');
 		}

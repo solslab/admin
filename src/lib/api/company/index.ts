@@ -51,11 +51,6 @@ export namespace __Company {
 		formData.append('file', args.file);
 		formData.append('fileName', args.fileName);
 
-		// FormData의 모든 키-값 쌍을 콘솔에 출력
-		for (let [key, value] of formData.entries()) {
-			console.log(`${key}:`, value);
-		}
-
 		// FormData 사용 시 Content-Type을 자동으로 설정하기 때문에, 별도로 설정하지 않음
 		return await fetchData({
 			url,
@@ -132,11 +127,20 @@ export namespace __Company {
 			body: args.isFormData ? args.body : JSON.stringify(args.body)
 		});
 
+		if (response.status === 204) {
+			return null;
+		}
+
 		if (!response.ok) {
 			const errorData = await response.json();
 			throw new Error(errorData.message || 'Error executing request');
 		}
 
-		return await response.json(); // POST 요청은 응답 데이터를 반환할 수 있음
+		const contentType = response.headers.get('Content-Type');
+		if (contentType && contentType.includes('application/json')) {
+			return await response.json();
+		}
+
+		return null;
 	}
 }
