@@ -87,7 +87,7 @@
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-					text="Company List"
+					text="기업 목록"
 				/>
 			</ContainerGrid>
 		</ContainerGrid>
@@ -107,7 +107,12 @@
 			<FieldGrid column="1fr 1fr" gap={0.5}>
 				{#each CompanyList as company}
 					<ContainerGrid>
-						<ComapanyListItem {company} />
+						<ComapanyListItem
+							{company}
+							on:companyDeleted={async () => {
+								asyncCompanyList = await API.Company.getAllCompanies();
+							}}
+						/>
 					</ContainerGrid>
 				{/each}
 			</FieldGrid>

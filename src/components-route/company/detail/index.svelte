@@ -68,13 +68,40 @@
 		'공기업'
 	];
 
+	const validLanguages = [
+		'C',
+		'C++',
+		'C/C++',
+		'C#',
+		'Java',
+		'JavaScript',
+		'Kotlin',
+		'Python',
+		'Go',
+		'Ruby',
+		'Scala',
+		'Swift',
+		'SQL',
+		'Oracle'
+	];
+
 	$: enableModal = false;
 
 	async function createPosition() {
+		const languages = supportLanguages.split(',').map((lang) => lang.trim());
+
+		// Validate if all entered languages are in the predefined list
+		const invalidLanguages = languages.filter((lang) => !validLanguages.includes(lang));
+
+		if (invalidLanguages.length > 0) {
+			alert(`잘못된 언어: ${invalidLanguages.join(', ')}. 정해진 언어만 사용해 주세요.`);
+			return;
+		}
+
 		const positionData: CreatePositionRequest = {
 			companyId,
 			position_name: positionName,
-			support_languages: supportLanguages.split(',').map((lang) => lang.trim()), // Convert comma-separated string to array
+			support_languages: languages, // Use validated languages
 			test_time: testTime || null,
 			problem_info: problemInfo || null,
 			permit_ide: permitIDE || null,
@@ -442,7 +469,10 @@
 	{:else}
 		<ContainerGrid overflow="scroll" style={{}}>
 			<FieldGrid>
-				<PositionListItem positionDetails={$companyPositionData} />
+				<PositionListItem
+					positionDetails={$companyPositionData}
+					on:positionDeleted={fetchCompanyDetails}
+				/>
 			</FieldGrid>
 		</ContainerGrid>
 	{/if}

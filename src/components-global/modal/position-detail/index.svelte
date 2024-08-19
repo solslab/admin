@@ -34,6 +34,23 @@
 	let testPlace = '';
 	let note = '';
 
+	const validLanguages = [
+		'C',
+		'C++',
+		'C/C++',
+		'C#',
+		'Java',
+		'JavaScript',
+		'Kotlin',
+		'Python',
+		'Go',
+		'Ruby',
+		'Scala',
+		'Swift',
+		'SQL',
+		'Oracle'
+	];
+
 	$: console.log($data);
 
 	interface CreatePositionRequest {
@@ -51,10 +68,20 @@
 	}
 
 	async function updatePosition() {
+		const languages = supportLanguages.split(',').map((lang) => lang.trim());
+
+		// Validate if all entered languages are in the predefined list
+		const invalidLanguages = languages.filter((lang) => !validLanguages.includes(lang));
+
+		if (invalidLanguages.length > 0) {
+			alert(`잘못된 언어: ${invalidLanguages.join(', ')}. 정해진 언어만 사용해 주세요.`);
+			return;
+		}
+
 		const positionData: CreatePositionRequest = {
 			positionId: $data.data.position_id,
 			position_name: positionName,
-			support_languages: supportLanguages.split(',').map((lang) => lang.trim()), // Convert comma-separated string to array
+			support_languages: languages, // Use validated languages
 			test_time: testTime || null,
 			problem_info: problemInfo || null,
 			permit_ide: permitIDE || null,
@@ -424,9 +451,11 @@
 										<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.note || '-'} />
 									{/if}
 								</ValueRow>
-								<ContainerGrid style={{ paddingTop: '1rem' }}>
-									<Button on:click={updatePosition}>Update Position</Button>
-								</ContainerGrid>
+								{#if isEditing}
+									<ContainerGrid style={{ paddingTop: '1rem' }}>
+										<Button on:click={updatePosition}>Update Position</Button>
+									</ContainerGrid>
+								{/if}
 							</FieldGrid>
 						</ContainerGrid>
 					</FieldGrid>

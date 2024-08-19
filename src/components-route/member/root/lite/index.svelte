@@ -24,7 +24,7 @@
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-					text="Member List"
+					text="회원 목록"
 				/>
 			</ContainerGrid>
 		</ContainerGrid>

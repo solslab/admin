@@ -11,6 +11,7 @@
 	import { gotoInHouse } from '@src/components/link/index.svelte';
 	import { mdiDelete } from '@mdi/js';
 	import { API } from '@src/lib/api';
+	import { createEventDispatcher } from 'svelte';
 
 	export let company: {
 		company_id: string;
@@ -18,6 +19,8 @@
 		company_name: string;
 		industry_type: string[]; // 산업 유형 배열
 	};
+
+	const dispatch = createEventDispatcher();
 
 	// industry_type이 undefined나 null이면 빈 배열로 처리
 	const industryTypes = (company.industry_type || []).join(', ');
@@ -27,6 +30,7 @@
 		if (confirm('삭제하시겠습니까?')) {
 			await API.Company.deleteCompany({ companyId: companyId });
 			alert('삭제되었습니다.');
+			dispatch('companyDeleted'); // Dispatch an event to notify the parent
 		}
 	}
 </script>
