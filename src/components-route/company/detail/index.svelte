@@ -20,14 +20,13 @@
 	import { BCLayout } from '@src/components/layout';
 	import { onMountBrowser } from '@src/util/svelte';
 	import { default as PositionListItem } from './item.svelte';
+	import { companyDetailData, companyPositionData } from '@src/util/company/index';
 
 	export let companyId: string;
 
 	let isEditing = false;
 	let editedCompanyName = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
-	let companyDetailData: any = null;
-	let positionDetails: any[] = [];
 
 	let positionName = '';
 	let supportLanguages = '';
@@ -111,20 +110,19 @@
 	}
 
 	async function fetchCompanyDetails() {
-		companyDetailData = await API.Company.getCompanyDetails({ companyId: companyId });
+		const details = await API.Company.getCompanyDetails({ companyId });
+		companyDetailData.set(details);
 
-		if (companyDetailData && companyDetailData.positions) {
-			positionDetails = await Promise.all(
-				companyDetailData.positions.map(async (position: any) => {
+		if (details && details.positions) {
+			const positionDetails = await Promise.all(
+				details.positions.map(async (position: any) => {
 					const details = await API.Position.getPositionDetails({
 						positionId: position.position_id
 					});
-					return {
-						positionId: position.position_id,
-						...details
-					};
+					return details;
 				})
 			);
+			companyPositionData.set(positionDetails);
 		}
 	}
 
@@ -173,7 +171,6 @@
 				await API.Company.deleteCompanyLogo({ companyId });
 				alert('로고가 삭제되었습니다.');
 
-				// Re-fetch company details after deletion
 				await fetchCompanyDetails();
 			} catch (error) {
 				alert('로고 삭제에 실패했습니다.');
@@ -192,8 +189,8 @@
 		fetchCompanyDetails();
 	});
 
-	$: console.log('companyDetailData', companyDetailData);
-	$: console.log('positionDetails', positionDetails);
+	$: console.log('companyDetailData', $companyDetailData);
+	$: console.log('companyPositionData', $companyPositionData);
 </script>
 
 <BCLayout.ContentsCenter
@@ -201,7 +198,7 @@
 	rootStyle={{ paddingTop: '0.6rem !important', paddingBottom: '0rem !important' }}
 >
 	<CardContentAccentArea disableArea height="100%" style={{ padding: '0 0.8rem' }}>
-		{#if companyDetailData}
+		{#if $companyDetailData}
 			<ContainerGrid style={{ paddingBottom: '0.5rem' }}>
 				<FieldFlex alignItems="center" justifyContent="flex-end">
 					<ButtonIcon
@@ -214,8 +211,8 @@
 						ghost
 						on:click={() => {
 							if (!isEditing) {
-								if (companyDetailData?.industry_type) {
-									companyDetailData.industry_type.forEach((type) => {
+								if ($companyDetailData?.industry_type) {
+									$companyDetailData.industry_type.forEach((type) => {
 										toggleIndustryType(type);
 									});
 								}
@@ -249,13 +246,13 @@
 									<Input
 										type="text"
 										bind:value={editedCompanyName}
-										placeholder={companyDetailData.company_name || '-'}
+										placeholder={$companyDetailData.company_name || '-'}
 									/>
 								{:else}
 									<BCTypo.Text
 										prop={{ h: 5, bold: true }}
 										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={companyDetailData.company_name || '-'}
+										text={$companyDetailData.company_name || '-'}
 									/>
 								{/if}
 							</ValueRow>
@@ -286,7 +283,7 @@
 									<BCTypo.Text
 										prop={{ h: 5, bold: true }}
 										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={companyDetailData.industry_type.join(', ') || '-'}
+										text={$companyDetailData.industry_type.join(', ') || '-'}
 									/>
 								{/if}
 							</ValueRow>
@@ -305,7 +302,7 @@
 									<BCTypo.Text
 										prop={{ h: 5, bold: true }}
 										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={companyDetailData.positions.map((pos) => pos.position_name).join(', ') ||
+										text={$companyDetailData.positions.map((pos) => pos.position_name).join(', ') ||
 											'-'}
 									/>
 								</ValueRow>
@@ -320,9 +317,8 @@
 											company_name: editedCompanyName,
 											industry_type: industryList
 										});
-										companyDetailData = await API.Company.getCompanyDetails({
-											companyId: companyId
-										});
+										const updatedData = await API.Company.getCompanyDetails({ companyId });
+										companyDetailData.set(updatedData); // Update store
 										editedCompanyName = '';
 										isEditing = false;
 									}}
@@ -337,9 +333,9 @@
 					</FieldGrid>
 
 					<ContainerGrid style={{ padding: '0.5rem' }}>
-						{#if companyDetailData.company_logo}
+						{#if $companyDetailData.company_logo}
 							<BCUnit.Image
-								src={companyDetailData.company_logo}
+								src={$companyDetailData.company_logo}
 								defaultSrc="/assets/airdrop/default.png"
 								cover
 								style={{
@@ -439,14 +435,14 @@
 		<SectionDivider height={0.1} line lineColor="var(--hq-base-0400)" />
 	</ContainerGrid>
 
-	{#if positionDetails.length === 0}
+	{#if $companyPositionData.length === 0}
 		<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
 			<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
 		</ContainerGrid>
 	{:else}
 		<ContainerGrid overflow="scroll" style={{}}>
 			<FieldGrid>
-				<PositionListItem {positionDetails} />
+				<PositionListItem positionDetails={$companyPositionData} />
 			</FieldGrid>
 		</ContainerGrid>
 	{/if}
@@ -577,7 +573,7 @@
 
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="시헝방식" prop={{ bold: true }} />
+							<BCTypo.Text text="시험방식" prop={{ bold: true }} />
 							<Input
 								type="text"
 								size={ComponentSizeProps.MD}

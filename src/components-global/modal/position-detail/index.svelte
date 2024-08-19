@@ -17,10 +17,12 @@
 	import { ButtonIcon } from '@src/components/buttonicon';
 	import { Button } from '@src/components/button';
 	import { Input } from '@src/components/input';
+	import { companyPositionData } from '@src/util/company/index';
+	import _ from 'lodash';
 
 	let { openStatus, data } = __PositionListDetailModal;
-	let isEditing = false;
 
+	let isEditing = false;
 	let positionName = '';
 	let supportLanguages = '';
 	let testTime = '';
@@ -31,6 +33,8 @@
 	let examMode = '';
 	let testPlace = '';
 	let note = '';
+
+	$: console.log($data);
 
 	interface CreatePositionRequest {
 		positionId: string;
@@ -48,7 +52,7 @@
 
 	async function updatePosition() {
 		const positionData: CreatePositionRequest = {
-			positionId: $data.data.positionId,
+			positionId: $data.data.position_id,
 			position_name: positionName,
 			support_languages: supportLanguages.split(',').map((lang) => lang.trim()), // Convert comma-separated string to array
 			test_time: testTime || null,
@@ -62,14 +66,27 @@
 		};
 
 		try {
-			await API.Position.updatePosition(positionData);
-			alert('Position created successfully');
+			const result = await API.Position.updatePosition(positionData);
 
+			alert('Position updated successfully');
+
+			companyPositionData.update((positions) => {
+				const position = _.find(positions, { position_id: result.position_id });
+				console.log(position);
+				if (position) {
+					Object.assign(position, result);
+				}
+				return positions;
+			});
+
+			Modal.PositionListDetailModal.close();
 			clearForm();
+			isEditing = false;
 		} catch (error) {
-			alert('Failed to create position');
+			alert('Failed to update position');
 		}
 	}
+
 	function clearForm() {
 		positionName = '';
 		supportLanguages = '';

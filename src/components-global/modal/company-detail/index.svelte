@@ -14,6 +14,7 @@
 	import { BCTypo, TypoTextWithIcon } from '@src/components/typo';
 	import { onMount } from 'svelte';
 	import { ValueRow } from '@src/components/value-row';
+	import { companyDetailData } from '@src/util/company/index';
 	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { IconPropType } from '@src/util/icon';
 	import { Input } from '@src/components/input';
