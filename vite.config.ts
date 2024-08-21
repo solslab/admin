@@ -1,10 +1,9 @@
-import { readFileSync } from "fs";
-import path from "path";
-import rollupNodePolyFill from "rollup-plugin-polyfill-node";
-import { fileURLToPath } from "url";
-
 import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
+import { fileURLToPath } from "url";
 import inject from "@rollup/plugin-inject";
+import path from "path";
+import { readFileSync } from "fs";
+import rollupNodePolyFill from "rollup-plugin-polyfill-node";
 import { sveltekit } from "@sveltejs/kit/vite";
 
 const file = fileURLToPath(new URL("package.json", import.meta.url));
