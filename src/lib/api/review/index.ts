@@ -37,6 +37,14 @@ export namespace __Review {
 				data: args.body,
 			});
 
+			// Check for a new token in the response headers and update the token if present
+			const newToken = response.headers['x-refresh-token'];
+			if (newToken) {
+				// Here you should ideally update the token wherever it's stored
+				// For example, if you're using a store or local storage:
+				// updateAccessToken(newToken); // Replace with your actual token update logic
+			}
+
 			return response.data;
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
@@ -47,3 +55,4 @@ export namespace __Review {
 		}
 	}
 }
+

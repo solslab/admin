@@ -130,6 +130,12 @@ export namespace __Company {
                 data: args.body
             });
 
+            // Check for a new token in the response headers and update the store if present
+            const newToken = response.headers['x-refresh-token'];
+            if (newToken) {
+                accessToken.set(newToken);
+            }
+
             return response.data;
         } catch (error) {
             if (axios.isAxiosError(error)) {
