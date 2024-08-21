@@ -132,6 +132,8 @@ export namespace __Company {
 
             // Check for a new token in the response headers and update the store if present
             const newToken = response.headers['x-refresh-token'];
+
+			console.log(newToken);
             if (newToken) {
                 accessToken.set(newToken);
             }
