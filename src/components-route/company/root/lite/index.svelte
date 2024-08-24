@@ -17,24 +17,10 @@
 	import { DefIcons } from '@src/icons/defines';
 	import ComapanyListItem from './item.svelte';
 	import { ComponentSizeProps } from '@src/util/component';
+	import {Companies} from '@src/util/company';
 
 	let companyName = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
-
-	const industryOptions: __Model.IndustryType[] = [
-		'IT 서비스',
-		'금융',
-		'솔루션',
-		'게임',
-		'SI',
-		'SM',
-		'빅테크',
-		'스타트업',
-		'대기업',
-		'중견기업',
-		'중소기업',
-		'공기업'
-	];
 
 	$: asyncCompanyList = exec(async () => {
 		return await API.Company.getAllCompanies();
@@ -173,7 +159,7 @@
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="Industry Type" prop={{ bold: true }} />
 							<FieldGrid gap={0.5} column="1fr 1fr 1fr">
-								{#each industryOptions as type}
+								{#each Companies.industryOptions as type}
 									<div
 										class="industry-tag {selectedIndustryTypes.has(type) ? 'selected' : ''}"
 										on:click={() => toggleIndustryType(type)}

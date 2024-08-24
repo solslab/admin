@@ -21,6 +21,7 @@
 	import { onMountBrowser } from '@src/util/svelte';
 	import { default as PositionListItem } from './item.svelte';
 	import { companyDetailData, companyPositionData } from '@src/util/company/index';
+	import {Companies} from '@src/util/company';
 
 	export let companyId: string;
 
@@ -39,66 +40,18 @@
 	let testPlace = '';
 	let note = '';
 
-	interface CreatePositionRequest {
-		companyId: string;
-		position_name: string;
-		support_languages: string[];
-		test_time?: string | null;
-		problem_info?: string | null;
-		permit_ide?: string | null;
-		permit_search?: string | null;
-		hidden_case?: string | null;
-		exam_mode?: string | null;
-		test_place?: string | null;
-		note?: string | null;
-	}
-
-	const industryOptions: __Model.IndustryType[] = [
-		'IT 서비스',
-		'금융',
-		'솔루션',
-		'게임',
-		'SI',
-		'SM',
-		'빅테크',
-		'스타트업',
-		'대기업',
-		'중견기업',
-		'중소기업',
-		'공기업'
-	];
-
-	const validLanguages = [
-		'C',
-		'C++',
-		'C/C++',
-		'C#',
-		'Java',
-		'JavaScript',
-		'Kotlin',
-		'Python',
-		'Go',
-		'Ruby',
-		'Scala',
-		'Swift',
-		'SQL',
-		'Oracle'
-	];
-
 	$: enableModal = false;
 
 	async function createPosition() {
 		const languages = supportLanguages.split(',').map((lang) => lang.trim());
-
-		// Validate if all entered languages are in the predefined list
-		const invalidLanguages = languages.filter((lang) => !validLanguages.includes(lang));
+		const invalidLanguages = languages.filter((lang) => !Companies.validLanguages.includes(lang));
 
 		if (invalidLanguages.length > 0) {
 			alert(`잘못된 언어: ${invalidLanguages.join(', ')}. 정해진 언어만 사용해 주세요.`);
 			return;
 		}
 
-		const positionData: CreatePositionRequest = {
+		const positionData: Companies.CreatePositionRequest = {
 			companyId,
 			position_name: positionName,
 			support_languages: languages, // Use validated languages
@@ -216,8 +169,6 @@
 		fetchCompanyDetails();
 	});
 
-	$: console.log('companyDetailData', $companyDetailData);
-	$: console.log('companyPositionData', $companyPositionData);
 </script>
 
 <BCLayout.ContentsCenter
@@ -297,7 +248,7 @@
 							>
 								{#if isEditing}
 									<FieldGrid gap={0.5} column="1fr 1fr 1fr">
-										{#each industryOptions as type}
+										{#each Companies.industryOptions as type}
 											<div
 												class="industry-tag {selectedIndustryTypes.has(type) ? 'selected' : ''}"
 												on:click={() => toggleIndustryType(type)}
