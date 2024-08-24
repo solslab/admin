@@ -34,7 +34,7 @@
 	})}
 	height={Screen.responsive($screen, {
 		xs: '100%',
-		sm: '24rem'
+		sm: '35rem'
 	})}
 	bind:active={$openStatus}
 >
@@ -42,7 +42,7 @@
 		titleSize={2}
 		title="Review Detail"
 		padding="0.5rem"
-		closeListener={() => Modal.MemberListDetailModal.close()}
+		closeListener={() => Modal.ReviewListDetailModal.close()}
 		scrollShade={300}
 		containerHeight={'100%'}
 	>
@@ -152,7 +152,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="주 사용 언어"
+									name="문제 유형"
 									styleRoot={{ alignItems: 'base-line' }}
 									titleProp={{ h: 5, mid: true }}
 									textProp={{

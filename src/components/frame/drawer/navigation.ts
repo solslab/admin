@@ -1,9 +1,9 @@
 import { IconProp, IconPropType } from '@src/util/icon';
 
-import { mdiHexagonSlice6 } from '@mdi/js';
 import { DefIcons } from '@src/icons/defines/index';
 import { URL } from '@src/util/url';
 import _ from 'lodash';
+import { mdiHexagonSlice6 } from '@mdi/js';
 
 export interface NavPropItem {
 	icon: IconProp;
@@ -54,7 +54,7 @@ export function createNavigationProps() {
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
-						title: '회원 정보 조희',
+						title: '회원 관리',
 						icon: { ...DefIcons.Common.All, scale: 1 },
 						link: 'member/list',
 						outbound: false
@@ -82,17 +82,11 @@ export function createNavigationProps() {
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
-						title: '테스트 리뷰 전체 조회',
+						title: '테스트 리뷰 관리',
 						icon: { ...DefIcons.Common.All, scale: 1 },
 						link: 'test-review/list',
 						outbound: false
 					},
-					{
-						title: '테스트 리뷰 상세 조회',
-						icon: { ...DefIcons.Common.All, scale: 1 },
-						link: 'test-review/detail',
-						outbound: false
-					}
 				]
 			}
 		].filter((g) => !!g)
