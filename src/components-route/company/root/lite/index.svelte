@@ -17,7 +17,7 @@
 	import { DefIcons } from '@src/icons/defines';
 	import ComapanyListItem from './item.svelte';
 	import { ComponentSizeProps } from '@src/util/component';
-	import {Companies} from '@src/util/company';
+	import { Companies } from '@src/util/company';
 
 	let companyName = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();

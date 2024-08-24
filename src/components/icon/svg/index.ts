@@ -1,1 +1,1 @@
-export { default as SVGIcon } from "./index.svelte";
+export { default as SVGIcon } from './index.svelte';

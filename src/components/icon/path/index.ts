@@ -1,1 +1,1 @@
-export { default as PathIcon } from "./index.svelte";
+export { default as PathIcon } from './index.svelte';

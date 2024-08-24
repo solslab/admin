@@ -12,7 +12,7 @@
 	import { attr } from '@src/util/style';
 	import { onMountBrowser } from '@src/util/svelte';
 	import { wait } from '@src/util/util.time';
-	import {  NavGroup, NavGroups } from '.';
+	import { NavGroup, NavGroups } from '.';
 	import { openDrawer } from '../store';
 	import { createNavigationProps } from './navigation';
 
@@ -45,7 +45,7 @@
 										padding: '0.15rem 0 0 0.8rem',
 										letterSpacing: '0.1rem'
 									}}
-								color="var(--hq-base-2300)">SOLSLAB</TypoText
+									color="var(--hq-base-2300)">SOLSLAB</TypoText
 								>
 							</ContainerGrid>
 						{/if}
@@ -56,28 +56,25 @@
 	</div>
 
 	<div class="nav-list" data-hidden={attr(activeExplorer)} bind:this={eleList}>
-
 		<NavGroups groups={navProps.groups}>
 			<NavGroup
 				slot="forwards"
 				group={{
 					path: '/analytics',
-						title: 'Analytics',
-						icon: DefIcons.Common.Wallet,
-						items: [
-					{
-						title: '방문자수',
-						icon: { ...DefIcons.Common.All, scale: 1 },
-						link: 'analytics/visitor',
-						outbound: false,
-					},
-				],
+					title: 'Analytics',
+					icon: DefIcons.Common.Wallet,
+					items: [
+						{
+							title: '방문자수',
+							icon: { ...DefIcons.Common.All, scale: 1 },
+							link: 'analytics/visitor',
+							outbound: false
+						}
+					]
 				}}
-			>
-			</NavGroup>
+			></NavGroup>
 		</NavGroups>
 	</div>
-
 
 	<SectionDivider line height={0} />
 	<div class="nav-footer-item">
@@ -101,7 +98,6 @@
 </div>
 
 <style lang="scss">
-
 	.root {
 		width: $drawer-max-width;
 		height: 100%;
@@ -179,7 +175,7 @@
 		.nav-list {
 			position: relative;
 			height: 100%;
-			max-height: calc(100% - $frame-header-height - 3rem );
+			max-height: calc(100% - $frame-header-height - 3rem);
 			flex-direction: column;
 			@include scrollbar-hidden(transparent);
 			overflow-y: auto;

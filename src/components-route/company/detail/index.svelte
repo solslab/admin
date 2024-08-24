@@ -21,7 +21,7 @@
 	import { onMountBrowser } from '@src/util/svelte';
 	import { default as PositionListItem } from './item.svelte';
 	import { companyDetailData, companyPositionData } from '@src/util/company/index';
-	import {Companies} from '@src/util/company';
+	import { Companies } from '@src/util/company';
 
 	export let companyId: string;
 
@@ -54,7 +54,7 @@
 		const positionData: Companies.CreatePositionRequest = {
 			companyId,
 			position_name: positionName,
-			support_languages: languages, // Use validated languages
+			support_languages: languages,
 			test_time: testTime || null,
 			problem_info: problemInfo || null,
 			permit_ide: permitIDE || null,
@@ -168,7 +168,6 @@
 	onMountBrowser(() => {
 		fetchCompanyDetails();
 	});
-
 </script>
 
 <BCLayout.ContentsCenter
