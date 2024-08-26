@@ -132,14 +132,16 @@ export namespace __Company {
 
 			console.log(response.headers); // 전체 헤더 로그 확인
 
-			// 'authorization' 키는 소문자일 가능성이 큼
-			const newToken = response.headers['authorization']?.replace('Bearer ', '');
-			console.log(newToken); // 확인을 위해 로그 출력
+
+			const newToken = response.headers['authorization'];
+			console.log(newToken); 
 
 			if (newToken) {
 				accessToken.set(newToken);
 				token = newToken;
 			}
+
+			console.log(response)
 
 			return response.data;
 		} catch (error) {

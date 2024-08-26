@@ -34,13 +34,20 @@ export namespace __Member {
 				data: args.body
 			});
 
-			// Check for a new token in the response headers and update the store if present
-			const newToken = response.headers['x-refresh-token'];
+			const newToken = response.headers['authorization'];
+			const cexToken = response.headers.authorization;
+			
+			console.log(cexToken);
+			console.log(newToken);
+
+
 			if (newToken) {
 				accessToken.set(newToken);
 			}
 
+			
 			return response.data;
+
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				throw new Error(error.response?.data?.message || 'Error executing request');
@@ -48,6 +55,7 @@ export namespace __Member {
 				throw new Error('An unexpected error occurred');
 			}
 		}
+		
 	}
 
 	// 회원 전체 조회 함수
