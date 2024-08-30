@@ -86,7 +86,7 @@ export function createNavigationProps() {
 						icon: { ...DefIcons.Common.All, scale: 1 },
 						link: 'test-review/list',
 						outbound: false
-					},
+					}
 				]
 			}
 		].filter((g) => !!g)

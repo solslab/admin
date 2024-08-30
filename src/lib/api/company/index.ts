@@ -1,6 +1,7 @@
 import { __Model } from './model';
 import { accessToken } from '../admin/index';
 import axios from 'axios';
+import { fetchData } from '../util';
 import { get } from 'svelte/store';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -100,59 +101,5 @@ export namespace __Company {
 			url,
 			method: 'DELETE'
 		});
-	}
-
-	async function fetchData(args: {
-		url: string;
-		method: 'POST' | 'PUT' | 'GET' | 'DELETE';
-		body?: any;
-		isFormData?: boolean;
-	}): Promise<any> {
-		let token = get(accessToken); // 저장된 토큰을 가져옴
-
-		if (!token) {
-			throw new Error('No access token available');
-		}
-
-		let headers: Record<string, string> = {
-			Authorization: `Bearer ${token}`
-		};
-
-		if (!args.isFormData) {
-			headers['Content-Type'] = 'application/json';
-		}
-
-		try {
-			const response = await axios({
-				url: args.url,
-				method: args.method,
-				headers,
-				data: args.body
-			});
-
-			console.log(response.headers); // 전체 헤더 로그 확인
-
-
-			const newToken = response.headers['authorization'];
-			console.log(newToken); 
-
-			if (newToken) {
-				accessToken.set(newToken);
-				token = newToken;
-			}
-
-			console.log(response)
-
-			return response.data;
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				if (error.response?.status === 401) {
-					throw new Error('Unauthorized access - Token may be expired');
-				}
-				throw new Error(error.response?.data?.message || 'Error executing request');
-			} else {
-				throw new Error('An unexpected error occurred');
-			}
-		}
 	}
 }

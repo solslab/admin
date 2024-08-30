@@ -27,43 +27,4 @@ export namespace __Admin {
 			}
 		}
 	}
-
-	async function fetchData(args: {
-		url: string;
-		method: 'POST' | 'PUT' | 'GET' | 'DELETE';
-		token: string;
-		body?: any;
-		isFormData?: boolean;
-	}): Promise<any> {
-		try {
-			const headers: Record<string, string> = {
-				Authorization: `Bearer ${args.token}`
-			};
-
-			if (!args.isFormData) {
-				headers['Content-Type'] = 'application/json';
-			}
-
-			const response = await axios({
-				url: args.url,
-				method: args.method,
-				headers,
-				data: args.isFormData ? args.body : JSON.stringify(args.body)
-			});
-
-			// Check for a new token in the response headers and update the store if present
-			const newToken = response.headers['x-refresh-token'];
-			if (newToken) {
-				accessToken.set(newToken);
-			}
-
-			return response.data;
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				throw new Error(error.response?.data?.message || 'Error executing request');
-			} else {
-				throw new Error('An unexpected error occurred');
-			}
-		}
-	}
 }
