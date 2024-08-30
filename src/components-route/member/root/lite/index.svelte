@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FieldGrid } from '@src/components/field';
+	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { API } from '@src/lib/api';
 	import { exec } from '@src/util/util.function';
 	import { ContainerGrid } from '@src/components/container';
@@ -7,9 +7,15 @@
 	import { SectionDivider } from '@src/components/section';
 	import { BCLayout } from '@src/components/layout';
 	import { default as MemberListItem } from './item.svelte';
+	import { IconPending } from '@src/components/icon-pending';
+	import { ComponentSizeProps } from '@src/util/component';
+
+	let memberLength = 0;
 
 	$: asyncMemberList = exec(async () => {
-		return await API.Member.getAllMembers();
+		const members = await API.Member.getAllMembers();
+		memberLength = members.length;
+		return members;
 	});
 </script>
 
@@ -20,13 +26,18 @@
 >
 	<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
-			<ContainerGrid flexAlignCenter>
+			<FieldFlex alignItems="center" gap={0.3}>
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-					text="Member List"
+					text="회원 목록"
 				/>
-			</ContainerGrid>
+				<BCTypo.Text
+					prop={{ h: 4, mid: true }}
+					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
+					text={`(${memberLength})`}
+				/>
+			</FieldFlex>
 		</ContainerGrid>
 	</FieldGrid>
 
@@ -35,9 +46,11 @@
 	</ContainerGrid>
 
 	{#await asyncMemberList}
-		<div>Loading...</div>
+		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
+			<IconPending size={ComponentSizeProps.XL} />
+		</ContainerGrid>
 	{:then memberList}
-		<ContainerGrid overflow="scroll" style={{}}>
+		<ContainerGrid overflow="scroll">
 			<FieldGrid>
 				<MemberListItem members={memberList} />
 			</FieldGrid>

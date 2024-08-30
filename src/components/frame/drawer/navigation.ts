@@ -1,9 +1,9 @@
 import { IconProp, IconPropType } from '@src/util/icon';
 
-import { mdiHexagonSlice6 } from '@mdi/js';
 import { DefIcons } from '@src/icons/defines/index';
 import { URL } from '@src/util/url';
 import _ from 'lodash';
+import { mdiHexagonSlice6 } from '@mdi/js';
 
 export interface NavPropItem {
 	icon: IconProp;
@@ -49,12 +49,12 @@ export function createNavigationProps() {
 		groups: [
 			{
 				disableInMobile: true,
-				title: 'Member',
-				path: '/member',
+				title: '회원',
+				path: '/member/list',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
-						title: '회원 조희',
+						title: '회원 관리',
 						icon: { ...DefIcons.Common.All, scale: 1 },
 						link: 'member/list',
 						outbound: false
@@ -63,8 +63,8 @@ export function createNavigationProps() {
 			},
 			{
 				disableInMobile: true,
-				title: 'Company',
-				path: '/company',
+				title: '기업',
+				path: '/company/manage',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
@@ -77,34 +77,28 @@ export function createNavigationProps() {
 			},
 			{
 				disableInMobile: true,
-				title: 'Position',
-				path: '/position',
+				title: '테스트 리뷰',
+				path: '/test-review/list',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
-						title: '직무 전체 조회',
+						title: '테스트 리뷰 관리',
 						icon: { ...DefIcons.Common.All, scale: 1 },
-						link: 'position/list',
+						link: 'test-review/list',
 						outbound: false
 					}
 				]
 			},
 			{
 				disableInMobile: true,
-				title: 'Test Review',
-				path: '/test-review',
+				title: '정보 수정 요청',
+				path: '/suggestion/list',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
-						title: '테스트 리뷰 전체 조회',
+						title: '정보 수정 요청 관리',
 						icon: { ...DefIcons.Common.All, scale: 1 },
-						link: 'test-review/list',
-						outbound: false
-					},
-					{
-						title: '테스트 리뷰 상세 조회',
-						icon: { ...DefIcons.Common.All, scale: 1 },
-						link: 'test-review/detail',
+						link: 'suggestion/list',
 						outbound: false
 					}
 				]

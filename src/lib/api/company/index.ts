@@ -1,6 +1,8 @@
 import { __Model } from './model';
-import { get } from 'svelte/store';
 import { accessToken } from '../admin/index';
+import axios from 'axios';
+import { fetchData } from '../util';
+import { get } from 'svelte/store';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -99,48 +101,5 @@ export namespace __Company {
 			url,
 			method: 'DELETE'
 		});
-	}
-
-	async function fetchData(args: {
-		url: string;
-		method: 'POST' | 'PUT' | 'GET' | 'DELETE';
-		body?: any;
-		isFormData?: boolean; // FormData 여부를 나타내는 옵션 추가
-	}): Promise<any> {
-		const token = get(accessToken); // 저장된 토큰을 가져오기
-
-		if (!token) {
-			throw new Error('No access token available');
-		}
-
-		const headers: Record<string, string> = {
-			Authorization: `Bearer ${token}` // Authorization 헤더에 토큰 추가
-		};
-
-		if (!args.isFormData) {
-			headers['Content-Type'] = 'application/json';
-		}
-
-		const response = await fetch(args.url, {
-			method: args.method,
-			headers,
-			body: args.isFormData ? args.body : JSON.stringify(args.body)
-		});
-
-		if (response.status === 204) {
-			return null;
-		}
-
-		if (!response.ok) {
-			const errorData = await response.json();
-			throw new Error(errorData.message || 'Error executing request');
-		}
-
-		const contentType = response.headers.get('Content-Type');
-		if (contentType && contentType.includes('application/json')) {
-			return await response.json();
-		}
-
-		return null;
 	}
 }

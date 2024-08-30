@@ -8,11 +8,10 @@
 	import { TabItems } from './index';
 	import { Button } from '@src/components/button';
 
-	
 	function selectTab(tabId: string) {
 		goto(`/?type=${tabId}`);
 	}
-	
+
 	function goToRoot() {
 		goto('/');
 	}
@@ -21,15 +20,9 @@
 </script>
 
 <div class="navigation-header">
-	<FieldGrid
-		column="auto"
-		gap={1}
-		full
-		style={{ paddingRight: '8px' }}
-	>
-	
+	<FieldGrid column="auto" gap={1} full style={{ paddingRight: '8px' }}>
 		<!-- layout menu영역  -->
-	
+
 		<!-- <ContainerGrid flexAlignCenter>
 			{#each TabItems as { id, text }}
 			<Button size="ct" selected={selectedTab === id} on:click={() => selectTab(id)}

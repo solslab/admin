@@ -1,5 +1,5 @@
-import { __Common } from "./common";
+import { __Common } from './common';
 
 export namespace DefIcons {
-  export import Common = __Common;
+	export import Common = __Common;
 }

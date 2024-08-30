@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
-	import { get } from 'svelte/store';
-	import { accessToken, isLogin } from '@src/lib/api/admin';
+	import { isLogin } from '@src/lib/api/admin';
 	import { API } from '@src/lib/api';
 	import { BCTypo } from '@src/components/typo';
-	import { Input } from '@src/components/input';
 	import { browser } from '$app/environment';
+	import { Input } from '@src/components/input';
 	import { ContainerGrid } from '@src/components/container';
 	import { CardContentAccentArea } from '@src/components/content/index';
 	import { FieldGrid, FieldFlex } from '@src/components/field';
@@ -17,7 +15,6 @@
 	import NavigationHeader from '@src/layout/navigation-header.svelte';
 	import { ModalGlobal } from '@src/components-global/modal';
 	import { Frame } from '@src/components/frame';
-	import { onMountBrowser } from '@src/util/svelte';
 
 	let id: string = '';
 	let password: string = '';
@@ -31,19 +28,25 @@
 		} catch (error) {}
 	}
 
-	function checkLoginStatus() {
-		const token = get(accessToken);
-		if (!token) {
-			isLogin.set(false);
-			alert('로그인 세션이 만료되었습니다.');
-		} else {
-			isLogin.set(true);
-		}
-	}
+	// function checkLoginStatus() {
+	// 	const token = get(accessToken);
+	// 	if (!token) {
+	// 		isLogin.set(false); // 토큰이 없으면 로그아웃 처리
+	// 		alert('로그인 세션이 만료되었습니다.');
+	// 	} else {
+	// 		isLogin.set(true); // 토큰이 있으면 로그인 처리
+	// 	}
+	// }
 
-	onMountBrowser(() => {
-		checkLoginStatus();
-	});
+	// onMountBrowser(() => {
+	// 	checkLoginStatus();
+	// 	intervalId = window.setInterval(checkLoginStatus, 60000);
+	// });
+
+	// onDestroy(() => {
+	// 	// 컴포넌트가 언마운트될 때 타이머 제거
+	// 	clearInterval(intervalId);
+	// });
 </script>
 
 {#if $isLogin}
@@ -112,12 +115,11 @@
 										}}
 										text="ID"
 									></BCTypo.Text>
-									<Input
-										fit
-										filled
+									<input
+										type="text"
 										placeholder="아이디를 입력해주세요."
-										style={{ padding: '0.5rem' }}
 										bind:value={id}
+										style="padding: 0.5rem; width: 100%;"
 									/>
 								</ContainerGrid>
 								<ContainerGrid>
@@ -132,13 +134,11 @@
 										}}
 										text="PASSWORD"
 									></BCTypo.Text>
-									<Input
-										fit
-										filled
+									<input
 										type="password"
 										placeholder="비밀번호를 입력해주세요."
-										style={{ padding: '0.5rem' }}
 										bind:value={password}
+										style="padding: 0.5rem; width: 100%;"
 									/>
 								</ContainerGrid>
 							</FieldFlex>

@@ -77,8 +77,8 @@
 <style lang="scss">
 	.root {
 		width: 100%;
-		border: solid 1px var(--hq-base-2100);
-		background: var(--hq-base-2200);
+		border: solid 1px var(--hq-base-0100);
+		background: var(--hq-base-0200);
 		border-radius: 4px;
 		height: 36px;
 
@@ -93,7 +93,7 @@
 			border-radius: 0.3rem;
 			border: solid 1px transparent;
 			&:hover {
-				background-color: var(--hq-base-2200);
+				background-color: var(--hq-base-0200);
 				cursor: pointer;
 			}
 			.text {
@@ -119,10 +119,10 @@
 			height: fit-content;
 			max-height: 12rem;
 			overflow-y: scroll;
-			border: solid 1px var(--hq-base-2100);
+			border: solid 1px var(--hq-base-0100);
 			position: absolute;
 			z-index: 200;
-			background: var(--hq-base-2100);
+			background: var(--hq-base-0100);
 
 			@include scrollbar-with-bg(var(--base01));
 			opacity: 0;
@@ -143,7 +143,7 @@
 				text-align: left;
 				font-size: 0.72rem;
 				padding: 0.5rem 0.4rem;
-				border-top: dotted 1px var(--hq-base-1900);
+				border-top: dotted 1px var(--hq-base-0900);
 				@include text-ellipse();
 			}
 		}

@@ -15,10 +15,10 @@
 	<table>
 		<thead>
 			<tr>
-				<th>Name</th>
-				<th>Email</th>
-				<th>Social Type</th>
-				<th>Created Date</th>
+				<th>이름</th>
+				<th>이메일</th>
+				<th>가입 방식</th>
+				<th>가입 날짜</th>
 			</tr>
 		</thead>
 		<tbody>

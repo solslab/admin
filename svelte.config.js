@@ -1,8 +1,8 @@
 import adapter from '@sveltejs/adapter-static';
 import { dirname } from 'node:path';
-import process from 'process';
-import preprocess from 'svelte-preprocess';
 import { fileURLToPath } from 'url';
+import preprocess from 'svelte-preprocess';
+import process from 'process';
 
 const filePath = dirname(fileURLToPath(import.meta.url));
 const sassPath = `${filePath}/src/styles/`;
