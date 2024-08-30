@@ -50,7 +50,7 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '회원',
-				path: '/member',
+				path: '/member/list',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
@@ -64,7 +64,7 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '기업',
-				path: '/company',
+				path: '/company/manage',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
@@ -78,7 +78,7 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '테스트 리뷰',
-				path: '/test-review',
+				path: '/test-review/list',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{
@@ -92,7 +92,7 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '정보 수정 요청',
-				path: '/suggestion',
+				path: '/suggestion/list',
 				icon: DefIcons.Common.Wallet,
 				items: [
 					{

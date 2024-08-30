@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { Modal } from '@src/components-global/modal';
 	interface Suggestion {
 		suggestion_id: string;
 		company_name: string;
@@ -22,7 +23,7 @@
 		</thead>
 		<tbody>
 			{#each suggestions as suggestion}
-				<tr>
+				<tr on:click={() => Modal.SuggestionDetailModal.set({ data: suggestion }).open()}>
 					<td>{suggestion.company_name}</td>
 					<td>{suggestion.member_name}</td>
 					<td>{suggestion.created_date}</td>

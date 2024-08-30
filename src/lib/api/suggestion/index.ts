@@ -4,7 +4,7 @@ import { get } from 'svelte/store';
 export namespace __Suggestion {
 	const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-	// 코테 후기 전체 목록을 조회하는 함수
+	// 정보 수정 요청 전체 목록을 조회하는 함수
 	export async function getAllSuggestion(): Promise<any> {
 		const url = `${BASE_URL}/suggestion`;
 
@@ -12,7 +12,7 @@ export namespace __Suggestion {
 		return await fetchData({ url, method: 'GET' });
 	}
 
-	// 코테 후기 상세 정보를 조회하는 함수
+	// 정보 수정 요청 상세 정보를 조회하는 함수
 	export async function getSuggestionDetails(args: { SuggestionId: string }): Promise<any> {
 		const url = `${BASE_URL}/suggestion/${args.SuggestionId}`;
 

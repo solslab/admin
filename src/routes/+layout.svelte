@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { onMount, onDestroy } from 'svelte';
-	import { get } from 'svelte/store';
-	import { accessToken, isLogin } from '@src/lib/api/admin';
+	import { isLogin } from '@src/lib/api/admin';
 	import { API } from '@src/lib/api';
 	import { BCTypo } from '@src/components/typo';
-	import { Input } from '@src/components/input';
 	import { browser } from '$app/environment';
+	import { Input } from '@src/components/input';
 	import { ContainerGrid } from '@src/components/container';
 	import { CardContentAccentArea } from '@src/components/content/index';
 	import { FieldGrid, FieldFlex } from '@src/components/field';
@@ -17,7 +15,6 @@
 	import NavigationHeader from '@src/layout/navigation-header.svelte';
 	import { ModalGlobal } from '@src/components-global/modal';
 	import { Frame } from '@src/components/frame';
-	import { onMountBrowser } from '@src/util/svelte';
 
 	let id: string = '';
 	let password: string = '';
@@ -118,12 +115,11 @@
 										}}
 										text="ID"
 									></BCTypo.Text>
-									<Input
-										fit
-										filled
+									<input
+										type="text"
 										placeholder="아이디를 입력해주세요."
-										style={{ padding: '0.5rem' }}
 										bind:value={id}
+										style="padding: 0.5rem; width: 100%;"
 									/>
 								</ContainerGrid>
 								<ContainerGrid>
@@ -138,13 +134,11 @@
 										}}
 										text="PASSWORD"
 									></BCTypo.Text>
-									<Input
-										fit
-										filled
+									<input
 										type="password"
 										placeholder="비밀번호를 입력해주세요."
-										style={{ padding: '0.5rem' }}
 										bind:value={password}
+										style="padding: 0.5rem; width: 100%;"
 									/>
 								</ContainerGrid>
 							</FieldFlex>
