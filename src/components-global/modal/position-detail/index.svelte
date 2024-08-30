@@ -9,7 +9,7 @@
 	import { ContainerGrid } from '@src/components/container';
 	import { SectionDivider } from '@src/components/section';
 	import { CardContentAccentArea } from '@src/components/content';
-	import { mdiCogOutline } from '@mdi/js';
+	import { mdiPencil } from '@mdi/js';
 	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { ValueRow } from '@src/components/value-row';
 	import { BCTypo } from '@src/components/typo';
@@ -35,21 +35,8 @@
 	let note = '';
 
 	const validLanguages = [
-		'C',
-		'C++',
-		'C/C++',
-		'C#',
-		'Java',
-		'JavaScript',
-		'Kotlin',
-		'Python',
-		'Go',
-		'Ruby',
-		'Scala',
-		'Swift',
-		'SQL',
-		'Oracle'
-	];
+    'C', 'C++', 'C#', 'Java', 'JavaScript', 'Kotlin', 'Python', 'Go', 'Ruby', 'Scala', 'Swift', 'SQL', 'Oracle'
+];
 
 	$: console.log($data);
 
@@ -153,7 +140,7 @@
 		scrollShade={300}
 		containerHeight={'100%'}
 	>
-		<CardContentAccentArea disableArea height="100%" style={{ padding: '0 0.8rem' }}>
+		<CardContentAccentArea disableArea height="100%" style={{ padding: '0 0.8rem' }} overflow="scroll">
 			<ContainerGrid style={{ paddingBottom: '1rem' }}>
 				<SectionDivider height={0.1} line />
 			</ContainerGrid>
@@ -163,7 +150,7 @@
 						<ButtonIcon
 							icon={{
 								type: IconPropType.PATH,
-								src: mdiCogOutline,
+								src: mdiPencil,
 								scale: 1.2
 							}}
 							size={ComponentSizeProps.SM}
