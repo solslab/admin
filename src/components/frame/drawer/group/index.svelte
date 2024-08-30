@@ -36,7 +36,11 @@
 		<FieldGrid column="1fr 1.5rem" full>
 			<Link href={group.path} outbound={false}>
 				<ContainerGrid flexAlignCenter style={{ width: '100%', padding: '0.0rem 0.0rem' }}>
-					<BCTypo.Text prop={{ h: 7 }} paint={{harmonyName:'base',harmonyShade:2300}} text={group.title.toUpperCase()} />
+					<BCTypo.Text
+						prop={{ h: 7 }}
+						paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+						text={group.title.toUpperCase()}
+					/>
 				</ContainerGrid>
 			</Link>
 			{#if group.items}
@@ -118,7 +122,9 @@
 			align-items: center;
 			height: 0rem;
 			opacity: 0;
-			transition: height 0.2s, opacity 0.2s;
+			transition:
+				height 0.2s,
+				opacity 0.2s;
 			color: var(--hq-base-1500);
 			&:hover {
 				color: var(--hq-base-2200);
@@ -162,6 +168,10 @@
 			background: var(--hq-base-0300) !important;
 			opacity: 1;
 		}
-		transition: height 0.2s, opacity 0.2s, color 0.2s, background-color 0.2s;
+		transition:
+			height 0.2s,
+			opacity 0.2s,
+			color 0.2s,
+			background-color 0.2s;
 	}
 </style>

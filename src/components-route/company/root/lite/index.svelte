@@ -15,31 +15,19 @@
 	import { SectionDivider } from '@src/components/section';
 	import { exec } from '@src/util/util.function';
 	import { DefIcons } from '@src/icons/defines';
-	import { css } from '@src/util/style';
 	import ComapanyListItem from './item.svelte';
 	import { ComponentSizeProps } from '@src/util/component';
-	import Image from '@src/components/unit/image.svelte';
+	import { Companies } from '@src/util/company';
+	import { IconPending } from '@src/components/icon-pending';
 
 	let companyName = '';
+	let companyLength = 0;
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
-	const industryOptions: __Model.IndustryType[] = [
-		'IT 서비스',
-		'금융',
-		'솔루션',
-		'게임',
-		'SI',
-		'SM',
-		'빅테크',
-		'스타트업',
-		'대기업',
-		'중견기업',
-		'중소기업',
-		'공기업'
-	];
-
 	$: asyncCompanyList = exec(async () => {
-		return await API.Company.getAllCompanies();
+		const companies = await API.Company.getAllCompanies();
+		companyLength = companies.length;
+		return companies;
 	});
 
 	$: enableModal = false;
@@ -85,13 +73,18 @@
 >
 	<FieldGrid full column="1fr auto" gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
-			<ContainerGrid flexAlignCenter>
+			<FieldFlex alignItems="center" gap={0.3}>
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-					text="Company List"
+					text="기업 목록"
 				/>
-			</ContainerGrid>
+				<BCTypo.Text
+					prop={{ h: 4, mid: true }}
+					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
+					text={`(${companyLength})`}
+				/>
+			</FieldFlex>
 		</ContainerGrid>
 		<ContainerGrid onClick={() => (enableModal = true)}>
 			<ButtonIcon icon={DefIcons.Common.Add} />
@@ -103,13 +96,20 @@
 	</ContainerGrid>
 
 	{#await asyncCompanyList}
-		<div>Loading...</div>
+		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
+			<IconPending size={ComponentSizeProps.XL} />
+		</ContainerGrid>
 	{:then CompanyList}
 		<ContainerGrid overflow="scroll">
-			<FieldGrid gap={0.5}>
+			<FieldGrid column="1fr 1fr" gap={0.5}>
 				{#each CompanyList as company}
 					<ContainerGrid>
-						<ComapanyListItem {company} />
+						<ComapanyListItem
+							{company}
+							on:companyDeleted={async () => {
+								asyncCompanyList = await API.Company.getAllCompanies();
+							}}
+						/>
 					</ContainerGrid>
 				{/each}
 			</FieldGrid>
@@ -170,7 +170,7 @@
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="Industry Type" prop={{ bold: true }} />
 							<FieldGrid gap={0.5} column="1fr 1fr 1fr">
-								{#each industryOptions as type}
+								{#each Companies.industryOptions as type}
 									<div
 										class="industry-tag {selectedIndustryTypes.has(type) ? 'selected' : ''}"
 										on:click={() => toggleIndustryType(type)}

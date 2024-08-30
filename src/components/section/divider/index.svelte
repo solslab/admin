@@ -27,8 +27,8 @@
 				backgroundColor: harmonyShade
 					? Palette.scss(harmonyName, harmonyShade)
 					: lineColor
-					? lineColor
-					: undefined
+						? lineColor
+						: undefined
 			})}
 		/>
 	{/if}

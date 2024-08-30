@@ -1,6 +1,12 @@
 import { __Model } from './model';
+import { accessToken } from '../admin/index';
+import axios from 'axios';
+import { fetchData } from '../util';
+import { get } from 'svelte/store';
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-export namespace __Task {
+
+export namespace __Position {
 	// 직무를 생성하는 함수, CreatePositionRequest 인터페이스를 사용
 	export async function createPosition(args: __Model.CreatePositionRequest): Promise<any> {
 		const url = `${BASE_URL}/company/${args.companyId}/position`;
@@ -40,47 +46,21 @@ export namespace __Task {
 	}
 
 	// 직무를 삭제하는 함수
-	export async function deletePosition(args: { positionId: string; token: string }): Promise<any> {
+	export async function deletePosition(args: { positionId: string }): Promise<any> {
 		const url = `${BASE_URL}/position/${args.positionId}`;
 
 		// DELETE 요청은 body 없이 보냄
 		return await fetchData({
 			url,
-			method: 'DELETE',
-			body: { token: args.token }
+			method: 'DELETE'
 		});
 	}
 
 	// 직무 상세 정보를 조회하는 함수
-	export async function getPositionDetails(args: {
-		positionId: string;
-		token: string;
-	}): Promise<any> {
+	export async function getPositionDetails(args: { positionId: string }): Promise<any> {
 		const url = `${BASE_URL}/position/${args.positionId}`;
 
 		// GET 요청이므로 body는 필요 없음
-		return await fetchData({ url, method: 'GET', body: { token: args.token } });
-	}
-
-	// fetchData 함수를 정의하여 모든 HTTP 요청을 처리
-	async function fetchData(args: {
-		url: string;
-		method: 'POST' | 'PUT' | 'GET' | 'DELETE';
-		body?: any;
-	}): Promise<any> {
-		const response = await fetch(args.url, {
-			method: args.method,
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(args.body)
-		});
-
-		if (!response.ok) {
-			const errorData = await response.json();
-			throw new Error(errorData.message || 'Error executing request');
-		}
-
-		return await response.json();
+		return await fetchData({ url, method: 'GET' });
 	}
 }

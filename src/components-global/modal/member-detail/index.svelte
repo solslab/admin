@@ -67,7 +67,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="Email"
+									name="이메일"
 									styleRoot={{ alignItems: 'center' }}
 									value={memberDetailData.email || '-'}
 									titleProp={{ h: 5, mid: true }}
@@ -84,7 +84,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="Tier"
+									name="티어"
 									styleRoot={{ alignItems: 'center' }}
 									value={memberDetailData.member_tier ?? '-'}
 									titleProp={{ h: 5, mid: true }}
@@ -101,7 +101,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="Social Type"
+									name="가입 방식"
 									styleRoot={{ alignItems: 'center' }}
 									value={memberDetailData.social_type || '-'}
 									titleProp={{ h: 5, mid: true }}
@@ -117,7 +117,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="Prefer Languages"
+									name="주 사용 언어"
 									styleRoot={{ alignItems: 'base-line' }}
 									titleProp={{ h: 5, mid: true }}
 									textProp={{
@@ -149,7 +149,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="Prefer Industries"
+									name="희망 취업 분야"
 									styleRoot={{ alignItems: 'base-line' }}
 									titleProp={{ h: 5, mid: true }}
 									textProp={{

@@ -1,12 +1,6 @@
 <script lang="ts">
 	import { Color } from '@src/util/color';
-	import {
-		Icon,
-		IconFlipProps,
-		IconProp,
-		IconPropType,
-		IconSpinProps
-	} from '@src/components/icon';
+	import { Icon, IconFlipProps, IconProp, IconPropType, IconSpinProps } from '@src/components/icon';
 	import { TipOption, tip } from '@src/util/actions/tip';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { attr, css, type CSSProperties } from '@src/util/style';
@@ -20,8 +14,7 @@
 	export let disable: boolean = false;
 	export let ghost: boolean = false;
 	export let border: ButtonIconBorderProps = ButtonIconBorderProps.NONE;
-	export let borderRadius: ButtonIconBorderRadiusProps =
-		ButtonIconBorderRadiusProps.ROUND;
+	export let borderRadius: ButtonIconBorderRadiusProps = ButtonIconBorderRadiusProps.ROUND;
 	export let styleColor: Color.Palette.Group | undefined = undefined;
 	export let iconstyle: CSSProperties = {};
 	export let style: CSSProperties = {};

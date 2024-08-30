@@ -16,8 +16,6 @@
 	export let direction: 'row' | 'column' | undefined = undefined;
 	export let full: boolean = false;
 
-
-	
 	$: {
 		wrap && (style.flexWrap = 'wrap');
 		center && (style.justifyContent = 'center');

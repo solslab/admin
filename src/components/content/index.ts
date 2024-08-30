@@ -1,1 +1,1 @@
-export { default as CardContentAccentArea } from "./accent-area/index.svelte";
+export { default as CardContentAccentArea } from './accent-area/index.svelte';

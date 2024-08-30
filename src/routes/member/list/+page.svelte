@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { RCMember } from '@src/components-route/member';
-	import { ContainerGrid } from '@src/components/container/index';
+	import { FrameContent } from '@src/components/frame';
 </script>
 
-<ContainerGrid>
+<FrameContent>
 	<RCMember.RootLite />
-</ContainerGrid>
+</FrameContent>

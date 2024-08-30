@@ -1,4 +1,4 @@
 export type BaseResp<T> = {
-  data: T;
-  createdAt: string;
+	data: T;
+	createdAt: string;
 };
