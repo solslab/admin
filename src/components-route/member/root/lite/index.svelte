@@ -7,6 +7,8 @@
 	import { SectionDivider } from '@src/components/section';
 	import { BCLayout } from '@src/components/layout';
 	import { default as MemberListItem } from './item.svelte';
+	import { IconPending } from '@src/components/icon-pending';
+	import { ComponentSizeProps } from '@src/util/component';
 
 	$: asyncMemberList = exec(async () => {
 		return await API.Member.getAllMembers();
@@ -35,9 +37,11 @@
 	</ContainerGrid>
 
 	{#await asyncMemberList}
-		<div>Loading...</div>
+		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
+			<IconPending size={ComponentSizeProps.XL} />
+		</ContainerGrid>
 	{:then memberList}
-		<ContainerGrid overflow="scroll" style={{}}>
+		<ContainerGrid overflow="scroll">
 			<FieldGrid>
 				<MemberListItem members={memberList} />
 			</FieldGrid>

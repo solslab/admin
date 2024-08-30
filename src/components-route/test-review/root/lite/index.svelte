@@ -6,6 +6,8 @@
 	import { BCTypo } from '@src/components/typo';
 	import { SectionDivider } from '@src/components/section';
 	import { BCLayout } from '@src/components/layout';
+	import { IconPending } from '@src/components/icon-pending';
+	import { ComponentSizeProps } from '@src/util/component';
 	import { default as ReviewListItem } from './item.svelte';
 
 	$: asyncTestReviewList = exec(async () => {
@@ -35,7 +37,9 @@
 	</ContainerGrid>
 
 	{#await asyncTestReviewList}
-		<div>Loading...</div>
+		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
+			<IconPending size={ComponentSizeProps.XL} />
+		</ContainerGrid>
 	{:then reviewList}
 		<ContainerGrid overflow="scroll" style={{}}>
 			<FieldGrid>

@@ -6,44 +6,45 @@
 	import { BCTypo } from '@src/components/typo';
 	import { SectionDivider } from '@src/components/section';
 	import { BCLayout } from '@src/components/layout';
-    import { default as SuggestionListItem } from './item.svelte';
+	import { IconPending } from '@src/components/icon-pending';
+	import { ComponentSizeProps } from '@src/util/component';
+	import { default as SuggestionListItem } from './item.svelte';
 
 	$: asyncSuggestionList = exec(async () => {
 		return await API.Suggestion.getAllSuggestion();
 	});
 </script>
 
-
 <BCLayout.ContentsCenter
 	transparent
 	contentStyle={{ overflow: 'hidden' }}
 	rootStyle={{ paddingTop: '1rem', backgroundColor: 'transparent' }}
 >
-<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
-    <ContainerGrid style={{ padding: '0' }}>
-        <ContainerGrid flexAlignCenter>
-            <BCTypo.Text
-                prop={{ h: 4, bold: true }}
-                paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-                text="정보 수정 요청 목록"
-            />
-        </ContainerGrid>
-    </ContainerGrid>
-</FieldGrid>
+	<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
+		<ContainerGrid style={{ padding: '0' }}>
+			<ContainerGrid flexAlignCenter>
+				<BCTypo.Text
+					prop={{ h: 4, bold: true }}
+					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+					text="정보 수정 요청 목록"
+				/>
+			</ContainerGrid>
+		</ContainerGrid>
+	</FieldGrid>
 
-<ContainerGrid style={{ paddingBottom: '1rem' }}>
-    <SectionDivider height={0.1} line lineColor="var(--hq-base-0400)" />
-</ContainerGrid>
+	<ContainerGrid style={{ paddingBottom: '1rem' }}>
+		<SectionDivider height={0.1} line lineColor="var(--hq-base-0400)" />
+	</ContainerGrid>
 
-{#await asyncSuggestionList}
-    <div>Loading...</div>
-{:then suggestionList}
-    <ContainerGrid overflow="scroll" style={{}}>
-        <FieldGrid>
-            <SuggestionListItem suggestions={suggestionList} />
-        </FieldGrid>
-    </ContainerGrid>
-{/await}
-
-
+	{#await asyncSuggestionList}
+		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
+			<IconPending size={ComponentSizeProps.XL} />
+		</ContainerGrid>
+	{:then suggestionList}
+		<ContainerGrid overflow="scroll" style={{}}>
+			<FieldGrid>
+				<SuggestionListItem suggestions={suggestionList} />
+			</FieldGrid>
+		</ContainerGrid>
+	{/await}
 </BCLayout.ContentsCenter>

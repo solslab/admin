@@ -1,15 +1,14 @@
 <script lang="ts">
-    interface Suggestion {
-        suggestion_id: string;
-        company_name: string;
-        member_name: string;
-        status: string;
-        created_date: string;
-    }
+	interface Suggestion {
+		suggestion_id: string;
+		company_name: string;
+		member_name: string;
+		status: string;
+		created_date: string;
+	}
 
-    export let suggestions: Suggestion[] = [];
+	export let suggestions: Suggestion[] = [];
 </script>
-
 
 {#if suggestions.length > 0}
 	<table>
@@ -18,12 +17,12 @@
 				<th>회사명</th>
 				<th>이름</th>
 				<th>생성 날짜</th>
-                <th>상태</th>
+				<th>상태</th>
 			</tr>
 		</thead>
 		<tbody>
 			{#each suggestions as suggestion}
-				<tr >
+				<tr>
 					<td>{suggestion.company_name}</td>
 					<td>{suggestion.member_name}</td>
 					<td>{suggestion.created_date}</td>

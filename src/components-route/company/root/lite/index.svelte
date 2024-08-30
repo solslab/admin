@@ -18,6 +18,7 @@
 	import ComapanyListItem from './item.svelte';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { Companies } from '@src/util/company';
+	import { IconPending } from '@src/components/icon-pending';
 
 	let companyName = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
@@ -87,7 +88,9 @@
 	</ContainerGrid>
 
 	{#await asyncCompanyList}
-		<div>Loading...</div>
+		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
+			<IconPending size={ComponentSizeProps.XL} />
+		</ContainerGrid>
 	{:then CompanyList}
 		<ContainerGrid overflow="scroll">
 			<FieldGrid column="1fr 1fr" gap={0.5}>

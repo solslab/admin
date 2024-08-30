@@ -103,7 +103,6 @@ export function createNavigationProps() {
 					}
 				]
 			}
-
 		].filter((g) => !!g)
 	} as NavProp;
 }
