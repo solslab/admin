@@ -51,9 +51,7 @@
 		</ContainerGrid>
 	{:then suggestionList}
 		<ContainerGrid overflow="scroll" style={{}}>
-			<FieldGrid>
-				<SuggestionListItem suggestions={suggestionList} />
-			</FieldGrid>
+			<SuggestionListItem suggestions={suggestionList} />
 		</ContainerGrid>
 	{/await}
 </BCLayout.ContentsCenter>

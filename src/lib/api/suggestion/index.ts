@@ -19,4 +19,13 @@ export namespace __Suggestion {
 		// GET 요청이므로 body는 필요 없음
 		return await fetchData({ url, method: 'GET' });
 	}
+
+	export async function updateSuggestionStatus(args: {
+		suggestionId: string;
+		status: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED';
+	}): Promise<any> {
+		const url = `${BASE_URL}/suggestion/${args.suggestionId}?status=${args.status}`;
+
+		return await fetchData({ url, method: 'PUT' });
+	}
 }
