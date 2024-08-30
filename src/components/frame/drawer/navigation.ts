@@ -88,7 +88,22 @@ export function createNavigationProps() {
 						outbound: false
 					}
 				]
+			},
+			{
+				disableInMobile: true,
+				title: '정보 수정 요청',
+				path: '/suggestion',
+				icon: DefIcons.Common.Wallet,
+				items: [
+					{
+						title: '정보 수정 요청 관리',
+						icon: { ...DefIcons.Common.All, scale: 1 },
+						link: 'suggestion/list',
+						outbound: false
+					}
+				]
 			}
+
 		].filter((g) => !!g)
 	} as NavProp;
 }

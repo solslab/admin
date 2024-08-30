@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { RCMember } from '@src/components-route/member';
 	import { FrameContent } from '@src/components/frame';
+    import { RCSuggestion } from '@src/components-route/suggestion';
 </script>
 
 <FrameContent>
-	<RCMember.RootLite />
+    <RCSuggestion.RootLite />
 </FrameContent>
