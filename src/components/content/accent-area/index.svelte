@@ -11,6 +11,7 @@
 	import type { IconProp } from '@src/util/icon';
 	import { attr, css, getStyleStringUnit, type CSSProperties } from '@src/util/style';
 	import type { Typo } from '@src/util/typo';
+	import { Link } from '@src/components/link';
 
 	export let titleIcon: IconProp | undefined = undefined;
 	export let title: string | undefined = undefined;
@@ -67,93 +68,95 @@
 
 <slot name="root" />
 
-<div
-	use:tip={tipOption}
-	on:click={() => onClick && onClick()}
-	on:keydown={() => {}}
-	class="root"
-	data-link-with-focus={attr(!!link && focus)}
-	data-border={attr(border)}
-	data-link={attr(link || !!onClick)}
-	data-dense={attr(dense)}
-	data-t="{_backgroundColor} {_borderColor}"
-	data-disable-area={attr(disableArea)}
-	style={css(style, {
-		height: getStyleStringUnit(height),
-		overflow,
-		backgroundColor: _backgroundColor,
-		border: _borderColor
-	})}
-	bind:this={eleContent}
->
-	{#if focus && link}
-		<div class="focus-hover-area" />
-	{/if}
-	{#if title}
-		<FieldFlex
-			height={titleHeight}
-			style={{
-				...(dense
-					? {
-							color: 'var(--hq-base-2000)',
-							fontSize: '0.78rem',
-							fontWeight: '600',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'space-between'
-						}
-					: {
-							color: 'var(--hq-base-2000)',
-							fontSize: '0.72rem',
-							fontWeight: '600',
-							lineHeight: '1.1',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'space-between'
-						}),
-				...titleStyle
-			}}
-		>
-			<ContainerFlex>
-				<TypoTextWithIcon
-					opensans={titleOpensans}
-					gap={0.1}
-					icon={titleIcon}
-					h={titleH}
-					iconPaint={titleIconPaint}
-					textStyle={{ paddingTop: '0.05rem' }}
-				>
-					{title}
-				</TypoTextWithIcon>
-			</ContainerFlex>
-			<ContainerFlex stretch={strechCommand}>
-				{#if foldable}
-					<FieldFlex center>
-						<slot name="command" />
-						<Button ghost on:click={() => (folded = !folded)}>
-							<Icon
-								size={ComponentSizeProps.SM}
-								icon={DefIcons.Common.DownCheveron}
-								style={{
-									transform: folded ? 'rotate(180deg)' : 'rotate(0deg)',
-									transition: 'transform .2s'
-								}}
-							/>
-						</Button>
-					</FieldFlex>
-				{:else}
-					<slot name="command" />
-				{/if}
-			</ContainerFlex>
-		</FieldFlex>
-	{/if}
-
-	<div class="content" data-no-title={attr(!title)} style={css(contentStyle)}>
-		{#if !folded}
-			<slot {eleContent} />
+<Link href={link} {outbound} {onClick}>
+	<div
+		use:tip={tipOption}
+		on:click={() => onClick && onClick()}
+		on:keydown={() => {}}
+		class="root"
+		data-link-with-focus={attr(!!link && focus)}
+		data-border={attr(border)}
+		data-link={attr(link || !!onClick)}
+		data-dense={attr(dense)}
+		data-t="{_backgroundColor} {_borderColor}"
+		data-disable-area={attr(disableArea)}
+		style={css(style, {
+			height: getStyleStringUnit(height),
+			overflow,
+			backgroundColor: _backgroundColor,
+			border: _borderColor
+		})}
+		bind:this={eleContent}
+	>
+		{#if focus && link}
+			<div class="focus-hover-area" />
 		{/if}
+		{#if title}
+			<FieldFlex
+				height={titleHeight}
+				style={{
+					...(dense
+						? {
+								color: 'var(--hq-base-2000)',
+								fontSize: '0.78rem',
+								fontWeight: '600',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'space-between'
+							}
+						: {
+								color: 'var(--hq-base-2000)',
+								fontSize: '0.72rem',
+								fontWeight: '600',
+								lineHeight: '1.1',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'space-between'
+							}),
+					...titleStyle
+				}}
+			>
+				<ContainerFlex>
+					<TypoTextWithIcon
+						opensans={titleOpensans}
+						gap={0.1}
+						icon={titleIcon}
+						h={titleH}
+						iconPaint={titleIconPaint}
+						textStyle={{ paddingTop: '0.05rem' }}
+					>
+						{title}
+					</TypoTextWithIcon>
+				</ContainerFlex>
+				<ContainerFlex stretch={strechCommand}>
+					{#if foldable}
+						<FieldFlex center>
+							<slot name="command" />
+							<Button ghost on:click={() => (folded = !folded)}>
+								<Icon
+									size={ComponentSizeProps.SM}
+									icon={DefIcons.Common.DownCheveron}
+									style={{
+										transform: folded ? 'rotate(180deg)' : 'rotate(0deg)',
+										transition: 'transform .2s'
+									}}
+								/>
+							</Button>
+						</FieldFlex>
+					{:else}
+						<slot name="command" />
+					{/if}
+				</ContainerFlex>
+			</FieldFlex>
+		{/if}
+
+		<div class="content" data-no-title={attr(!title)} style={css(contentStyle)}>
+			{#if !folded}
+				<slot {eleContent} />
+			{/if}
+		</div>
 	</div>
-</div>
+</Link>
 
 <style lang="scss">
 	.root {

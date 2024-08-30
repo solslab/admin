@@ -1,4 +1,5 @@
 import _, { Dictionary } from 'lodash';
+
 import qs from 'query-string';
 
 export namespace URL {
@@ -26,5 +27,29 @@ export namespace URL {
 		}
 
 		return _url;
+	}
+
+	export function member() {
+		return build({
+			url: '/member/list'
+		});
+	}
+
+	export function company() {
+		return build({
+			url: '/company/manage'
+		});
+	}
+
+	export function testReview() {
+		return build({
+			url: '/test-review/list'
+		});
+	}
+
+	export function suggestion() {
+		return build({
+			url: '/suggestion/list'
+		});
 	}
 }
