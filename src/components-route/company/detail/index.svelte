@@ -3,7 +3,7 @@
 	import { API } from '@src/lib/api';
 	import { CardContentAccentArea } from '@src/components/content';
 	import { SectionDivider } from '@src/components/section';
-	import { mdiFileImagePlusOutline, mdiCogOutline, mdiCloseThick } from '@mdi/js';
+	import { mdiFileImagePlusOutline, mdiPencil, mdiCloseThick } from '@mdi/js';
 	import { ContainerGrid } from '@src/components/container';
 	import { BCTypo } from '@src/components/typo';
 	import { ValueRow } from '@src/components/value-row';
@@ -181,7 +181,7 @@
 					<ButtonIcon
 						icon={{
 							type: IconPropType.PATH,
-							src: mdiCogOutline,
+							src: mdiPencil,
 							scale: 1.2
 						}}
 						size={ComponentSizeProps.SM}
@@ -391,7 +391,7 @@
 	</CardContentAccentArea>
 </BCLayout.ContentsCenter>
 
-<BCLayout.ContentsCenter transparent rootStyle={{ padding: '1.2rem 2.8rem 0rem 2.8rem' }}>
+<BCLayout.ContentsCenter transparent rootStyle={{ padding: '1.2rem 3.8rem 0rem 3.8rem' }}>
 	<FieldGrid full column="1fr auto" gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
 			<ContainerGrid flexAlignCenter>
