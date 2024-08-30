@@ -28,12 +28,12 @@
 		<ContainerGrid style={{ padding: '0' }}>
 			<FieldFlex alignItems="center" gap={0.3}>
 				<BCTypo.Text
-					prop={{ h: 4, bold: true }}
+					prop={{ h: 2, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
 					text="리뷰 목록"
 				/>
 				<BCTypo.Text
-					prop={{ h: 4, mid: true }}
+					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
 					text={`(${reviewLength})`}
 				/>
