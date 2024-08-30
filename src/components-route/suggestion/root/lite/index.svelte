@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FieldGrid } from '@src/components/field';
+	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { API } from '@src/lib/api';
 	import { exec } from '@src/util/util.function';
 	import { ContainerGrid } from '@src/components/container';
@@ -10,8 +10,12 @@
 	import { ComponentSizeProps } from '@src/util/component';
 	import { default as SuggestionListItem } from './item.svelte';
 
+	let suggestionLength = 0;
+
 	$: asyncSuggestionList = exec(async () => {
-		return await API.Suggestion.getAllSuggestion();
+		const suggestions = await API.Suggestion.getAllSuggestion();
+		suggestionLength = suggestions.length;
+		return suggestions;
 	});
 </script>
 
@@ -22,13 +26,18 @@
 >
 	<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
-			<ContainerGrid flexAlignCenter>
+			<FieldFlex alignItems="center" gap={0.3}>
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
 					text="정보 수정 요청 목록"
 				/>
-			</ContainerGrid>
+				<BCTypo.Text
+					prop={{ h: 4, mid: true }}
+					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
+					text={`(${suggestionLength})`}
+				/>
+			</FieldFlex>
 		</ContainerGrid>
 	</FieldGrid>
 

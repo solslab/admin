@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FieldGrid } from '@src/components/field';
+	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { API } from '@src/lib/api';
 	import { exec } from '@src/util/util.function';
 	import { ContainerGrid } from '@src/components/container';
@@ -10,8 +10,12 @@
 	import { ComponentSizeProps } from '@src/util/component';
 	import { default as ReviewListItem } from './item.svelte';
 
+	let reviewLength = 0;
+
 	$: asyncTestReviewList = exec(async () => {
-		return await API.Review.getTestReviews();
+		const testReviews = await API.Review.getTestReviews();
+		reviewLength = testReviews.length;
+		return testReviews;
 	});
 </script>
 
@@ -22,13 +26,18 @@
 >
 	<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
-			<ContainerGrid flexAlignCenter>
+			<FieldFlex alignItems="center" gap={0.3}>
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
 					text="리뷰 목록"
 				/>
-			</ContainerGrid>
+				<BCTypo.Text
+					prop={{ h: 4, mid: true }}
+					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
+					text={`(${reviewLength})`}
+				/>
+			</FieldFlex>
 		</ContainerGrid>
 	</FieldGrid>
 

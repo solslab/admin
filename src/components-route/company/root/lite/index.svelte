@@ -21,10 +21,13 @@
 	import { IconPending } from '@src/components/icon-pending';
 
 	let companyName = '';
+	let companyLength = 0;
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
 	$: asyncCompanyList = exec(async () => {
-		return await API.Company.getAllCompanies();
+		const companies = await API.Company.getAllCompanies();
+		companyLength = companies.length;
+		return companies;
 	});
 
 	$: enableModal = false;
@@ -70,13 +73,18 @@
 >
 	<FieldGrid full column="1fr auto" gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
-			<ContainerGrid flexAlignCenter>
+			<FieldFlex alignItems="center" gap={0.3}>
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
 					text="기업 목록"
 				/>
-			</ContainerGrid>
+				<BCTypo.Text
+					prop={{ h: 4, mid: true }}
+					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
+					text={`(${companyLength})`}
+				/>
+			</FieldFlex>
 		</ContainerGrid>
 		<ContainerGrid onClick={() => (enableModal = true)}>
 			<ButtonIcon icon={DefIcons.Common.Add} />
