@@ -1,4 +1,6 @@
+import { IconProp, IconPropType } from '@src/util/icon';
 import {
+	mdiAccountCircle,
 	mdiAlertCircle,
 	mdiAlertCircleOutline,
 	mdiAllInclusiveBox,
@@ -35,10 +37,12 @@ import {
 	mdiCompareHorizontal,
 	mdiCubeScan,
 	mdiDetails,
+	mdiDomain,
 	mdiDotsHorizontal,
 	mdiDownload,
 	mdiEarth,
 	mdiEye,
+	mdiFileEdit,
 	mdiFilter,
 	mdiFilterOff,
 	mdiFilterVariant,
@@ -55,6 +59,8 @@ import {
 	mdiLockCheck,
 	mdiMagnify,
 	mdiMenuRight,
+	mdiMessageAlert,
+	mdiMessageDraw,
 	mdiMinus,
 	mdiMinusBoxOutline,
 	mdiNetwork,
@@ -71,7 +77,6 @@ import {
 	mdiWallet,
 	mdiWeb
 } from '@mdi/js';
-import { IconProp, IconPropType } from '@src/util/icon';
 
 export namespace __Common {
 	export const All = {
@@ -425,4 +430,30 @@ export namespace __Common {
 		type: IconPropType.PATH,
 		src: mdiKeyboardReturn
 	};
+
+	export const Account = {
+		type: IconPropType.PATH,
+		src: mdiAccountCircle
+	};
+
+	export const Company = {
+		type: IconPropType.PATH,
+		src: mdiDomain
+	}
+
+	export const TestReview = {
+		type: IconPropType.PATH,
+		src: mdiMessageDraw
+	}
+
+	export const Edit = {
+		type: IconPropType.PATH,
+		src: mdiFileEdit
+	}
+
+	export const Feedback = {
+		type: IconPropType.PATH,
+		src: mdiMessageAlert
+	}
+	
 }
