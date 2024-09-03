@@ -50,13 +50,13 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '회원',
-				path: '/member/list',
+				path: '/member/manage',
 				icon: DefIcons.Common.Account,
 				items: [
 					{
 						title: '회원 관리',
 						icon: { ...DefIcons.Common.Account, scale: 1 },
-						link: 'member/list',
+						link: 'member/manage',
 						outbound: false
 					}
 				]
@@ -78,13 +78,13 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '테스트 리뷰',
-				path: '/test-review/list',
+				path: '/test-review/manage',
 				icon: DefIcons.Common.TestReview,
 				items: [
 					{
 						title: '테스트 리뷰 관리',
 						icon: { ...DefIcons.Common.TestReview, scale: 1 },
-						link: 'test-review/list',
+						link: 'test-review/manage',
 						outbound: false
 					}
 				]
@@ -92,13 +92,27 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '정보 수정 요청',
-				path: '/suggestion/list',
+				path: '/suggestion/manage',
 				icon: DefIcons.Common.Edit,
 				items: [
 					{
 						title: '정보 수정 요청 관리',
 						icon: { ...DefIcons.Common.Edit, scale: 1 },
-						link: 'suggestion/list',
+						link: 'suggestion/manage',
+						outbound: false
+					}
+				]
+			},
+			{
+				disableInMobile: true,
+				title: '피드백',
+				path: '/feedback/manage',
+				icon: DefIcons.Common.Feedback,
+				items: [
+					{
+						title: '피드백 관리',
+						icon: { ...DefIcons.Common.Feedback, scale: 1 },
+						link: 'feedback/manage',
 						outbound: false
 					}
 				]

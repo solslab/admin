@@ -59,6 +59,7 @@ import {
 	mdiLockCheck,
 	mdiMagnify,
 	mdiMenuRight,
+	mdiMessageAlert,
 	mdiMessageDraw,
 	mdiMinus,
 	mdiMinusBoxOutline,
@@ -448,6 +449,11 @@ export namespace __Common {
 	export const Edit = {
 		type: IconPropType.PATH,
 		src: mdiFileEdit
+	}
+
+	export const Feedback = {
+		type: IconPropType.PATH,
+		src: mdiMessageAlert
 	}
 	
 }
