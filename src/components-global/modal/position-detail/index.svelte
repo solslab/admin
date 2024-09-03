@@ -35,8 +35,20 @@
 	let note = '';
 
 	const validLanguages = [
-    'C', 'C++', 'C#', 'Java', 'JavaScript', 'Kotlin', 'Python', 'Go', 'Ruby', 'Scala', 'Swift', 'SQL', 'Oracle'
-];
+		'C',
+		'C++',
+		'C#',
+		'Java',
+		'JavaScript',
+		'Kotlin',
+		'Python',
+		'Go',
+		'Ruby',
+		'Scala',
+		'Swift',
+		'SQL',
+		'Oracle'
+	];
 
 	$: console.log($data);
 
@@ -56,8 +68,6 @@
 
 	async function updatePosition() {
 		const languages = supportLanguages.split(',').map((lang) => lang.trim());
-
-		// Validate if all entered languages are in the predefined list
 		const invalidLanguages = languages.filter((lang) => !validLanguages.includes(lang));
 
 		if (invalidLanguages.length > 0) {
@@ -68,7 +78,7 @@
 		const positionData: CreatePositionRequest = {
 			positionId: $data.data.position_id,
 			position_name: positionName,
-			support_languages: languages, // Use validated languages
+			support_languages: languages,
 			test_time: testTime || null,
 			problem_info: problemInfo || null,
 			permit_ide: permitIDE || null,
@@ -140,7 +150,12 @@
 		scrollShade={300}
 		containerHeight={'100%'}
 	>
-		<CardContentAccentArea disableArea height="100%" style={{ padding: '0 0.8rem' }} overflow="scroll">
+		<CardContentAccentArea
+			disableArea
+			height="100%"
+			style={{ padding: '0 0.8rem' }}
+			overflow="scroll"
+		>
 			<ContainerGrid style={{ paddingBottom: '1rem' }}>
 				<SectionDivider height={0.1} line />
 			</ContainerGrid>

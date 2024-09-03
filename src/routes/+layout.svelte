@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { isLogin } from '@src/lib/api/admin';
 	import { API } from '@src/lib/api';
 	import { BCTypo } from '@src/components/typo';
 	import { browser } from '$app/environment';
-	import { Input } from '@src/components/input';
+	import { accessToken } from '@src/lib/api/admin';
 	import { ContainerGrid } from '@src/components/container';
 	import { CardContentAccentArea } from '@src/components/content/index';
 	import { FieldGrid, FieldFlex } from '@src/components/field';
@@ -15,16 +14,17 @@
 	import NavigationHeader from '@src/layout/navigation-header.svelte';
 	import { ModalGlobal } from '@src/components-global/modal';
 	import { Frame } from '@src/components/frame';
+	import { get } from 'svelte/store';
 
 	let id: string = '';
 	let password: string = '';
-	let errorMessage = '';
-	let intervalId: number;
+	let errorMessage: string = '';
+
+	$: isLogin = get(accessToken);
 
 	async function handleLogin() {
 		try {
 			await API.Admin.adminLogin(id, password);
-			isLogin.set(true); // 로그인 성공 시 상태 업데이트
 		} catch (error) {}
 	}
 
@@ -49,7 +49,7 @@
 	// });
 </script>
 
-{#if $isLogin}
+{#if isLogin}
 	<!-- 로그인 후 화면 -->
 	<Frame>
 		<div class="root">
