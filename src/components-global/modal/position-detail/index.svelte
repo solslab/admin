@@ -50,8 +50,6 @@
 		'Oracle'
 	];
 
-	$: console.log($data);
-
 	interface CreatePositionRequest {
 		positionId: string;
 		position_name: string;
@@ -96,7 +94,6 @@
 
 			companyPositionData.update((positions) => {
 				const position = _.find(positions, { position_id: result.position_id });
-				console.log(position);
 				if (position) {
 					Object.assign(position, result);
 				}

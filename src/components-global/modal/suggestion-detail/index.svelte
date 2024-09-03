@@ -32,8 +32,8 @@
 
 	// 상태 텍스트를 가져오는 함수
 	function getStatusText(status: string): string {
-		const statusOption = statusOptions.find(option => option.id === status);
-		return statusOption ? statusOption.text : status;  // 상태 텍스트가 없을 경우 원래 값을 반환
+		const statusOption = statusOptions.find((option) => option.id === status);
+		return statusOption ? statusOption.text : status; // 상태 텍스트가 없을 경우 원래 값을 반환
 	}
 </script>
 
