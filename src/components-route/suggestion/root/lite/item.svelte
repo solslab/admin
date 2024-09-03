@@ -12,10 +12,10 @@
 	export let suggestions: Suggestion[] = [];
 
 	const statusOptions = [
-		{ id: 'NOT_STARTED', text: 'Not Started' },
-		{ id: 'IN_PROGRESS', text: 'In Progress' },
-		{ id: 'COMPLETED', text: 'Completed' },
-		{ id: 'REJECTED', text: 'Rejected' }
+		{ id: 'NOT_STARTED', text: '처리 전' },
+		{ id: 'IN_PROGRESS', text: '처리 중' },
+		{ id: 'COMPLETED', text: '완료' },
+		{ id: 'REJECTED', text: '거절됨' }
 	];
 
 	async function handleStatusChange(
@@ -23,8 +23,11 @@
 		newStatus: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED'
 	) {
 		try {
-			// 사용자가 상태를 변경하는 것을 확인하는 알림 창
-			const userConfirmed = window.confirm(`상태를 "${newStatus}"(으)로 변경하시겠습니까?`);
+			// newStatus에 해당하는 text를 찾음
+			const statusText = statusOptions.find((option) => option.id === newStatus)?.text;
+
+			// 상태 변경 확인 알림 창
+			const userConfirmed = window.confirm(`상태를 "${statusText}"(으)로 변경하시겠습니까?`);
 
 			if (!userConfirmed) {
 				return; // 사용자가 취소하면 아무것도 하지 않음

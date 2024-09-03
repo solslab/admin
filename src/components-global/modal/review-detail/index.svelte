@@ -46,7 +46,12 @@
 		scrollShade={300}
 		containerHeight={'100%'}
 	>
-		<CardContentAccentArea disableArea height="100%" style={{ padding: '0 0.8rem' }}>
+		<CardContentAccentArea
+			disableArea
+			height="100%"
+			style={{ padding: '0 0.8rem' }}
+			overflow="scroll"
+		>
 			<ContainerGrid style={{ paddingBottom: '1rem' }}>
 				<SectionDivider height={0.1} line />
 			</ContainerGrid>
