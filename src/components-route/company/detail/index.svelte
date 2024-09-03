@@ -391,7 +391,7 @@
 	</CardContentAccentArea>
 </BCLayout.ContentsCenter>
 
-<BCLayout.ContentsCenter transparent rootStyle={{ padding: '1.2rem 3.8rem 0rem 3.8rem' }}>
+<BCLayout.ContentsCenter transparent rootStyle={{ padding: '1.2rem 2.8rem 0rem 2.8rem' }}>
 	<FieldGrid full column="1fr auto" gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
 			<ContainerGrid flexAlignCenter>
