@@ -12,6 +12,7 @@
 	import { IconPropType } from '@src/components/icon';
 	import { CardContentAccentArea } from '@src/components/content';
 	import { BCLayout } from '@src/components/layout';
+	import { Search } from '@src/components/search';
 	import { SectionDivider } from '@src/components/section';
 	import { exec } from '@src/util/util.function';
 	import { DefIcons } from '@src/icons/defines';
@@ -22,11 +23,14 @@
 
 	let companyName = '';
 	let companyLength = 0;
+	let companyList: any = [];
+	let searchWord = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
 	$: asyncCompanyList = exec(async () => {
 		const companies = await API.Company.getAllCompanies();
 		companyLength = companies.length;
+		companyList = companies;
 		return companies;
 	});
 
@@ -64,6 +68,10 @@
 			alert('Failed to create company.');
 		}
 	}
+
+	$: filteredCompanyList = companyList.filter((company: any) => {
+		return company.company_name.toLowerCase().includes(searchWord);
+	});
 </script>
 
 <BCLayout.ContentsCenter
@@ -86,9 +94,12 @@
 				/>
 			</FieldFlex>
 		</ContainerGrid>
-		<ContainerGrid onClick={() => (enableModal = true)}>
-			<ButtonIcon icon={DefIcons.Common.Add} />
-		</ContainerGrid>
+		<FieldFlex alignItems="center" gap={0.3}>
+			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
+			<ContainerGrid onClick={() => (enableModal = true)}>
+				<ButtonIcon icon={DefIcons.Common.Add} />
+			</ContainerGrid>
+		</FieldFlex>
 	</FieldGrid>
 
 	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
@@ -102,7 +113,7 @@
 	{:then CompanyList}
 		<ContainerGrid overflow="scroll">
 			<FieldGrid column="1fr 1fr" gap={0.5}>
-				{#each CompanyList as company}
+				{#each filteredCompanyList as company}
 					<ContainerGrid>
 						<ComapanyListItem
 							{company}

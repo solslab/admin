@@ -18,7 +18,6 @@ export namespace __Admin {
 
 			const data = response.data;
 			accessToken.set(data.accessToken);
-			isLogin.set(true);
 		} catch (error) {
 			if (axios.isAxiosError(error)) {
 				throw new Error(error.response?.data?.message || 'Failed to login');

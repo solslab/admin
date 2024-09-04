@@ -25,6 +25,7 @@
 	async function handleLogin() {
 		try {
 			await API.Admin.adminLogin(id, password);
+			isLogin = get(accessToken);
 		} catch (error) {}
 	}
 

@@ -10,26 +10,24 @@
 	export let reviews: Review[] = [];
 </script>
 
-{#if reviews.length > 0}
-	<table>
-		<thead>
-			<tr>
-				<th>회사명</th>
-				<th>이름</th>
-				<th>가입 날짜</th>
+<table>
+	<thead>
+		<tr>
+			<th>회사명</th>
+			<th>이름</th>
+			<th>가입 날짜</th>
+		</tr>
+	</thead>
+	<tbody>
+		{#each reviews as review}
+			<tr on:click={() => Modal.ReviewListDetailModal.set({ data: review }).open()}>
+				<td>{review.company_name}</td>
+				<td>{review.member_name}</td>
+				<td>{review.created_date}</td>
 			</tr>
-		</thead>
-		<tbody>
-			{#each reviews as review}
-				<tr on:click={() => Modal.ReviewListDetailModal.set({ data: review }).open()}>
-					<td>{review.company_name}</td>
-					<td>{review.member_name}</td>
-					<td>{review.created_date}</td>
-				</tr>
-			{/each}
-		</tbody>
-	</table>
-{/if}
+		{/each}
+	</tbody>
+</table>
 
 <style lang="scss">
 	table {

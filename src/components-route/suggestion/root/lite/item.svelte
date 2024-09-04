@@ -62,39 +62,34 @@
 	}
 </script>
 
-{#if suggestions.length > 0}
-	<table>
-		<thead>
-			<tr>
-				<th>회사명</th>
-				<th>이름</th>
-				<th>생성 날짜</th>
-				<th>상태</th>
+<table>
+	<thead>
+		<tr>
+			<th>회사명</th>
+			<th>이름</th>
+			<th>생성 날짜</th>
+			<th>상태</th>
+		</tr>
+	</thead>
+	<tbody>
+		{#each suggestions as suggestion}
+			<tr on:click={() => Modal.SuggestionDetailModal.set({ data: suggestion }).open()}>
+				<td>{suggestion.company_name}</td>
+				<td>{suggestion.member_name}</td>
+				<td>{suggestion.created_date}</td>
+				<td>
+					<div on:click|stopPropagation on:keydown>
+						<select bind:value={suggestion.status} on:change={(e) => onStatusChange(e, suggestion)}>
+							{#each statusOptions as option}
+								<option value={option.id}>{option.text}</option>
+							{/each}
+						</select>
+					</div>
+				</td>
 			</tr>
-		</thead>
-		<tbody>
-			{#each suggestions as suggestion}
-				<tr on:click={() => Modal.SuggestionDetailModal.set({ data: suggestion }).open()}>
-					<td>{suggestion.company_name}</td>
-					<td>{suggestion.member_name}</td>
-					<td>{suggestion.created_date}</td>
-					<td>
-						<div on:click|stopPropagation on:keydown>
-							<select
-								bind:value={suggestion.status}
-								on:change={(e) => onStatusChange(e, suggestion)}
-							>
-								{#each statusOptions as option}
-									<option value={option.id}>{option.text}</option>
-								{/each}
-							</select>
-						</div>
-					</td>
-				</tr>
-			{/each}
-		</tbody>
-	</table>
-{/if}
+		{/each}
+	</tbody>
+</table>
 
 <style lang="scss">
 	table {
