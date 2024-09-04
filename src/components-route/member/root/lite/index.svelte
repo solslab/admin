@@ -9,13 +9,20 @@
 	import { default as MemberListItem } from './item.svelte';
 	import { IconPending } from '@src/components/icon-pending';
 	import { ComponentSizeProps } from '@src/util/component';
+	import { Search } from '@src/components/search';
+	import { filter } from 'lodash';
 
-	let memberLength = 0;
+	let searchWord = '';
+	let memberList: any = [];
 
 	$: asyncMemberList = exec(async () => {
 		const members = await API.Member.getAllMembers();
-		memberLength = members.length;
+		memberList = members;
 		return members;
+	});
+
+	$: filteredMemberList = memberList.filter((member: any) => {
+		return member.name.toLowerCase().includes(searchWord);
 	});
 </script>
 
@@ -24,7 +31,7 @@
 	contentStyle={{ overflow: 'hidden' }}
 	rootStyle={{ paddingTop: '1rem', backgroundColor: 'transparent' }}
 >
-	<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
+	<FieldFlex alignItems="center" justifyContent="space-between" gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
 			<FieldFlex alignItems="center" gap={0.3}>
 				<BCTypo.Text
@@ -35,13 +42,16 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${memberLength})`}
+					text={`(${filteredMemberList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
-	</FieldGrid>
+		<ContainerGrid>
+			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
+		</ContainerGrid>
+	</FieldFlex>
 
-	<ContainerGrid style={{ paddingBottom: '1rem' }}>
+	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
 		<SectionDivider height={0.1} line lineColor="var(--hq-base-0400)" />
 	</ContainerGrid>
 
@@ -52,7 +62,7 @@
 	{:then memberList}
 		<ContainerGrid overflow="scroll">
 			<FieldGrid>
-				<MemberListItem members={memberList} />
+				<MemberListItem members={filteredMemberList} />
 			</FieldGrid>
 		</ContainerGrid>
 	{/await}

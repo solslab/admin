@@ -31,7 +31,7 @@ export namespace URL {
 
 	export function member() {
 		return build({
-			url: '/member/list'
+			url: '/member/manage'
 		});
 	}
 
@@ -43,13 +43,19 @@ export namespace URL {
 
 	export function testReview() {
 		return build({
-			url: '/test-review/list'
+			url: '/test-review/manage'
 		});
 	}
 
 	export function suggestion() {
 		return build({
-			url: '/suggestion/list'
+			url: '/suggestion/manage'
+		});
+	}
+
+	export function feedback() {
+		return build({
+			url: '/feedback/manage'
 		});
 	}
 }

@@ -391,7 +391,7 @@
 	</CardContentAccentArea>
 </BCLayout.ContentsCenter>
 
-<BCLayout.ContentsCenter transparent rootStyle={{ padding: '1.2rem 3.8rem 0rem 3.8rem' }}>
+<BCLayout.ContentsCenter transparent rootStyle={{ padding: '1.2rem 2.8rem 0rem 2.8rem' }}>
 	<FieldGrid full column="1fr auto" gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
 			<ContainerGrid flexAlignCenter>
@@ -435,6 +435,7 @@
 			harmonyName: 'base',
 			harmonyShade: 200
 		}}
+		overflow="scroll"
 	>
 		<FieldGrid row="auto 1fr" full gap={0.5}>
 			<ContainerGrid style={{ padding: '0.5 0rem' }}>
@@ -471,96 +472,141 @@
 							<Input
 								type="text"
 								size={ComponentSizeProps.MD}
-								placeholder="Enter Position Name"
+								placeholder="직무 이름 입력"
 								width="100%"
 								bind:value={positionName}
 							/>
 						</FieldFlex>
 					</ContainerGrid>
+
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="지원언어" prop={{ bold: true }} />
 							<Input
 								type="text"
 								size={ComponentSizeProps.MD}
-								placeholder="Enter Supported Languages"
+								placeholder="지원 언어 입력"
 								width="100%"
 								bind:value={supportLanguages}
 							/>
 						</FieldFlex>
 					</ContainerGrid>
+
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="시험시간" prop={{ bold: true }} />
 							<Input
 								type="text"
 								size={ComponentSizeProps.MD}
-								placeholder="Enter Test Time"
+								placeholder="시험시간 입력"
 								width="100%"
 								bind:value={testTime}
 							/>
 						</FieldFlex>
 					</ContainerGrid>
+
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="문제유형 / 문제 수" prop={{ bold: true }} />
 							<Input
 								type="text"
 								size={ComponentSizeProps.MD}
-								placeholder="Enter Problem Info"
+								placeholder="문제 정보 입력"
 								width="100%"
 								bind:value={problemInfo}
 							/>
 						</FieldFlex>
 					</ContainerGrid>
+
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="IDE 허용여부" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="가능 or 불가능"
-								width="100%"
-								bind:value={permitIDE}
-							/>
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									size="sm"
+									selected={permitIDE === '가능'}
+									on:click={() => (permitIDE = '가능')}
+									style={{ flex: '1' }}
+								>
+									가능
+								</Button>
+								<Button
+									size="sm"
+									selected={permitIDE === '불가능'}
+									on:click={() => (permitIDE = '불가능')}
+									style={{ flex: '1' }}
+								>
+									불가능
+								</Button>
+							</FieldFlex>
 						</FieldFlex>
 					</ContainerGrid>
+
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="구글링 허용여부" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="가능 or 불가능"
-								width="100%"
-								bind:value={permitSearch}
-							/>
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									size="sm"
+									selected={permitSearch === '가능'}
+									on:click={() => (permitSearch = '가능')}
+									style={{ flex: '1' }}
+								>
+									가능
+								</Button>
+								<Button
+									size="sm"
+									selected={permitSearch === '불가능'}
+									on:click={() => (permitSearch = '불가능')}
+									style={{ flex: '1' }}
+								>
+									불가능
+								</Button>
+							</FieldFlex>
 						</FieldFlex>
 					</ContainerGrid>
 
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="히든케이스 존재여부" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="있음 or 없음"
-								width="100%"
-								bind:value={hiddenCase}
-							/>
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									on:click={() => (hiddenCase = '있음')}
+									selected={hiddenCase === '있음'}
+									style={{ flex: '1' }}
+								>
+									있음
+								</Button>
+								<Button
+									on:click={() => (hiddenCase = '없음')}
+									selected={hiddenCase === '없음'}
+									style={{ flex: '1' }}
+								>
+									없음
+								</Button>
+							</FieldFlex>
 						</FieldFlex>
 					</ContainerGrid>
 
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
 							<BCTypo.Text text="시험방식" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="대면 or 비대면"
-								width="100%"
-								bind:value={examMode}
-							/>
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									selected={examMode === '대면'}
+									on:click={() => (examMode = '대면')}
+									style={{ flex: '1' }}
+								>
+									대면
+								</Button>
+								<Button
+									selected={examMode === '비대면'}
+									on:click={() => (examMode = '비대면')}
+									style={{ flex: '1' }}
+								>
+									비대면
+								</Button>
+							</FieldFlex>
 						</FieldFlex>
 					</ContainerGrid>
 
@@ -570,7 +616,7 @@
 							<Input
 								type="text"
 								size={ComponentSizeProps.MD}
-								placeholder="Enter Test Place"
+								placeholder="시험장소 입력"
 								width="100%"
 								bind:value={testPlace}
 							/>
@@ -583,7 +629,7 @@
 							<Input
 								type="text"
 								size={ComponentSizeProps.MD}
-								placeholder="Enter Notes"
+								placeholder="참고사항 입력"
 								width="100%"
 								bind:value={note}
 							/>

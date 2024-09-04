@@ -11,28 +11,26 @@
 	export let members: Member[] = [];
 </script>
 
-{#if members.length > 0}
-	<table>
-		<thead>
-			<tr>
-				<th>이름</th>
-				<th>이메일</th>
-				<th>가입 방식</th>
-				<th>가입 날짜</th>
+<table>
+	<thead>
+		<tr>
+			<th>이름</th>
+			<th>이메일</th>
+			<th>가입 방식</th>
+			<th>가입 날짜</th>
+		</tr>
+	</thead>
+	<tbody>
+		{#each members as member}
+			<tr on:click={() => Modal.MemberListDetailModal.set({ data: member }).open()}>
+				<td>{member.name}</td>
+				<td>{member.email}</td>
+				<td>{member.social_type}</td>
+				<td>{member.created_date}</td>
 			</tr>
-		</thead>
-		<tbody>
-			{#each members as member}
-				<tr on:click={() => Modal.MemberListDetailModal.set({ data: member }).open()}>
-					<td>{member.name}</td>
-					<td>{member.email}</td>
-					<td>{member.social_type}</td>
-					<td>{member.created_date}</td>
-				</tr>
-			{/each}
-		</tbody>
-	</table>
-{/if}
+		{/each}
+	</tbody>
+</table>
 
 <style lang="scss">
 	table {

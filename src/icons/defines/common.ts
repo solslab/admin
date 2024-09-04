@@ -439,21 +439,20 @@ export namespace __Common {
 	export const Company = {
 		type: IconPropType.PATH,
 		src: mdiDomain
-	}
+	};
 
 	export const TestReview = {
 		type: IconPropType.PATH,
 		src: mdiMessageDraw
-	}
+	};
 
 	export const Edit = {
 		type: IconPropType.PATH,
 		src: mdiFileEdit
-	}
+	};
 
 	export const Feedback = {
 		type: IconPropType.PATH,
 		src: mdiMessageAlert
-	}
-	
+	};
 }

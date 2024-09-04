@@ -15,6 +15,13 @@
 
 	let { openStatus, data } = __SuggestionDetailModal;
 
+	const statusOptions = [
+		{ id: 'NOT_STARTED', text: '처리 전' },
+		{ id: 'IN_PROGRESS', text: '처리 중' },
+		{ id: 'COMPLETED', text: '완료' },
+		{ id: 'REJECTED', text: '거절됨' }
+	];
+
 	$: asyncSuggestionDetailData = exec(async () => {
 		if ($data) {
 			return await API.Suggestion.getSuggestionDetails({ SuggestionId: $data.data.suggestion_id });
@@ -22,6 +29,12 @@
 	});
 
 	$: headerWidth = 10;
+
+	// 상태 텍스트를 가져오는 함수
+	function getStatusText(status: string): string {
+		const statusOption = statusOptions.find((option) => option.id === status);
+		return statusOption ? statusOption.text : status; // 상태 텍스트가 없을 경우 원래 값을 반환
+	}
 </script>
 
 <BaseModal
@@ -138,7 +151,7 @@
 									titleSans
 									name="상태"
 									styleRoot={{ alignItems: 'center' }}
-									value={SuggestionDetailData.status ?? '-'}
+									value={getStatusText(SuggestionDetailData.status) ?? '-'}
 									titleProp={{ h: 5, mid: true }}
 									textProp={{
 										h: 5,

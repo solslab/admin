@@ -6,7 +6,7 @@
 	import { BCTypo } from '@src/components/typo';
 	import { SectionDivider } from '@src/components/section';
 	import { BCLayout } from '@src/components/layout';
-    import { default as FeedbackListItem } from './item.svelte';
+	import { default as FeedbackListItem } from './item.svelte';
 	import { IconPending } from '@src/components/icon-pending';
 	import { ComponentSizeProps } from '@src/util/component';
 
@@ -52,7 +52,7 @@
 	{:then feedbackList}
 		<ContainerGrid overflow="scroll">
 			<FieldGrid>
-                <FeedbackListItem feedbacks={feedbackList.feedback_list} />
+				<FeedbackListItem feedbacks={feedbackList.feedback_list} />
 			</FieldGrid>
 		</ContainerGrid>
 	{/await}

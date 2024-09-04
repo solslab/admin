@@ -12,10 +12,10 @@
 	export let suggestions: Suggestion[] = [];
 
 	const statusOptions = [
-		{ id: 'NOT_STARTED', text: 'Not Started' },
-		{ id: 'IN_PROGRESS', text: 'In Progress' },
-		{ id: 'COMPLETED', text: 'Completed' },
-		{ id: 'REJECTED', text: 'Rejected' }
+		{ id: 'NOT_STARTED', text: '처리 전' },
+		{ id: 'IN_PROGRESS', text: '처리 중' },
+		{ id: 'COMPLETED', text: '완료' },
+		{ id: 'REJECTED', text: '거절됨' }
 	];
 
 	async function handleStatusChange(
@@ -23,8 +23,11 @@
 		newStatus: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECTED'
 	) {
 		try {
-			// 사용자가 상태를 변경하는 것을 확인하는 알림 창
-			const userConfirmed = window.confirm(`상태를 "${newStatus}"(으)로 변경하시겠습니까?`);
+			// newStatus에 해당하는 text를 찾음
+			const statusText = statusOptions.find((option) => option.id === newStatus)?.text;
+
+			// 상태 변경 확인 알림 창
+			const userConfirmed = window.confirm(`상태를 "${statusText}"(으)로 변경하시겠습니까?`);
 
 			if (!userConfirmed) {
 				return; // 사용자가 취소하면 아무것도 하지 않음
@@ -59,39 +62,34 @@
 	}
 </script>
 
-{#if suggestions.length > 0}
-	<table>
-		<thead>
-			<tr>
-				<th>회사명</th>
-				<th>이름</th>
-				<th>생성 날짜</th>
-				<th>상태</th>
+<table>
+	<thead>
+		<tr>
+			<th>회사명</th>
+			<th>이름</th>
+			<th>생성 날짜</th>
+			<th>상태</th>
+		</tr>
+	</thead>
+	<tbody>
+		{#each suggestions as suggestion}
+			<tr on:click={() => Modal.SuggestionDetailModal.set({ data: suggestion }).open()}>
+				<td>{suggestion.company_name}</td>
+				<td>{suggestion.member_name}</td>
+				<td>{suggestion.created_date}</td>
+				<td>
+					<div on:click|stopPropagation on:keydown>
+						<select bind:value={suggestion.status} on:change={(e) => onStatusChange(e, suggestion)}>
+							{#each statusOptions as option}
+								<option value={option.id}>{option.text}</option>
+							{/each}
+						</select>
+					</div>
+				</td>
 			</tr>
-		</thead>
-		<tbody>
-			{#each suggestions as suggestion}
-				<tr on:click={() => Modal.SuggestionDetailModal.set({ data: suggestion }).open()}>
-					<td>{suggestion.company_name}</td>
-					<td>{suggestion.member_name}</td>
-					<td>{suggestion.created_date}</td>
-					<td>
-						<div on:click|stopPropagation on:keydown>
-							<select
-								bind:value={suggestion.status}
-								on:change={(e) => onStatusChange(e, suggestion)}
-							>
-								{#each statusOptions as option}
-									<option value={option.id}>{option.text}</option>
-								{/each}
-							</select>
-						</div>
-					</td>
-				</tr>
-			{/each}
-		</tbody>
-	</table>
-{/if}
+		{/each}
+	</tbody>
+</table>
 
 <style lang="scss">
 	table {

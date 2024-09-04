@@ -94,6 +94,7 @@
 	td {
 		border: 1px solid var(--hq-base-0400);
 		color: var(--hq-base-2300);
+		font-size: 0.6rem;
 		padding: 8px;
 		text-align: left;
 	}

@@ -132,5 +132,30 @@
 			</FieldGrid>
 		</CardContentAccentArea>
 		<SectionDivider height={0.5} />
+		<CardContentAccentArea
+			link={URL.feedback()}
+			style={{ paddingLeft: '1.3rem' }}
+			backgroundColor="var(--hq-base-0300)"
+		>
+			<FieldGrid column="1fr auto">
+				<ContainerGrid>
+					<BCTypo.Text
+						prop={{ h: 5, mid: true }}
+						paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+						text="피드백 관리"
+					/>
+					<BCTypo.Text
+						prop={{ h: 7, mid: true }}
+						paint={{ harmonyName: 'base', harmonyShade: 1600 }}
+						text="시원하게 합시다."
+					/>
+					<SectionDivider height={0.4} />
+				</ContainerGrid>
+				<ContainerGrid flexAlignCenter>
+					<Icon icon={DefIcons.Common.RightCheveron} size={ComponentSizeProps.XS} />
+				</ContainerGrid>
+			</FieldGrid>
+		</CardContentAccentArea>
+		<SectionDivider height={0.5} />
 	</BCLayout.ContentsCenter>
 </FrameContent>

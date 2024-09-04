@@ -8,14 +8,20 @@
 	import { BCLayout } from '@src/components/layout';
 	import { IconPending } from '@src/components/icon-pending';
 	import { ComponentSizeProps } from '@src/util/component';
+	import { Search } from '@src/components/search';
 	import { default as ReviewListItem } from './item.svelte';
 
-	let reviewLength = 0;
+	let searchWord = '';
+	let reviewList: any = [];
 
 	$: asyncTestReviewList = exec(async () => {
 		const testReviews = await API.Review.getTestReviews();
-		reviewLength = testReviews.length;
+		reviewList = testReviews;
 		return testReviews;
+	});
+
+	$: filteredReviewList = reviewList.filter((review: any) => {
+		return review.company_name.toLowerCase().includes(searchWord);
 	});
 </script>
 
@@ -24,7 +30,7 @@
 	contentStyle={{ overflow: 'hidden' }}
 	rootStyle={{ paddingTop: '1rem', backgroundColor: 'transparent' }}
 >
-	<FieldGrid full row={'auto auto 1fr'} gap={0.5}>
+	<FieldFlex alignItems="center" justifyContent="space-between" gap={0.5}>
 		<ContainerGrid style={{ padding: '0' }}>
 			<FieldFlex alignItems="center" gap={0.3}>
 				<BCTypo.Text
@@ -35,13 +41,16 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${reviewLength})`}
+					text={`(${filteredReviewList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
-	</FieldGrid>
+		<ContainerGrid>
+			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
+		</ContainerGrid>
+	</FieldFlex>
 
-	<ContainerGrid style={{ paddingBottom: '1rem' }}>
+	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
 		<SectionDivider height={0.1} line lineColor="var(--hq-base-0400)" />
 	</ContainerGrid>
 
@@ -52,7 +61,7 @@
 	{:then reviewList}
 		<ContainerGrid overflow="scroll" style={{}}>
 			<FieldGrid>
-				<ReviewListItem reviews={reviewList} />
+				<ReviewListItem reviews={filteredReviewList} />
 			</FieldGrid>
 		</ContainerGrid>
 	{/await}
