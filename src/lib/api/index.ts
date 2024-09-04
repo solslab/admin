@@ -1,5 +1,6 @@
 import { __Admin } from './admin';
 import { __Company } from './company';
+import { __Feedback } from './feedback';
 import { __Member } from './member';
 import { __Position } from './position';
 import { __Review } from './review';
@@ -12,4 +13,5 @@ export namespace API {
 	export import Member = __Member;
 	export import Admin = __Admin;
 	export import Suggestion = __Suggestion;
+	export import Feedback = __Feedback;
 }
