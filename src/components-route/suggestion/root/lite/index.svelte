@@ -11,13 +11,11 @@
 	import { Search } from '@src/components/search';
 	import { default as SuggestionListItem } from './item.svelte';
 
-	let suggestionLength = 0;
 	let suggestionList: any = [];
 	let searchWord = '';
 
 	$: asyncSuggestionList = exec(async () => {
 		const suggestions = await API.Suggestion.getAllSuggestion();
-		suggestionLength = suggestions.length;
 		suggestionList = suggestions;
 		return suggestions;
 	});
@@ -43,7 +41,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${suggestionLength})`}
+					text={`(${filteredSuggestionList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>

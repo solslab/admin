@@ -12,13 +12,11 @@
 	import { Search } from '@src/components/search';
 	import { filter } from 'lodash';
 
-	let memberLength = 0;
 	let searchWord = '';
 	let memberList: any = [];
 
 	$: asyncMemberList = exec(async () => {
 		const members = await API.Member.getAllMembers();
-		memberLength = members.length;
 		memberList = members;
 		return members;
 	});
@@ -44,7 +42,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${memberLength})`}
+					text={`(${filteredMemberList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>

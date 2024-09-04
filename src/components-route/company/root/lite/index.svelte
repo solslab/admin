@@ -90,7 +90,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${companyLength})`}
+					text={`(${filteredCompanyList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>

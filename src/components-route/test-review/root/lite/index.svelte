@@ -11,13 +11,11 @@
 	import { Search } from '@src/components/search';
 	import { default as ReviewListItem } from './item.svelte';
 
-	let reviewLength = 0;
 	let searchWord = '';
 	let reviewList: any = [];
 
 	$: asyncTestReviewList = exec(async () => {
 		const testReviews = await API.Review.getTestReviews();
-		reviewLength = testReviews.length;
 		reviewList = testReviews;
 		return testReviews;
 	});
@@ -43,7 +41,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${reviewLength})`}
+					text={`(${filteredReviewList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
