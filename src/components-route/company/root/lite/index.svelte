@@ -42,8 +42,7 @@
 		}
 		selectedIndustryTypes = new Set(selectedIndustryTypes);
 	}
-
-	// Handle form submission
+	
 	async function handleSubmit() {
 		if (!companyName || selectedIndustryTypes.size === 0) {
 			alert('Please fill in all required fields.');
@@ -85,7 +84,6 @@
 			companyList = await asyncCompanyList;
 		}
 	}
-
 </script>
 
 <BCLayout.ContentsCenter
@@ -145,7 +143,6 @@
 		</ContainerGrid>
 	{/await}
 </BCLayout.ContentsCenter>
-
 
 <BaseModal bind:active={enableModal}>
 	<CardContentAccentArea
