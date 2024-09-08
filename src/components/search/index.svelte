@@ -86,6 +86,9 @@
 			border: none;
 			background: transparent;
 			outline: none;
+			color: var(--hq-base-1600);
+			font-weight: 500;
+			font-size: 0.65rem;
 
 			&:hover,
 			&:focus,
@@ -93,9 +96,6 @@
 				border: none;
 				outline: none;
 			}
-			color: var(--hq-base-1600);
-			font-weight: 500;
-			font-size: 0.65rem;
 			&::placeholder {
 				font-weight: 500;
 				color: var(--hq-base-1600);

@@ -13,7 +13,7 @@
 <table>
 	<thead>
 		<tr>
-			<th>회사명</th>	
+			<th>회사명</th>
 			<th>이름</th>
 			<th>생성 날짜</th>
 		</tr>
