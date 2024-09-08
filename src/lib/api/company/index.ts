@@ -102,4 +102,15 @@ export namespace __Company {
 			method: 'DELETE'
 		});
 	}
+
+	// 기업 검색 함수
+	export async function searchCompanies(args: { query: string }): Promise<any> {
+		const url = `${BASE_URL}/company/search?q=${encodeURIComponent(args.query)}`;
+
+		// GET 요청이므로 body는 필요 없음
+		return await fetchData({
+			url,
+			method: 'GET'
+		});
+	}
 }

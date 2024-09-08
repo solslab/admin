@@ -22,14 +22,12 @@
 	import { IconPending } from '@src/components/icon-pending';
 
 	let companyName = '';
-	let companyLength = 0;
 	let companyList: any = [];
 	let searchWord = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
 	$: asyncCompanyList = exec(async () => {
 		const companies = await API.Company.getAllCompanies();
-		companyLength = companies.length;
 		companyList = companies;
 		return companies;
 	});
@@ -69,9 +67,23 @@
 		}
 	}
 
-	$: filteredCompanyList = companyList.filter((company: any) => {
-		return company.company_name.toLowerCase().includes(searchWord);
-	});
+	// 검색어가 변경될 때마다 호출되는 함수
+	async function handleSearchChange(evt: any) {
+		searchWord = evt.detail;
+
+		if (searchWord.trim() !== '') {
+			try {
+				const result = await API.Company.searchCompanies({ query: searchWord });
+				companyList = result; // 검색 결과를 companies에 저장
+			} catch (error) {
+				console.error('Error fetching companies:', error);
+			}
+		} else {
+			// 검색어가 없으면 전체 리스트를 다시 불러옴
+			asyncCompanyList = API.Company.getAllCompanies();
+			companyList = await asyncCompanyList;
+		}
+	}
 </script>
 
 <BCLayout.ContentsCenter
@@ -90,12 +102,12 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${filteredCompanyList.length})`}
+					text={`(${companyList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
 		<FieldFlex alignItems="center" gap={0.3}>
-			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
+			<Search on:onChange={handleSearchChange} style={{ width: '20rem' }} />
 			<ContainerGrid onClick={() => (enableModal = true)}>
 				<ButtonIcon icon={DefIcons.Common.Add} />
 			</ContainerGrid>
@@ -113,7 +125,7 @@
 	{:then CompanyList}
 		<ContainerGrid overflow="scroll">
 			<FieldGrid column="1fr 1fr" gap={0.5}>
-				{#each filteredCompanyList as company}
+				{#each companyList as company}
 					<ContainerGrid>
 						<ComapanyListItem
 							{company}
@@ -124,6 +136,10 @@
 					</ContainerGrid>
 				{/each}
 			</FieldGrid>
+		</ContainerGrid>
+	{:catch error}
+		<ContainerGrid>
+			<BCTypo.Text text="Error loading company list." />
 		</ContainerGrid>
 	{/await}
 </BCLayout.ContentsCenter>
