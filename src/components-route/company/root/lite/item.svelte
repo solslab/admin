@@ -12,13 +12,9 @@
 	import { mdiDelete } from '@mdi/js';
 	import { API } from '@src/lib/api';
 	import { createEventDispatcher } from 'svelte';
+	import { Companies } from '@src/util/company';
 
-	export let company: {
-		company_id: string;
-		company_logo: string | null;
-		company_name: string;
-		industry_type: string[]; // 산업 유형 배열
-	};
+	export let company: Companies.company;
 
 	const dispatch = createEventDispatcher();
 

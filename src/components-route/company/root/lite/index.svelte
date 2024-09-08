@@ -42,7 +42,7 @@
 		}
 		selectedIndustryTypes = new Set(selectedIndustryTypes);
 	}
-	
+
 	async function handleSubmit() {
 		if (!companyName || selectedIndustryTypes.size === 0) {
 			alert('Please fill in all required fields.');

@@ -50,4 +50,10 @@ export namespace Companies {
 		test_place?: string | null;
 		note?: string | null;
 	}
+	export interface company {
+		company_id: string;
+		company_logo: string | null;
+		company_name: string;
+		industry_type: string[];
+	}
 }
