@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-node';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'url';
 import preprocess from 'svelte-preprocess';

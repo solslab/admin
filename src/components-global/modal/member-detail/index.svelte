@@ -147,36 +147,36 @@
 								</ValueRow>
 
 								<ValueRow
-									{headerWidth}
-									titleSans
-									name="희망 취업 분야"
-									styleRoot={{ alignItems: 'base-line' }}
-									titleProp={{ h: 5, mid: true }}
-									textProp={{
-										h: 5,
-										bold: true
-									}}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									{#if memberDetailData.prefer_industries && memberDetailData.prefer_industries.length > 0}
-										{#each memberDetailData.prefer_industries as industry}
-											<BCTypo.Text
-												prop={{ h: 5, bold: true }}
-												paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-												text={industry}
-											/>
-										{/each}
-									{:else}
-										<BCTypo.Text
-											prop={{ h: 5, bold: true }}
-											paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-											text={'-'}
-										/>
-									{/if}
-								</ValueRow>
+								{headerWidth}
+								titleSans
+								name="희망 취업 분야"
+								styleRoot={{ alignItems: 'base-line' }}
+								titleProp={{ h: 5, mid: true }}
+								textProp={{
+									h: 5,
+									bold: true
+								}}
+								paint={{
+									harmonyName: 'base',
+									harmonyShade: 2300
+								}}
+							>
+								{#if memberDetailData.prefer_industries && memberDetailData.prefer_industries.length > 0}
+									<BCTypo.Text
+										prop={{ h: 5, bold: true }}
+										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+										text={memberDetailData.prefer_industries.join(', ')}
+									/>
+								{:else}
+									<BCTypo.Text
+										prop={{ h: 5, bold: true }}
+										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+										text={'-'}
+									/>
+								{/if}
+							</ValueRow>
+							
+							
 							</FieldGrid>
 						</ContainerGrid>
 					</FieldGrid>
