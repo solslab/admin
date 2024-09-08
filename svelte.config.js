@@ -42,10 +42,7 @@ const config = {
 		// 	name: child_process.execSync('git rev-parse HEAD').toString().trim(),
 		// 	pollInterval: 3600 * 1000 // 1 hour
 		// },
-		adapter: adapter({
-			fallback: 'index.html',
-			tralingSlash: 'always'
-		}),
+		adapter: adapter(),
 		alias: {
 			'@src': 'src',
 			'@three': 'src/system/3d/three',
