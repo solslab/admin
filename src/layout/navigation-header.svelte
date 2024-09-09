@@ -20,22 +20,11 @@
 </script>
 
 <div class="navigation-header">
-	<FieldGrid column="auto" gap={1} full style={{ paddingRight: '8px' }}>
-		<!-- layout menu영역  -->
-
-		<!-- <ContainerGrid flexAlignCenter>
-			{#each TabItems as { id, text }}
-			<Button size="ct" selected={selectedTab === id} on:click={() => selectTab(id)}
-				>{text}</Button
-			>
-		{/each}
-		</ContainerGrid> -->
-	</FieldGrid>
 </div>
 
 <style lang="scss">
 	.navigation-header {
-		height: 100%;
+		height: $frame-header-height;
 		background: var(--hq-base-0200);
 		border-bottom: solid 1px var(--hq-transparent-inverse-0300);
 		color: var(--hq-base-0400);
