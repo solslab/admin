@@ -3,7 +3,6 @@
 	import { FrameDrawer } from './index';
 	import { openDrawer } from './store';
 
-	$: overSM = isOverScreen('sm', $screen);
 </script>
 
 <div class="root" data-frame>

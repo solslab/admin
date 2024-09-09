@@ -38,7 +38,7 @@
 		border: 'solid 1px var(--hq-base-0400)',
 		borderRadius: '0.3rem'
 	}}
-	on:click={(event) => gotoInHouse(`/portal-admin-system/company/manage/${company.company_id}`, event)}
+	on:click={(event) => gotoInHouse(`/company/manage/${company.company_id}`, event)}
 >
 	<FieldGrid>
 		<ContainerGrid>

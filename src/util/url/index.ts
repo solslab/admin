@@ -31,31 +31,31 @@ export namespace URL {
 
 	export function member() {
 		return build({
-			url: '/portal-admin-system/member/manage'
+			url: '/member/manage'
 		});
 	}
 
 	export function company() {
 		return build({
-			url: '/portal-admin-system/company/manage'
+			url: '/company/manage'
 		});
 	}
 
 	export function testReview() {
 		return build({
-			url: '/portal-admin-system/test-review/manage'
+			url: '/test-review/manage'
 		});
 	}
 
 	export function suggestion() {
 		return build({
-			url: '/portal-admin-system/suggestion/manage'
+			url: '/suggestion/manage'
 		});
 	}
 
 	export function feedback() {
 		return build({
-			url: '/portal-admin-system/feedback/manage'
+			url: '/feedback/manage'
 		});
 	}
 }
