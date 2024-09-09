@@ -7,10 +7,7 @@
 </script>
 
 <div class="root" data-frame>
-	{#if overSM}
 		<FrameDrawer />
-	{/if}
-
 	<div class="overvall" data-open={$openDrawer}>
 		<div class="content-root" data-open={$openDrawer}>
 			<slot />
@@ -58,9 +55,7 @@
 			&[data-open='true'] {
 				max-width: calc(100% - #{$drawer-max-width});
 			}
-			@include screen-sm() {
-				max-width: 100% !important;
-			}
+		
 			.content-root {
 				position: relative;
 				width: 100%;

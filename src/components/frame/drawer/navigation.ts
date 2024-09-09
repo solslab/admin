@@ -50,13 +50,13 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '회원',
-				path: '/member/manage',
+				path: '/portal-admin-system/member/manage',
 				icon: DefIcons.Common.Account,
 				items: [
 					{
 						title: '회원 관리',
 						icon: { ...DefIcons.Common.Account, scale: 1 },
-						link: 'member/manage',
+						link: 'portal-admin-system/member/manage',
 						outbound: false
 					}
 				]
@@ -64,13 +64,13 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '기업',
-				path: '/company/manage',
+				path: '/portal-admin-system/company/manage',
 				icon: DefIcons.Common.Company,
 				items: [
 					{
 						title: '기업 관리',
 						icon: { ...DefIcons.Common.Company, scale: 1 },
-						link: 'company/manage',
+						link: 'portal-admin-system/company/manage',
 						outbound: false
 					}
 				]
@@ -78,13 +78,13 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '테스트 리뷰',
-				path: '/test-review/manage',
+				path: '/portal-admin-system/test-review/manage',
 				icon: DefIcons.Common.TestReview,
 				items: [
 					{
 						title: '테스트 리뷰 관리',
 						icon: { ...DefIcons.Common.TestReview, scale: 1 },
-						link: 'test-review/manage',
+						link: 'portal-admin-system/test-review/manage',
 						outbound: false
 					}
 				]
@@ -92,13 +92,13 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '정보 수정 요청',
-				path: '/suggestion/manage',
+				path: '/portal-admin-system/suggestion/manage',
 				icon: DefIcons.Common.Edit,
 				items: [
 					{
 						title: '정보 수정 요청 관리',
 						icon: { ...DefIcons.Common.Edit, scale: 1 },
-						link: 'suggestion/manage',
+						link: 'portal-admin-system/suggestion/manage',
 						outbound: false
 					}
 				]
@@ -106,13 +106,13 @@ export function createNavigationProps() {
 			{
 				disableInMobile: true,
 				title: '피드백',
-				path: '/feedback/manage',
+				path: '/portal-admin-system/feedback/manage',
 				icon: DefIcons.Common.Feedback,
 				items: [
 					{
 						title: '피드백 관리',
 						icon: { ...DefIcons.Common.Feedback, scale: 1 },
-						link: 'feedback/manage',
+						link: 'portal-admin-system/feedback/manage',
 						outbound: false
 					}
 				]
