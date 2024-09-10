@@ -20,9 +20,9 @@
 		return testReviews;
 	});
 
-	$: filteredReviewList = reviewList.filter((review: any) => {
-		return review.company_name.toLowerCase().includes(searchWord);
-	});
+	// $: filteredReviewList = reviewList.filter((review: any) => {
+	// 	return review.company_name.toLowerCase().includes(searchWord);
+	// });
 </script>
 
 <BCLayout.ContentsCenter
@@ -41,13 +41,13 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${filteredReviewList.length})`}
+					text={`(${reviewList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
-		<ContainerGrid>
+		<!-- <ContainerGrid>
 			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
-		</ContainerGrid>
+		</ContainerGrid> -->
 	</FieldFlex>
 
 	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
@@ -61,7 +61,7 @@
 	{:then reviewList}
 		<ContainerGrid overflow="scroll" style={{}}>
 			<FieldGrid>
-				<ReviewListItem reviews={filteredReviewList} />
+				<ReviewListItem reviews={reviewList} />
 			</FieldGrid>
 		</ContainerGrid>
 	{/await}
