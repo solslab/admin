@@ -10,23 +10,20 @@
 	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { IconPropType } from '@src/util/icon';
 	import { BCUnitEmpty } from '@src/components/empty-box';
-	import { Input } from '@src/components/input';
 	import { Button } from '@src/components/button';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { DefIcons } from '@src/icons/defines';
-	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon';
-	import { BaseModal } from '@src/components/basemodal';
+	import { ButtonIcon } from '@src/components/buttonicon';
 	import { BCUnit } from '@src/components/unit/index';
 	import { BCLayout } from '@src/components/layout';
 	import { onMountBrowser } from '@src/util/svelte';
 	import { default as PositionListItem } from './item.svelte';
 	import { companyDetailData, companyPositionData } from '@src/util/company/index';
-	import { CreatePositionModal } from './modal';
+	import { CreatePositionModal, EditCompanyModal } from './modal';
 	import { Companies } from '@src/util/company';
 
 	export let companyId: string;
 
-	let isEditing = false;
 	let editedCompanyName = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
@@ -41,7 +38,8 @@
 	let testPlace = '';
 	let note = '';
 
-	$: enableModal = false;
+	$: enableEditModal = false;
+	$: enablePositionModal = false;
 
 	async function createPosition() {
 		const languages = supportLanguages.split(',').map((lang) => lang.trim());
@@ -71,7 +69,7 @@
 			alert('Position created successfully');
 			await fetchCompanyDetails();
 			clearForm();
-			enableModal = false;
+			enablePositionModal = false;
 		} catch (error) {
 			alert('Failed to create position');
 		}
@@ -166,6 +164,33 @@
 		}
 	}
 
+	async function updateCompany() {
+		const industryList = Array.from(selectedIndustryTypes);
+		await API.Company.updateCompany({
+			companyId: companyId,
+			company_name: editedCompanyName,
+			industry_type: industryList
+		});
+		const updatedData = await API.Company.getCompanyDetails({ companyId });
+		companyDetailData.set(updatedData);
+		editedCompanyName = '';
+		alert('회사 정보가 업데이트 되었습니다.');
+		enableEditModal = false;
+	}
+
+	function openEditModal() {
+		editedCompanyName = $companyDetailData.company_name;
+		selectedIndustryTypes.clear();
+
+		if ($companyDetailData?.industry_type) {
+			$companyDetailData.industry_type.forEach((type: __Model.IndustryType) => {
+				toggleIndustryType(type);
+			});
+		}
+
+		enableEditModal = true;
+	}
+
 	onMountBrowser(() => {
 		fetchCompanyDetails();
 	});
@@ -187,19 +212,7 @@
 						}}
 						size={ComponentSizeProps.SM}
 						ghost
-						on:click={() => {
-							if (!isEditing) {
-								if ($companyDetailData?.industry_type) {
-									$companyDetailData.industry_type.forEach((type) => {
-										toggleIndustryType(type);
-									});
-								}
-								isEditing = true;
-							} else {
-								selectedIndustryTypes = new Set();
-								isEditing = false;
-							}
-						}}
+						on:click={openEditModal}
 					/>
 				</FieldFlex>
 			</ContainerGrid>
@@ -211,7 +224,6 @@
 							<ValueRow
 								{headerWidth}
 								titleSans
-								vertical={isEditing}
 								name="회사 이름"
 								styleRoot={{ alignItems: 'center' }}
 								titleProp={{ h: 5, mid: true }}
@@ -220,24 +232,15 @@
 									harmonyShade: 2300
 								}}
 							>
-								{#if isEditing}
-									<Input
-										type="text"
-										bind:value={editedCompanyName}
-										placeholder={$companyDetailData.company_name || '-'}
-									/>
-								{:else}
-									<BCTypo.Text
-										prop={{ h: 5, bold: true }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={$companyDetailData.company_name || '-'}
-									/>
-								{/if}
+								<BCTypo.Text
+									prop={{ h: 5, bold: true }}
+									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+									text={$companyDetailData.company_name || '-'}
+								/>
 							</ValueRow>
 							<ValueRow
 								{headerWidth}
 								titleSans
-								vertical={isEditing}
 								name="업종"
 								styleRoot={{ alignItems: 'center' }}
 								titleProp={{ h: 5, mid: true }}
@@ -246,67 +249,31 @@
 									harmonyShade: 2300
 								}}
 							>
-								{#if isEditing}
-									<FieldGrid gap={0.5} column="1fr 1fr 1fr">
-										{#each Companies.industryOptions as type}
-											<div
-												class="industry-tag {selectedIndustryTypes.has(type) ? 'selected' : ''}"
-												on:click={() => toggleIndustryType(type)}
-											>
-												{type}
-											</div>
-										{/each}
-									</FieldGrid>
-								{:else}
-									<BCTypo.Text
-										prop={{ h: 5, bold: true }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={$companyDetailData.industry_type.join(', ') || '-'}
-									/>
-								{/if}
+								<BCTypo.Text
+									prop={{ h: 5, bold: true }}
+									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+									text={$companyDetailData.industry_type.join(', ') || '-'}
+								/>
 							</ValueRow>
-							{#if !isEditing}
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="포지션"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									<BCTypo.Text
-										prop={{ h: 5, bold: true }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={$companyDetailData.positions.map((pos) => pos.position_name).join(', ') ||
-											'-'}
-									/>
-								</ValueRow>
-							{/if}
 
-							{#if isEditing}
-								<Button
-									on:click={async () => {
-										const industryList = Array.from(selectedIndustryTypes);
-										await API.Company.updateCompany({
-											companyId: companyId,
-											company_name: editedCompanyName,
-											industry_type: industryList
-										});
-										const updatedData = await API.Company.getCompanyDetails({ companyId });
-										companyDetailData.set(updatedData); // Update store
-										editedCompanyName = '';
-										isEditing = false;
-									}}
-									><BCTypo.Text
-										prop={{ h: 4 }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text="변경"
-									/></Button
-								>
-							{/if}
+							<ValueRow
+								{headerWidth}
+								titleSans
+								name="포지션"
+								styleRoot={{ alignItems: 'center' }}
+								titleProp={{ h: 5, mid: true }}
+								paint={{
+									harmonyName: 'base',
+									harmonyShade: 2300
+								}}
+							>
+								<BCTypo.Text
+									prop={{ h: 5, bold: true }}
+									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+									text={$companyDetailData.positions.map((pos) => pos.position_name).join(', ') ||
+										'-'}
+								/>
+							</ValueRow>
 						</FieldGrid>
 					</FieldGrid>
 
@@ -403,7 +370,7 @@
 				/>
 			</ContainerGrid>
 		</ContainerGrid>
-		<ContainerGrid onClick={() => (enableModal = true)}>
+		<ContainerGrid onClick={() => (enablePositionModal = true)}>
 			<ButtonIcon icon={DefIcons.Common.Add} />
 		</ContainerGrid>
 		<SectionDivider height={0.1} />
@@ -430,7 +397,7 @@
 </BCLayout.ContentsCenter>
 
 <CreatePositionModal
-	bind:active={enableModal}
+	bind:active={enablePositionModal}
 	bind:positionName
 	bind:supportLanguages
 	bind:testTime
@@ -444,27 +411,10 @@
 	{createPosition}
 />
 
-
-
-<style lang="scss">
-	.industry-tag {
-		display: inline-block;
-		padding: 0.4rem 0.8rem;
-		border-radius: 0.25rem;
-		background-color: var(--hq-base-0300);
-		color: var(--hq-base-2300);
-		cursor: pointer;
-		transition:
-			background-color 0.3s ease,
-			color 0.3s ease;
-	}
-
-	.industry-tag:hover {
-		background-color: var(--hq-base-0400);
-	}
-
-	.industry-tag.selected {
-		background-color: var(--hq-base-2300);
-		color: var(--hq-light-0000);
-	}
-</style>
+<EditCompanyModal
+	bind:active={enableEditModal}
+	bind:companyName={editedCompanyName}
+	industryTypes={selectedIndustryTypes}
+	{toggleIndustryType}
+	{updateCompany}
+/>

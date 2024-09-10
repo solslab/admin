@@ -12,7 +12,7 @@
 	import { ComponentSizeProps } from '@src/util/component';
 	import { BaseModal } from '@src/components/basemodal';
 
-	export let active: boolean; // Bind this to parent
+	export let active: boolean;
 	export let positionName = '';
 	export let supportLanguages = '';
 	export let testTime = '';
@@ -32,7 +32,14 @@
 </script>
 
 <BaseModal bind:active height="34rem">
-	<CardContentAccentArea style={{ padding: '1.5rem 1rem' }}>
+	<CardContentAccentArea
+		style={{ padding: '1.5rem 1rem' }}
+		backgroundPaint={{
+			harmonyName: 'base',
+			harmonyShade: 200
+		}}
+		overflow="scroll"
+	>
 		<FieldGrid row="auto 1fr" full gap={0.5}>
 			<ContainerGrid style={{ padding: '0.5 0rem' }}>
 				<FieldGrid column="1fr auto">
