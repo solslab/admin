@@ -21,9 +21,9 @@
 		return members;
 	});
 
-	$: filteredMemberList = memberList.filter((member: any) => {
-		return member.name.toLowerCase().includes(searchWord);
-	});
+	// $: filteredMemberList = memberList.filter((member: any) => {
+	// 	return member.name.toLowerCase().includes(searchWord);
+	// });
 </script>
 
 <BCLayout.ContentsCenter
@@ -42,7 +42,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${filteredMemberList.length})`}
+					text={`(${memberList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
@@ -62,7 +62,7 @@
 	{:then memberList}
 		<ContainerGrid overflow="scroll">
 			<FieldGrid>
-				<MemberListItem members={filteredMemberList} />
+				<MemberListItem members={memberList} />
 			</FieldGrid>
 		</ContainerGrid>
 	{/await}

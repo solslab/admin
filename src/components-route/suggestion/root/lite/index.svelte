@@ -20,9 +20,9 @@
 		return suggestions;
 	});
 
-	$: filteredSuggestionList = suggestionList.filter((suggestion: any) => {
-		return suggestion.company_name.toLowerCase().includes(searchWord);
-	});
+	// $: filteredSuggestionList = suggestionList.filter((suggestion: any) => {
+	// 	return suggestion.company_name.toLowerCase().includes(searchWord);
+	// });
 </script>
 
 <BCLayout.ContentsCenter
@@ -41,7 +41,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${filteredSuggestionList.length})`}
+					text={`(${suggestionList.length})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
@@ -60,7 +60,7 @@
 		</ContainerGrid>
 	{:then suggestionList}
 		<ContainerGrid overflow="scroll" style={{}}>
-			<SuggestionListItem suggestions={filteredSuggestionList} />
+			<SuggestionListItem suggestions={suggestionList} />
 		</ContainerGrid>
 	{/await}
 </BCLayout.ContentsCenter>

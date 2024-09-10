@@ -31,9 +31,12 @@ export async function fetchData(args: {
 		});
 
 		let newToken = response.headers['authorization'];
+		console.log('newToken', newToken);
 
 		if (newToken) {
 			newToken = newToken.replace('Bearer ', '');
+
+			console.log('newToken', newToken);
 			accessToken.set(newToken);
 			token = get(accessToken);
 			const headers: Record<string, string> = {
