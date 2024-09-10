@@ -2,11 +2,10 @@
 	import { isOverScreen, screen } from '@src/store/env/index';
 	import { FrameDrawer } from './index';
 	import { openDrawer } from './store';
-
 </script>
 
 <div class="root" data-frame>
-		<FrameDrawer />
+	<FrameDrawer />
 	<div class="overvall" data-open={$openDrawer}>
 		<div class="content-root" data-open={$openDrawer}>
 			<slot />
@@ -54,7 +53,7 @@
 			&[data-open='true'] {
 				max-width: calc(100% - #{$drawer-max-width});
 			}
-		
+
 			.content-root {
 				position: relative;
 				width: 100%;
