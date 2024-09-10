@@ -65,15 +65,16 @@
 
 	.stars {
 		text-align: center;
-		font-size: 0;
+		font-size: 0; /* Removes default space between inline elements */
 
 		.filled,
 		.empty {
 			font-size: 1rem;
+			margin-right: 2px; /* Adds 2px space between stars */
 		}
 
 		.filled {
-			color: yellow;
+			color: var(--hq-peel-yellow-1500);
 		}
 
 		.empty {
