@@ -47,7 +47,7 @@
 					<BCTypo.Text
 						prop={{ h: 7, mid: true }}
 						paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-						text="시원하게 합시다."
+						text="Member Management"
 					/>
 					<SectionDivider height={0.4} />
 				</ContainerGrid>
@@ -72,7 +72,7 @@
 					<BCTypo.Text
 						prop={{ h: 7, mid: true }}
 						paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-						text="시원하게 합시다."
+						text="Company Management"
 					/>
 					<SectionDivider height={0.4} />
 				</ContainerGrid>
@@ -97,7 +97,7 @@
 					<BCTypo.Text
 						prop={{ h: 7, mid: true }}
 						paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-						text="시원하게 합시다."
+						text="Test Review Management"
 					/>
 					<SectionDivider height={0.4} />
 				</ContainerGrid>
@@ -122,7 +122,7 @@
 					<BCTypo.Text
 						prop={{ h: 7, mid: true }}
 						paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-						text="시원하게 합시다."
+						text="Suggestion Management"
 					/>
 					<SectionDivider height={0.4} />
 				</ContainerGrid>
@@ -147,7 +147,7 @@
 					<BCTypo.Text
 						prop={{ h: 7, mid: true }}
 						paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-						text="시원하게 합시다."
+						text="Feedback Management"
 					/>
 					<SectionDivider height={0.4} />
 				</ContainerGrid>

@@ -7,16 +7,20 @@ export async function fetchData(args: {
 	method: 'POST' | 'PUT' | 'GET' | 'DELETE';
 	body?: any;
 	isFormData?: boolean;
+	includeToken?: boolean;
 }): Promise<any> {
+	let headers: Record<string, string> = {};
 	let token = get(accessToken); // 저장된 토큰을 가져옴
 
-	if (!token) {
-		throw new Error('No access token available');
-	}
+	if (args.includeToken !== false) {
+		let token = get(accessToken);
 
-	const headers: Record<string, string> = {
-		Authorization: `Bearer ${token}`
-	};
+		if (!token) {
+			throw new Error('No access token available');
+		}
+
+		headers['Authorization'] = `Bearer ${token}`;
+	}
 
 	if (!args.isFormData) {
 		headers['Content-Type'] = 'application/json';
@@ -31,9 +35,12 @@ export async function fetchData(args: {
 		});
 
 		let newToken = response.headers['authorization'];
+		console.log('newToken', newToken);
 
 		if (newToken) {
 			newToken = newToken.replace('Bearer ', '');
+
+			console.log('newToken', newToken);
 			accessToken.set(newToken);
 			token = get(accessToken);
 			const headers: Record<string, string> = {

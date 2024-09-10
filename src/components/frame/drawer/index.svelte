@@ -62,11 +62,11 @@
 				group={{
 					path: '/analytics',
 					title: 'Analytics',
-					icon: DefIcons.Common.Wallet,
+					icon: DefIcons.Common.Analytics,
 					items: [
 						{
 							title: '방문자수',
-							icon: { ...DefIcons.Common.All, scale: 1 },
+							icon: { ...DefIcons.Common.Analytics, scale: 1 },
 							link: 'analytics/visitor',
 							outbound: false
 						}
