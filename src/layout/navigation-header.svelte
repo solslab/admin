@@ -1,15 +1,27 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { Button } from '@src/components/button';
+	import { API } from '@src/lib/api';
 
-	$: routePart = $page.url.pathname.split('/')[1]?.toUpperCase() || 'MAIN'; // Extracts the first part after '/'
+	$: routePart = $page.url.pathname.split('/')[1]?.toUpperCase() || 'MAIN';
+
+	async function handleLogout() {
+		if (confirm('로그아웃 하시겠습니까?')) {
+			try {
+				await API.Admin.adminLogout('solslab24@gmail.com');
+				alert('성공적으로 로그아웃되었습니다.');
+				window.location.href = '/';
+			} catch (error) {
+				alert('로그아웃에 실패했습니다. 다시 시도해 주세요.');
+			}
+		}
+	}
 </script>
 
 <div class="navigation-header">
 	<div class="nav-content">
 		<span>{routePart}</span>
-		<Button>로그아웃</Button>
+		<Button on:click={handleLogout}>로그아웃</Button>
 	</div>
 </div>
 
