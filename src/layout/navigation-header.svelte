@@ -19,8 +19,7 @@
 	$: selectedTab = $page.url.searchParams.get('type') || TabItems[0]?.id;
 </script>
 
-<div class="navigation-header">
-</div>
+<div class="navigation-header"></div>
 
 <style lang="scss">
 	.navigation-header {
