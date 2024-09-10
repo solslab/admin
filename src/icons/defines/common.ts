@@ -47,6 +47,7 @@ import {
 	mdiFilterOff,
 	mdiFilterVariant,
 	mdiGithub,
+	mdiGoogleAnalytics,
 	mdiHome,
 	mdiHours24,
 	mdiInformation,
@@ -454,5 +455,10 @@ export namespace __Common {
 	export const Feedback = {
 		type: IconPropType.PATH,
 		src: mdiMessageAlert
+	};
+
+	export const Analytics = {
+		type: IconPropType.PATH,
+		src: mdiGoogleAnalytics
 	};
 }
