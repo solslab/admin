@@ -46,9 +46,9 @@
 				/>
 			</FieldFlex>
 		</ContainerGrid>
-		<ContainerGrid>
+		<!-- <ContainerGrid>
 			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
-		</ContainerGrid>
+		</ContainerGrid> -->
 	</FieldFlex>
 
 	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
