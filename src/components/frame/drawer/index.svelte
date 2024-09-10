@@ -31,7 +31,7 @@
 <div class="root" data-open={$openDrawer}>
 	<div class="logo-field">
 		<div class="link">
-			<Link href="/portal-admin-system" width="100%">
+			<Link href="/" width="100%">
 				<div class="link-item">
 					<FieldGrid column="2.7rem 1fr">
 						<ContainerGrid style={{ padding: '0.5rem 0 0.5rem 1.3rem' }}>
