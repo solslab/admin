@@ -10,22 +10,20 @@
 	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { IconPropType } from '@src/util/icon';
 	import { BCUnitEmpty } from '@src/components/empty-box';
-	import { Input } from '@src/components/input';
 	import { Button } from '@src/components/button';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { DefIcons } from '@src/icons/defines';
-	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon';
-	import { BaseModal } from '@src/components/basemodal';
+	import { ButtonIcon } from '@src/components/buttonicon';
 	import { BCUnit } from '@src/components/unit/index';
 	import { BCLayout } from '@src/components/layout';
 	import { onMountBrowser } from '@src/util/svelte';
 	import { default as PositionListItem } from './item.svelte';
 	import { companyDetailData, companyPositionData } from '@src/util/company/index';
+	import { CreatePositionModal, EditCompanyModal } from './modal';
 	import { Companies } from '@src/util/company';
 
 	export let companyId: string;
 
-	let isEditing = false;
 	let editedCompanyName = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
@@ -40,7 +38,8 @@
 	let testPlace = '';
 	let note = '';
 
-	$: enableModal = false;
+	$: enableEditModal = false;
+	$: enablePositionModal = false;
 
 	async function createPosition() {
 		const languages = supportLanguages.split(',').map((lang) => lang.trim());
@@ -70,7 +69,7 @@
 			alert('Position created successfully');
 			await fetchCompanyDetails();
 			clearForm();
-			enableModal = false;
+			enablePositionModal = false;
 		} catch (error) {
 			alert('Failed to create position');
 		}
@@ -165,6 +164,33 @@
 		}
 	}
 
+	async function updateCompany() {
+		const industryList = Array.from(selectedIndustryTypes);
+		await API.Company.updateCompany({
+			companyId: companyId,
+			company_name: editedCompanyName,
+			industry_type: industryList
+		});
+		const updatedData = await API.Company.getCompanyDetails({ companyId });
+		companyDetailData.set(updatedData);
+		editedCompanyName = '';
+		alert('회사 정보가 업데이트 되었습니다.');
+		enableEditModal = false;
+	}
+
+	function openEditModal() {
+		editedCompanyName = $companyDetailData.company_name;
+		selectedIndustryTypes.clear();
+
+		if ($companyDetailData?.industry_type) {
+			$companyDetailData.industry_type.forEach((type: __Model.IndustryType) => {
+				toggleIndustryType(type);
+			});
+		}
+
+		enableEditModal = true;
+	}
+
 	onMountBrowser(() => {
 		fetchCompanyDetails();
 	});
@@ -186,19 +212,7 @@
 						}}
 						size={ComponentSizeProps.SM}
 						ghost
-						on:click={() => {
-							if (!isEditing) {
-								if ($companyDetailData?.industry_type) {
-									$companyDetailData.industry_type.forEach((type) => {
-										toggleIndustryType(type);
-									});
-								}
-								isEditing = true;
-							} else {
-								selectedIndustryTypes = new Set();
-								isEditing = false;
-							}
-						}}
+						on:click={openEditModal}
 					/>
 				</FieldFlex>
 			</ContainerGrid>
@@ -210,7 +224,6 @@
 							<ValueRow
 								{headerWidth}
 								titleSans
-								vertical={isEditing}
 								name="회사 이름"
 								styleRoot={{ alignItems: 'center' }}
 								titleProp={{ h: 5, mid: true }}
@@ -219,24 +232,15 @@
 									harmonyShade: 2300
 								}}
 							>
-								{#if isEditing}
-									<Input
-										type="text"
-										bind:value={editedCompanyName}
-										placeholder={$companyDetailData.company_name || '-'}
-									/>
-								{:else}
-									<BCTypo.Text
-										prop={{ h: 5, bold: true }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={$companyDetailData.company_name || '-'}
-									/>
-								{/if}
+								<BCTypo.Text
+									prop={{ h: 5, bold: true }}
+									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+									text={$companyDetailData.company_name || '-'}
+								/>
 							</ValueRow>
 							<ValueRow
 								{headerWidth}
 								titleSans
-								vertical={isEditing}
 								name="업종"
 								styleRoot={{ alignItems: 'center' }}
 								titleProp={{ h: 5, mid: true }}
@@ -245,67 +249,31 @@
 									harmonyShade: 2300
 								}}
 							>
-								{#if isEditing}
-									<FieldGrid gap={0.5} column="1fr 1fr 1fr">
-										{#each Companies.industryOptions as type}
-											<div
-												class="industry-tag {selectedIndustryTypes.has(type) ? 'selected' : ''}"
-												on:click={() => toggleIndustryType(type)}
-											>
-												{type}
-											</div>
-										{/each}
-									</FieldGrid>
-								{:else}
-									<BCTypo.Text
-										prop={{ h: 5, bold: true }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={$companyDetailData.industry_type.join(', ') || '-'}
-									/>
-								{/if}
+								<BCTypo.Text
+									prop={{ h: 5, bold: true }}
+									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+									text={$companyDetailData.industry_type.join(', ') || '-'}
+								/>
 							</ValueRow>
-							{#if !isEditing}
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="포지션"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									<BCTypo.Text
-										prop={{ h: 5, bold: true }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={$companyDetailData.positions.map((pos) => pos.position_name).join(', ') ||
-											'-'}
-									/>
-								</ValueRow>
-							{/if}
 
-							{#if isEditing}
-								<Button
-									on:click={async () => {
-										const industryList = Array.from(selectedIndustryTypes);
-										await API.Company.updateCompany({
-											companyId: companyId,
-											company_name: editedCompanyName,
-											industry_type: industryList
-										});
-										const updatedData = await API.Company.getCompanyDetails({ companyId });
-										companyDetailData.set(updatedData); // Update store
-										editedCompanyName = '';
-										isEditing = false;
-									}}
-									><BCTypo.Text
-										prop={{ h: 4 }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text="변경"
-									/></Button
-								>
-							{/if}
+							<ValueRow
+								{headerWidth}
+								titleSans
+								name="포지션"
+								styleRoot={{ alignItems: 'center' }}
+								titleProp={{ h: 5, mid: true }}
+								paint={{
+									harmonyName: 'base',
+									harmonyShade: 2300
+								}}
+							>
+								<BCTypo.Text
+									prop={{ h: 5, bold: true }}
+									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+									text={$companyDetailData.positions.map((pos) => pos.position_name).join(', ') ||
+										'-'}
+								/>
+							</ValueRow>
 						</FieldGrid>
 					</FieldGrid>
 
@@ -402,7 +370,7 @@
 				/>
 			</ContainerGrid>
 		</ContainerGrid>
-		<ContainerGrid onClick={() => (enableModal = true)}>
+		<ContainerGrid onClick={() => (enablePositionModal = true)}>
 			<ButtonIcon icon={DefIcons.Common.Add} />
 		</ContainerGrid>
 		<SectionDivider height={0.1} />
@@ -428,241 +396,25 @@
 	{/if}
 </BCLayout.ContentsCenter>
 
-<BaseModal bind:active={enableModal} height="34rem">
-	<CardContentAccentArea
-		style={{ padding: '1.5rem 1rem' }}
-		backgroundPaint={{
-			harmonyName: 'base',
-			harmonyShade: 200
-		}}
-		overflow="scroll"
-	>
-		<FieldGrid row="auto 1fr" full gap={0.5}>
-			<ContainerGrid style={{ padding: '0.5 0rem' }}>
-				<FieldGrid column="1fr auto">
-					<ContainerGrid>
-						<BCTypo.Text text="직무 생성" prop={{ bold: true, h: 4 }} />
-					</ContainerGrid>
-					<ContainerGrid>
-						<ButtonIcon
-							ghost
-							icon={{
-								type: IconPropType.PATH,
-								src: mdiCloseThick,
-								scale: 1.2
-							}}
-							size={ComponentSizeProps.SM}
-							style={{ paddingTop: '0.3rem' }}
-							borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
-							on:click={() => {
-								enableModal = false;
-							}}
-						/>
-					</ContainerGrid>
-				</FieldGrid>
-				<ContainerGrid style={{ padding: '0.5rem 0rem' }}>
-					<SectionDivider height={0.1} line lineColor="var(--hq-base-0400)" />
-				</ContainerGrid>
-			</ContainerGrid>
-			<CardContentAccentArea border contentStyle={{ padding: '0 0.6rem' }} height="fit-content">
-				<FieldGrid column="1fr 1fr" gap={1}>
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="포지션" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="직무 이름 입력"
-								width="100%"
-								bind:value={positionName}
-							/>
-						</FieldFlex>
-					</ContainerGrid>
+<CreatePositionModal
+	bind:active={enablePositionModal}
+	bind:positionName
+	bind:supportLanguages
+	bind:testTime
+	bind:problemInfo
+	bind:permitIDE
+	bind:permitSearch
+	bind:hiddenCase
+	bind:examMode
+	bind:testPlace
+	bind:note
+	{createPosition}
+/>
 
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="지원언어" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="지원 언어 입력"
-								width="100%"
-								bind:value={supportLanguages}
-							/>
-						</FieldFlex>
-					</ContainerGrid>
-
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="시험시간" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="시험시간 입력"
-								width="100%"
-								bind:value={testTime}
-							/>
-						</FieldFlex>
-					</ContainerGrid>
-
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="문제유형 / 문제 수" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="문제 정보 입력"
-								width="100%"
-								bind:value={problemInfo}
-							/>
-						</FieldFlex>
-					</ContainerGrid>
-
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="IDE 허용여부" prop={{ bold: true }} />
-							<FieldFlex direction="row" gap={0.5} full>
-								<Button
-									size="sm"
-									selected={permitIDE === '가능'}
-									on:click={() => (permitIDE = '가능')}
-									style={{ flex: '1' }}
-								>
-									가능
-								</Button>
-								<Button
-									size="sm"
-									selected={permitIDE === '불가능'}
-									on:click={() => (permitIDE = '불가능')}
-									style={{ flex: '1' }}
-								>
-									불가능
-								</Button>
-							</FieldFlex>
-						</FieldFlex>
-					</ContainerGrid>
-
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="구글링 허용여부" prop={{ bold: true }} />
-							<FieldFlex direction="row" gap={0.5} full>
-								<Button
-									size="sm"
-									selected={permitSearch === '가능'}
-									on:click={() => (permitSearch = '가능')}
-									style={{ flex: '1' }}
-								>
-									가능
-								</Button>
-								<Button
-									size="sm"
-									selected={permitSearch === '불가능'}
-									on:click={() => (permitSearch = '불가능')}
-									style={{ flex: '1' }}
-								>
-									불가능
-								</Button>
-							</FieldFlex>
-						</FieldFlex>
-					</ContainerGrid>
-
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="히든케이스 존재여부" prop={{ bold: true }} />
-							<FieldFlex direction="row" gap={0.5} full>
-								<Button
-									on:click={() => (hiddenCase = '있음')}
-									selected={hiddenCase === '있음'}
-									style={{ flex: '1' }}
-								>
-									있음
-								</Button>
-								<Button
-									on:click={() => (hiddenCase = '없음')}
-									selected={hiddenCase === '없음'}
-									style={{ flex: '1' }}
-								>
-									없음
-								</Button>
-							</FieldFlex>
-						</FieldFlex>
-					</ContainerGrid>
-
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="시험방식" prop={{ bold: true }} />
-							<FieldFlex direction="row" gap={0.5} full>
-								<Button
-									selected={examMode === '대면'}
-									on:click={() => (examMode = '대면')}
-									style={{ flex: '1' }}
-								>
-									대면
-								</Button>
-								<Button
-									selected={examMode === '비대면'}
-									on:click={() => (examMode = '비대면')}
-									style={{ flex: '1' }}
-								>
-									비대면
-								</Button>
-							</FieldFlex>
-						</FieldFlex>
-					</ContainerGrid>
-
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="시험장소 / 플랫폼" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="시험장소 입력"
-								width="100%"
-								bind:value={testPlace}
-							/>
-						</FieldFlex>
-					</ContainerGrid>
-
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="참고사항" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="참고사항 입력"
-								width="100%"
-								bind:value={note}
-							/>
-						</FieldFlex>
-					</ContainerGrid>
-				</FieldGrid>
-				<ContainerGrid style={{ paddingTop: '1rem' }}>
-					<Button on:click={createPosition}>Create Position</Button>
-				</ContainerGrid>
-			</CardContentAccentArea>
-		</FieldGrid>
-	</CardContentAccentArea>
-</BaseModal>
-
-<style lang="scss">
-	.industry-tag {
-		display: inline-block;
-		padding: 0.4rem 0.8rem;
-		border-radius: 0.25rem;
-		background-color: var(--hq-base-0300);
-		color: var(--hq-base-2300);
-		cursor: pointer;
-		transition:
-			background-color 0.3s ease,
-			color 0.3s ease;
-	}
-
-	.industry-tag:hover {
-		background-color: var(--hq-base-0400);
-	}
-
-	.industry-tag.selected {
-		background-color: var(--hq-base-2300);
-		color: var(--hq-light-0000);
-	}
-</style>
+<EditCompanyModal
+	bind:active={enableEditModal}
+	bind:companyName={editedCompanyName}
+	industryTypes={selectedIndustryTypes}
+	{toggleIndustryType}
+	{updateCompany}
+/>
