@@ -60,7 +60,7 @@
 			enableModal = false;
 			companyName = '';
 			selectedIndustryTypes.clear();
-			asyncCompanyList = await API.Company.getAllCompanies();
+			companyList = await API.Company.getAllCompanies();
 		} catch (error) {
 			console.error('Error creating company:', error);
 			alert('Failed to create company.');
