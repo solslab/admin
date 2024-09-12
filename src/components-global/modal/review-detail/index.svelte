@@ -106,9 +106,26 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="직무 분야"
+									name="직무"
 									styleRoot={{ alignItems: 'center' }}
-									value={`${reviewDetailData.tr_year ?? '-'} ${reviewDetailData.tr_position ?? '-'} ${reviewDetailData.tr_career ?? '-'}`}
+									value={`${reviewDetailData.tr_position ?? '-'}`}
+									titleProp={{ h: 5, mid: true }}
+									textProp={{
+										h: 5,
+										bold: true
+									}}
+									paint={{
+										harmonyName: 'base',
+										harmonyShade: 2300
+									}}
+								/>
+
+								<ValueRow
+									{headerWidth}
+									titleSans
+									name="채용 형태"
+									styleRoot={{ alignItems: 'center' }}
+									value={`${reviewDetailData.tr_year ?? '-'} ${reviewDetailData.tr_career ?? '-'}`}
 									titleProp={{ h: 5, mid: true }}
 									textProp={{
 										h: 5,
@@ -170,13 +187,11 @@
 									}}
 								>
 									{#if reviewDetailData.tr_problem_type && reviewDetailData.tr_problem_type.length > 0}
-										{#each reviewDetailData.tr_problem_type as type}
-											<BCTypo.Text
-												prop={{ h: 5, bold: true }}
-												paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-												text={type}
-											/>
-										{/each}
+										<BCTypo.Text
+											prop={{ h: 5, bold: true }}
+											paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+											text={reviewDetailData.tr_problem_type.join(', ')}
+										/>
 									{:else}
 										<BCTypo.Text
 											prop={{ h: 5, bold: true }}
