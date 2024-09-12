@@ -10,11 +10,9 @@ export async function fetchData(args: {
 	includeToken?: boolean;
 }): Promise<any> {
 	let headers: Record<string, string> = {};
-	let token = get(accessToken); // 저장된 토큰을 가져옴
+	let token = get(accessToken);
 
 	if (args.includeToken !== false) {
-		let token = get(accessToken);
-
 		if (!token) {
 			throw new Error('No access token available');
 		}
@@ -35,21 +33,11 @@ export async function fetchData(args: {
 		});
 
 		let newToken = response.headers['authorization'];
-		console.log('newToken', newToken);
-
 		if (newToken) {
 			newToken = newToken.replace('Bearer ', '');
-
-			console.log('newToken', newToken);
 			accessToken.set(newToken);
 			token = get(accessToken);
-			const headers: Record<string, string> = {
-				Authorization: `Bearer ${token}`
-			};
-
-			if (!args.isFormData) {
-				headers['Content-Type'] = 'application/json';
-			}
+			headers['Authorization'] = `Bearer ${token}`;
 
 			response = await axios({
 				url: args.url,
@@ -63,7 +51,9 @@ export async function fetchData(args: {
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.response?.status === 401) {
-				throw new Error('Unauthorized access - Token may be expired');
+				console.warn('Unauthorized - Deleting token and redirecting to home.');
+				accessToken.set(null);
+				window.location.href = '/';
 			}
 			throw new Error(error.response?.data?.message || 'Error executing request');
 		} else {
