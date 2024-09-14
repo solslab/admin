@@ -123,7 +123,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="채용 형태"
+									name="시기/채용형태"
 									styleRoot={{ alignItems: 'center' }}
 									value={`${reviewDetailData.tr_year ?? '-'} ${reviewDetailData.tr_career ?? '-'}`}
 									titleProp={{ h: 5, mid: true }}

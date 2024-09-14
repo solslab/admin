@@ -67,6 +67,23 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
+									name="닉네임"
+									styleRoot={{ alignItems: 'center' }}
+									value={memberDetailData.nickname || '-'}
+									titleProp={{ h: 5, mid: true }}
+									textProp={{
+										h: 5,
+										bold: true
+									}}
+									paint={{
+										harmonyName: 'base',
+										harmonyShade: 2300
+									}}
+								/>
+
+								<ValueRow
+									{headerWidth}
+									titleSans
 									name="이메일"
 									styleRoot={{ alignItems: 'center' }}
 									value={memberDetailData.email || '-'}
