@@ -12,6 +12,7 @@
 	import { ComponentSizeProps } from '@src/util/component';
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
 	import { IconPropType } from '@src/components/icon';
+	import { BCUnitEmpty } from '@src/components/empty-box';
 
 	let searchWord = '';
 	let memberList: any = [];
@@ -80,10 +81,16 @@
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
 	{:then memberList}
-		<ContainerGrid overflow="scroll">
-			<FieldGrid>
-				<MemberListItem members={memberList} />
-			</FieldGrid>
-		</ContainerGrid>
+		{#if memberList.length === 0}
+			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
+				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
+			</ContainerGrid>
+		{:else}
+			<ContainerGrid overflow="scroll">
+				<FieldGrid>
+					<MemberListItem members={memberList} />
+				</FieldGrid>
+			</ContainerGrid>
+		{/if}
 	{/await}
 </BCLayout.ContentsCenter>

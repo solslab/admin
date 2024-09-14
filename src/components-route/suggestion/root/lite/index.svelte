@@ -13,6 +13,7 @@
 	import { IconPropType } from '@src/components/icon';
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
 	import { default as SuggestionListItem } from './item.svelte';
+	import { BCUnitEmpty } from '@src/components/empty-box';
 
 	let suggestionList: any = [];
 	let searchWord = '';
@@ -81,8 +82,14 @@
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
 	{:then suggestionList}
-		<ContainerGrid overflow="scroll" style={{}}>
-			<SuggestionListItem suggestions={suggestionList} />
-		</ContainerGrid>
+		{#if suggestionList.length === 0}
+			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
+				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
+			</ContainerGrid>
+		{:else}
+			<ContainerGrid overflow="scroll" style={{}}>
+				<SuggestionListItem suggestions={suggestionList} />
+			</ContainerGrid>
+		{/if}
 	{/await}
 </BCLayout.ContentsCenter>

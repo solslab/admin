@@ -20,6 +20,7 @@
 	import ComapanyListItem from './item.svelte';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { Companies } from '@src/util/company';
+	import { BCUnitEmpty } from '@src/components/empty-box';
 	import { IconPending } from '@src/components/icon-pending';
 
 	let companyName = '';
@@ -142,24 +143,26 @@
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
 	{:then CompanyList}
-		<ContainerGrid overflow="scroll">
-			<FieldGrid column="1fr 1fr" gap={0.5}>
-				{#each companyList as company}
-					<ContainerGrid>
-						<ComapanyListItem
-							{company}
-							on:companyDeleted={async () => {
-								companyList = await API.Company.getAllCompanies();
-							}}
-						/>
-					</ContainerGrid>
-				{/each}
-			</FieldGrid>
-		</ContainerGrid>
-	{:catch error}
-		<ContainerGrid>
-			<BCTypo.Text text="Error loading company list." />
-		</ContainerGrid>
+		{#if companyList.length === 0}
+			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
+				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
+			</ContainerGrid>
+		{:else}
+			<ContainerGrid overflow="scroll">
+				<FieldGrid column="1fr 1fr" gap={0.5}>
+					{#each companyList as company}
+						<ContainerGrid>
+							<ComapanyListItem
+								{company}
+								on:companyDeleted={async () => {
+									companyList = await API.Company.getAllCompanies();
+								}}
+							/>
+						</ContainerGrid>
+					{/each}
+				</FieldGrid>
+			</ContainerGrid>
+		{/if}
 	{/await}
 </BCLayout.ContentsCenter>
 
