@@ -6,6 +6,7 @@
 	import { BCTypo } from '@src/components/typo';
 	import { mdiCloseThick } from '@mdi/js';
 	import { Input } from '@src/components/input';
+	import { mdiRefresh } from '@mdi/js';
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon';
 	import { Button } from '@src/components/button';
 	import { BaseModal } from '@src/components/basemodal';
@@ -111,6 +112,24 @@
 			<ContainerGrid onClick={() => (enableModal = true)}>
 				<ButtonIcon icon={DefIcons.Common.Add} />
 			</ContainerGrid>
+			<ContainerGrid>
+				<ButtonIcon
+					style={{ marginRight: '0.3rem' }}
+					size={ComponentSizeProps.MD}
+					icon={{
+						type: IconPropType.PATH,
+						src: mdiRefresh
+					}}
+					borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
+					on:click={() => {
+						asyncCompanyList = exec(async () => {
+							const companies = await API.Company.getAllCompanies();
+							companyList = companies;
+							return companies;
+						});
+					}}
+				/>
+			</ContainerGrid>
 		</FieldFlex>
 	</FieldGrid>
 
@@ -130,7 +149,7 @@
 						<ComapanyListItem
 							{company}
 							on:companyDeleted={async () => {
-								asyncCompanyList = await API.Company.getAllCompanies();
+								companyList = await API.Company.getAllCompanies();
 							}}
 						/>
 					</ContainerGrid>

@@ -77,12 +77,12 @@ export function createNavigationProps() {
 			},
 			{
 				disableInMobile: true,
-				title: '테스트 리뷰',
+				title: '코딩테스트 리뷰',
 				path: '/test-review/manage',
 				icon: DefIcons.Common.TestReview,
 				items: [
 					{
-						title: '테스트 리뷰 관리',
+						title: '코딩테스트 리뷰 관리',
 						icon: { ...DefIcons.Common.TestReview, scale: 1 },
 						link: 'test-review/manage',
 						outbound: false
