@@ -6,11 +6,12 @@
 	import { BCTypo } from '@src/components/typo';
 	import { SectionDivider } from '@src/components/section';
 	import { BCLayout } from '@src/components/layout';
+	import { mdiRefresh } from '@mdi/js';
 	import { default as MemberListItem } from './item.svelte';
 	import { IconPending } from '@src/components/icon-pending';
 	import { ComponentSizeProps } from '@src/util/component';
-	import { Search } from '@src/components/search';
-	import { filter } from 'lodash';
+	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
+	import { IconPropType } from '@src/components/icon';
 
 	let searchWord = '';
 	let memberList: any = [];
@@ -45,6 +46,25 @@
 					text={`(${memberList.length})`}
 				/>
 			</FieldFlex>
+		</ContainerGrid>
+
+		<ContainerGrid>
+			<ButtonIcon
+				style={{ marginRight: '0.3rem' }}
+				size={ComponentSizeProps.MD}
+				icon={{
+					type: IconPropType.PATH,
+					src: mdiRefresh
+				}}
+				borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
+				on:click={() => {
+					asyncMemberList = exec(async () => {
+						const members = await API.Member.getAllMembers();
+						memberList = members;
+						return members;
+					});
+				}}
+			/>
 		</ContainerGrid>
 		<!-- <ContainerGrid>
 			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />

@@ -9,6 +9,9 @@
 	import { IconPending } from '@src/components/icon-pending';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { Search } from '@src/components/search';
+	import { mdiRefresh } from '@mdi/js';
+	import { IconPropType } from '@src/components/icon';
+	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
 	import { default as SuggestionListItem } from './item.svelte';
 
 	let suggestionList: any = [];
@@ -44,6 +47,25 @@
 					text={`(${suggestionList.length})`}
 				/>
 			</FieldFlex>
+		</ContainerGrid>
+
+		<ContainerGrid>
+			<ButtonIcon
+				style={{ marginRight: '0.3rem' }}
+				size={ComponentSizeProps.MD}
+				icon={{
+					type: IconPropType.PATH,
+					src: mdiRefresh
+				}}
+				borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
+				on:click={() => {
+					asyncSuggestionList = exec(async () => {
+						const suggestions = await API.Suggestion.getAllSuggestion();
+						suggestionList = suggestions;
+						return suggestions;
+					});
+				}}
+			/>
 		</ContainerGrid>
 		<!-- <ContainerGrid>
 			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />

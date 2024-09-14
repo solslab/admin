@@ -8,7 +8,9 @@
 	import { BCLayout } from '@src/components/layout';
 	import { IconPending } from '@src/components/icon-pending';
 	import { ComponentSizeProps } from '@src/util/component';
-	import { Search } from '@src/components/search';
+	import { mdiRefresh } from '@mdi/js';
+	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
+	import { IconPropType } from '@src/components/icon';
 	import { default as ReviewListItem } from './item.svelte';
 
 	let searchWord = '';
@@ -44,6 +46,25 @@
 					text={`(${reviewList.length})`}
 				/>
 			</FieldFlex>
+		</ContainerGrid>
+
+		<ContainerGrid>
+			<ButtonIcon
+				style={{ marginRight: '0.3rem' }}
+				size={ComponentSizeProps.MD}
+				icon={{
+					type: IconPropType.PATH,
+					src: mdiRefresh
+				}}
+				borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
+				on:click={() => {
+					asyncTestReviewList = exec(async () => {
+						const testReviews = await API.Review.getTestReviews();
+						reviewList = testReviews;
+						return testReviews;
+					});
+				}}
+			/>
 		</ContainerGrid>
 		<!-- <ContainerGrid>
 			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
