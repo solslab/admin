@@ -149,7 +149,7 @@
 			</ContainerGrid>
 		{:else}
 			<ContainerGrid overflow="scroll">
-				<FieldGrid column="1fr 1fr" gap={0.5}>
+				<FieldGrid column="1fr" gap={0.5}>
 					{#each companyList as company}
 						<ContainerGrid>
 							<ComapanyListItem

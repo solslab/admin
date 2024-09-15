@@ -267,25 +267,6 @@
 										text={$companyDetailData.industry_type.join(', ') || '-'}
 									/>
 								</ValueRow>
-
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="포지션"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									<BCTypo.Text
-										prop={{ h: 5, bold: true }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text={$companyDetailData.positions.map((pos) => pos.position_name).join(', ') ||
-											'-'}
-									/>
-								</ValueRow>
 							</FieldGrid>
 						</FieldGrid>
 
@@ -379,7 +360,7 @@
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-					text="직무리스트"
+					text="시기 / 직무별 시험정보"
 				/>
 			</ContainerGrid>
 		</ContainerGrid>
@@ -399,11 +380,13 @@
 		</ContainerGrid>
 	{:else}
 		<ContainerGrid overflow="scroll" style={{}}>
-			<FieldGrid>
-				<PositionListItem
-					positionDetails={$companyPositionData}
-					on:positionDeleted={fetchCompanyDetails}
-				/>
+			<FieldGrid column="1fr" gap={0.5}>
+				{#each $companyPositionData as $companyPositionData}
+					<PositionListItem
+						positionDetails={$companyPositionData}
+						on:positionDeleted={fetchCompanyDetails}
+					/>
+				{/each}
 			</FieldGrid>
 		</ContainerGrid>
 	{/if}

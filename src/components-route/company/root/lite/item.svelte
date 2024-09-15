@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { ContainerGrid } from '@src/components/container';
-	import { BCTypo, TypoTextWithIcon } from '@src/components/typo';
+	import { BCTypo } from '@src/components/typo';
 	import { ClickableListItem } from '@src/components/clickable-list-item';
 	import { IconPropType } from '@src/util/icon';
 	import { FieldGrid } from '@src/components/field';
-	import { Modal } from '@src/components-global/modal';
 	import { SectionDivider } from '@src/components/section';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { ButtonIcon } from '@src/components/buttonicon';
