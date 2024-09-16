@@ -51,7 +51,7 @@ export async function fetchData(args: {
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.response?.status === 401) {
-				console.warn('Unauthorized - Deleting token and redirecting to home.');
+				alert('세션이 만료되었습니다. 홈 페이지로 이동합니다.');
 				accessToken.set(null);
 				window.location.href = '/';
 			}

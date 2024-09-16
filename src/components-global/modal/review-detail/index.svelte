@@ -106,7 +106,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="직무"
+									name="시험 정보"
 									styleRoot={{ alignItems: 'center' }}
 									value={`${reviewDetailData.tr_position ?? '-'}`}
 									titleProp={{ h: 5, mid: true }}

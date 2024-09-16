@@ -12,22 +12,24 @@
 	import { ComponentSizeProps } from '@src/util/component';
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
 	import { IconPropType } from '@src/components/icon';
+	import { BCUnitEmpty } from '@src/components/empty-box';
 
 	let feedbackLength = 0;
 	let averageRating = '0';
 
+	function calculateAverageRating(feedbacks: any[]): string {
+		const feedbackLength = feedbacks.length;
+		if (feedbackLength > 0) {
+			const totalRating = feedbacks.reduce((sum, feedback) => sum + feedback.rating, 0);
+			return (totalRating / feedbackLength).toFixed(2);
+		}
+		return '0';
+	}
+
 	$: asyncFeedbackList = exec(async () => {
 		const feedbacks = await API.Feedback.getAllFeedbacks();
 		feedbackLength = feedbacks.feedback_list.length;
-
-		if (feedbackLength > 0) {
-			const totalRating = feedbacks.feedback_list.reduce(
-				(sum: any, feedback: any) => sum + feedback.rating,
-				0
-			);
-			averageRating = (totalRating / feedbackLength).toFixed(1);
-		}
-
+		averageRating = calculateAverageRating(feedbacks.feedback_list);
 		return feedbacks;
 	});
 </script>
@@ -66,15 +68,7 @@
 					asyncFeedbackList = exec(async () => {
 						const feedbacks = await API.Feedback.getAllFeedbacks();
 						feedbackLength = feedbacks.feedback_list.length;
-
-						if (feedbackLength > 0) {
-							const totalRating = feedbacks.feedback_list.reduce(
-								(sum, feedback) => sum + feedback.rating,
-								0
-							);
-							averageRating = (totalRating / feedbackLength).toFixed(1);
-						}
-
+						averageRating = calculateAverageRating(feedbacks.feedback_list);
 						return feedbacks;
 					});
 				}}
@@ -82,7 +76,7 @@
 		</ContainerGrid>
 	</FieldFlex>
 
-	<ContainerGrid style={{ paddingBottom: '1rem' }}>
+	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
 		<SectionDivider height={0.1} line lineColor="var(--hq-base-0400)" />
 	</ContainerGrid>
 
@@ -91,24 +85,30 @@
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
 	{:then feedbackList}
-		<ContainerGrid>
-			<FieldFlex alignItems="center" gap={0.3}>
-				<BCTypo.Text
-					prop={{ h: 2, bold: true }}
-					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-					text="평균 별점 :"
-				/>
-				<BCTypo.Text
-					prop={{ h: 2, mid: true }}
-					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`${averageRating}`}
-				/>
-			</FieldFlex>
-		</ContainerGrid>
-		<ContainerGrid overflow="scroll">
-			<FieldGrid>
-				<FeedbackListItem feedbacks={feedbackList.feedback_list} />
-			</FieldGrid>
-		</ContainerGrid>
+		{#if feedbackList.feedback_list.length === 0}
+			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
+				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
+			</ContainerGrid>
+		{:else}
+			<ContainerGrid style={{ paddingBottom: '0.5rem' }}>
+				<FieldFlex alignItems="center" gap={0.3}>
+					<BCTypo.Text
+						prop={{ h: 2, bold: true }}
+						paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+						text="평균 별점 :"
+					/>
+					<BCTypo.Text
+						prop={{ h: 2, mid: true }}
+						paint={{ harmonyName: 'base', harmonyShade: 1600 }}
+						text={`${averageRating}`}
+					/>
+				</FieldFlex>
+			</ContainerGrid>
+			<ContainerGrid overflow="scroll">
+				<FieldGrid>
+					<FeedbackListItem feedbacks={feedbackList.feedback_list} />
+				</FieldGrid>
+			</ContainerGrid>
+		{/if}
 	{/await}
 </BCLayout.ContentsCenter>

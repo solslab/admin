@@ -21,6 +21,7 @@
 	import { companyDetailData, companyPositionData } from '@src/util/company/index';
 	import { CreatePositionModal, EditCompanyModal } from './modal';
 	import { Companies } from '@src/util/company';
+	import { IconPending } from '@src/components/icon-pending';
 
 	export let companyId: string;
 
@@ -40,6 +41,8 @@
 
 	$: enableEditModal = false;
 	$: enablePositionModal = false;
+	$: companyPending = true;
+	$: positionPending = true;
 
 	async function createPosition() {
 		const languages = supportLanguages.split(',').map((lang) => lang.trim());
@@ -89,10 +92,13 @@
 	}
 
 	async function fetchCompanyDetails() {
+		companyPending = true;
 		const details = await API.Company.getCompanyDetails({ companyId });
 		companyDetailData.set(details);
+		companyPending = false;
 
 		if (details && details.positions) {
+			positionPending = true;
 			const positionDetails = await Promise.all(
 				details.positions.map(async (position: any) => {
 					const details = await API.Position.getPositionDetails({
@@ -102,6 +108,7 @@
 				})
 			);
 			companyPositionData.set(positionDetails);
+			positionPending = false;
 		}
 	}
 
@@ -218,128 +225,70 @@
 			</ContainerGrid>
 
 			<CardContentAccentArea border contentStyle={{ paddingLeft: '0.5rem' }} height="fit-content">
-				<FieldGrid column={'1fr 15rem'} row="auto 1fr">
-					<FieldGrid full row="auto 1fr">
-						<FieldGrid gap={0.3}>
-							<ValueRow
-								{headerWidth}
-								titleSans
-								name="회사 이름"
-								styleRoot={{ alignItems: 'center' }}
-								titleProp={{ h: 5, mid: true }}
-								paint={{
-									harmonyName: 'base',
-									harmonyShade: 2300
-								}}
-							>
-								<BCTypo.Text
-									prop={{ h: 5, bold: true }}
-									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-									text={$companyDetailData.company_name || '-'}
-								/>
-							</ValueRow>
-							<ValueRow
-								{headerWidth}
-								titleSans
-								name="업종"
-								styleRoot={{ alignItems: 'center' }}
-								titleProp={{ h: 5, mid: true }}
-								paint={{
-									harmonyName: 'base',
-									harmonyShade: 2300
-								}}
-							>
-								<BCTypo.Text
-									prop={{ h: 5, bold: true }}
-									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-									text={$companyDetailData.industry_type.join(', ') || '-'}
-								/>
-							</ValueRow>
-
-							<ValueRow
-								{headerWidth}
-								titleSans
-								name="포지션"
-								styleRoot={{ alignItems: 'center' }}
-								titleProp={{ h: 5, mid: true }}
-								paint={{
-									harmonyName: 'base',
-									harmonyShade: 2300
-								}}
-							>
-								<BCTypo.Text
-									prop={{ h: 5, bold: true }}
-									paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-									text={$companyDetailData.positions.map((pos) => pos.position_name).join(', ') ||
-										'-'}
-								/>
-							</ValueRow>
-						</FieldGrid>
-					</FieldGrid>
-
-					<ContainerGrid style={{ padding: '0.5rem' }}>
-						{#if $companyDetailData.company_logo}
-							<BCUnit.Image
-								src={$companyDetailData.company_logo}
-								defaultSrc="/assets/airdrop/default.png"
-								cover
-								style={{
-									borderRadius: '0.5rem ',
-									overflow: 'hidden',
-									height: '13rem',
-									width: '100%'
-								}}
-							/>
-							<FieldGrid column="1fr 1fr" style={{ paddingTop: '0.5rem' }}>
-								<Button on:click={openFileDialog} style={{ borderRadius: '4px 0 0 4px' }}
-									><BCTypo.Text
-										prop={{ h: 5, bold: true }}
-										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text="변경"
-									/>
-									<input
-										type="file"
-										accept=".jpg, .jpeg, .png"
-										on:change={handleFileSelect}
-										bind:this={fileInput}
-										style="display: none;"
-									/></Button
-								>
-								<Button
-									on:click={() => handleDeleteLogo(companyId)}
-									style={{ borderRadius: '0 4px 4px 0' }}
+				{#if companyPending}
+					<ContainerGrid full flexAlignCenter flexCenter minHeight="20vh">
+						<IconPending size={ComponentSizeProps.XL} />
+					</ContainerGrid>
+				{:else}
+					<FieldGrid column={'1fr 15rem'} row="auto 1fr">
+						<FieldGrid full row="auto 1fr">
+							<FieldGrid gap={0.3}>
+								<ValueRow
+									{headerWidth}
+									titleSans
+									name="회사 이름"
+									styleRoot={{ alignItems: 'center' }}
+									titleProp={{ h: 5, mid: true }}
+									paint={{
+										harmonyName: 'base',
+										harmonyShade: 2300
+									}}
 								>
 									<BCTypo.Text
 										prop={{ h: 5, bold: true }}
 										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-										text="삭제"
-									></BCTypo.Text></Button
+										text={$companyDetailData.company_name || '-'}
+									/>
+								</ValueRow>
+								<ValueRow
+									{headerWidth}
+									titleSans
+									name="업종"
+									styleRoot={{ alignItems: 'center' }}
+									titleProp={{ h: 5, mid: true }}
+									paint={{
+										harmonyName: 'base',
+										harmonyShade: 2300
+									}}
 								>
+									<BCTypo.Text
+										prop={{ h: 5, bold: true }}
+										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+										text={$companyDetailData.industry_type.join(', ') || '-'}
+									/>
+								</ValueRow>
 							</FieldGrid>
-						{:else}
-							<ContainerGrid
-								full
-								style={{
-									borderRadius: '0.5rem',
-									overflow: 'hidden',
-									minHeight: '13rem',
-									width: '100%',
-									border: '1px solid var(--hq-base-0400)',
-									display: 'flex'
-								}}
-								flexJustifyCenter
-							>
-								<FieldFlex alignItems="center" center>
-									<ContainerGrid>
-										<ButtonIcon
-											icon={{
-												type: IconPropType.PATH,
-												src: mdiFileImagePlusOutline,
-												scale: 1.2
-											}}
-											size={ComponentSizeProps.SM}
-											ghost
-											on:click={openFileDialog}
+						</FieldGrid>
+
+						<ContainerGrid style={{ padding: '0.5rem' }}>
+							{#if $companyDetailData.company_logo}
+								<BCUnit.Image
+									src={$companyDetailData.company_logo}
+									defaultSrc="/assets/airdrop/default.png"
+									cover
+									style={{
+										borderRadius: '0.5rem ',
+										overflow: 'hidden',
+										height: '13rem',
+										width: '100%'
+									}}
+								/>
+								<FieldGrid column="1fr 1fr" style={{ paddingTop: '0.5rem' }}>
+									<Button on:click={openFileDialog} style={{ borderRadius: '4px 0 0 4px' }}
+										><BCTypo.Text
+											prop={{ h: 5, bold: true }}
+											paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+											text="변경"
 										/>
 										<input
 											type="file"
@@ -347,13 +296,58 @@
 											on:change={handleFileSelect}
 											bind:this={fileInput}
 											style="display: none;"
-										/>
-									</ContainerGrid>
-								</FieldFlex>
-							</ContainerGrid>
-						{/if}
-					</ContainerGrid>
-				</FieldGrid>
+										/></Button
+									>
+									<Button
+										on:click={() => handleDeleteLogo(companyId)}
+										style={{ borderRadius: '0 4px 4px 0' }}
+									>
+										<BCTypo.Text
+											prop={{ h: 5, bold: true }}
+											paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+											text="삭제"
+										></BCTypo.Text></Button
+									>
+								</FieldGrid>
+							{:else}
+								<ContainerGrid
+									full
+									style={{
+										borderRadius: '0.5rem',
+										overflow: 'hidden',
+										minHeight: '13rem',
+										width: '100%',
+										border: '1px solid var(--hq-base-0400)',
+										display: 'flex'
+									}}
+									flexJustifyCenter
+								>
+									<FieldFlex alignItems="center" center>
+										<ContainerGrid>
+											<ButtonIcon
+												icon={{
+													type: IconPropType.PATH,
+													src: mdiFileImagePlusOutline,
+													scale: 1.2
+												}}
+												size={ComponentSizeProps.SM}
+												ghost
+												on:click={openFileDialog}
+											/>
+											<input
+												type="file"
+												accept=".jpg, .jpeg, .png"
+												on:change={handleFileSelect}
+												bind:this={fileInput}
+												style="display: none;"
+											/>
+										</ContainerGrid>
+									</FieldFlex>
+								</ContainerGrid>
+							{/if}
+						</ContainerGrid>
+					</FieldGrid>
+				{/if}
 			</CardContentAccentArea>
 		{/if}
 	</CardContentAccentArea>
@@ -366,7 +360,7 @@
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-					text="직무리스트"
+					text="시기 / 직무별 시험정보"
 				/>
 			</ContainerGrid>
 		</ContainerGrid>
@@ -386,11 +380,13 @@
 		</ContainerGrid>
 	{:else}
 		<ContainerGrid overflow="scroll" style={{}}>
-			<FieldGrid>
-				<PositionListItem
-					positionDetails={$companyPositionData}
-					on:positionDeleted={fetchCompanyDetails}
-				/>
+			<FieldGrid column="1fr" gap={0.5}>
+				{#each $companyPositionData as $companyPositionData}
+					<PositionListItem
+						positionDetails={$companyPositionData}
+						on:positionDeleted={fetchCompanyDetails}
+					/>
+				{/each}
 			</FieldGrid>
 		</ContainerGrid>
 	{/if}
