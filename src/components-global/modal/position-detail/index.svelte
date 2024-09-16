@@ -215,10 +215,7 @@
 									width="100%"
 								/>
 							{:else}
-								<BCTypo.Text
-									prop={{ h: 5, mid: true }}
-									text={$data.data.position_name || '-'}
-								/>
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.position_name || '-'} />
 							{/if}
 						</ValueRow>
 
@@ -313,24 +310,24 @@
 							}}
 						>
 							{#if isEditing}
-							<FieldFlex direction="row" gap={0.5} full>
-								<Button
-									size="sm"
-									selected={permitIDE === '가능'}
-									on:click={() => (permitIDE = toggleOption(permitIDE, '가능'))}
-									style={{ flex: '1' }}
-								>
-									가능
-								</Button>
-								<Button
-									size="sm"
-									selected={permitIDE === '불가능'}
-									on:click={() => (permitIDE = toggleOption(permitIDE, '불가능'))}
-									style={{ flex: '1' }}
-								>
-									불가능
-								</Button>
-							</FieldFlex>
+								<FieldFlex direction="row" gap={0.5} full>
+									<Button
+										size="sm"
+										selected={permitIDE === '가능'}
+										on:click={() => (permitIDE = toggleOption(permitIDE, '가능'))}
+										style={{ flex: '1' }}
+									>
+										가능
+									</Button>
+									<Button
+										size="sm"
+										selected={permitIDE === '불가능'}
+										on:click={() => (permitIDE = toggleOption(permitIDE, '불가능'))}
+										style={{ flex: '1' }}
+									>
+										불가능
+									</Button>
+								</FieldFlex>
 							{:else}
 								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.permit_ide || '-'} />
 							{/if}
@@ -349,29 +346,26 @@
 							}}
 						>
 							{#if isEditing}
-							<FieldFlex direction="row" gap={0.5} full>
-								<Button
-									size="sm"
-									selected={permitSearch === '가능'}
-									on:click={() => (permitSearch = toggleOption(permitSearch, '가능'))}
-									style={{ flex: '1' }}
-								>
-									가능
-								</Button>
-								<Button
-									size="sm"
-									selected={permitSearch === '불가능'}
-									on:click={() => (permitSearch = toggleOption(permitSearch, '불가능'))}
-									style={{ flex: '1' }}
-								>
-									불가능
-								</Button>
-							</FieldFlex>
+								<FieldFlex direction="row" gap={0.5} full>
+									<Button
+										size="sm"
+										selected={permitSearch === '가능'}
+										on:click={() => (permitSearch = toggleOption(permitSearch, '가능'))}
+										style={{ flex: '1' }}
+									>
+										가능
+									</Button>
+									<Button
+										size="sm"
+										selected={permitSearch === '불가능'}
+										on:click={() => (permitSearch = toggleOption(permitSearch, '불가능'))}
+										style={{ flex: '1' }}
+									>
+										불가능
+									</Button>
+								</FieldFlex>
 							{:else}
-								<BCTypo.Text
-									prop={{ h: 5, mid: true }}
-									text={$data.data.permit_search || '-'}
-								/>
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.permit_search || '-'} />
 							{/if}
 						</ValueRow>
 
@@ -388,22 +382,22 @@
 							}}
 						>
 							{#if isEditing}
-							<FieldFlex direction="row" gap={0.5} full>
-								<Button
-									selected={hiddenCase === '있음'}
-									on:click={() => (hiddenCase = toggleOption(hiddenCase, '있음'))}
-									style={{ flex: '1' }}
-								>
-									있음
-								</Button>
-								<Button
-									selected={hiddenCase === '없음'}
-									on:click={() => (hiddenCase = toggleOption(hiddenCase, '없음'))}
-									style={{ flex: '1' }}
-								>
-									없음
-								</Button>
-							</FieldFlex>
+								<FieldFlex direction="row" gap={0.5} full>
+									<Button
+										selected={hiddenCase === '있음'}
+										on:click={() => (hiddenCase = toggleOption(hiddenCase, '있음'))}
+										style={{ flex: '1' }}
+									>
+										있음
+									</Button>
+									<Button
+										selected={hiddenCase === '없음'}
+										on:click={() => (hiddenCase = toggleOption(hiddenCase, '없음'))}
+										style={{ flex: '1' }}
+									>
+										없음
+									</Button>
+								</FieldFlex>
 							{:else}
 								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.hidden_case || '-'} />
 							{/if}
@@ -422,22 +416,22 @@
 							}}
 						>
 							{#if isEditing}
-							<FieldFlex direction="row" gap={0.5} full>
-								<Button
-									selected={examMode === '대면'}
-									on:click={() => (examMode = toggleOption(examMode, '대면'))}
-									style={{ flex: '1' }}
-								>
-									대면
-								</Button>
-								<Button
-									selected={examMode === '비대면'}
-									on:click={() => (examMode = toggleOption(examMode, '비대면'))}
-									style={{ flex: '1' }}
-								>
-									비대면
-								</Button>
-							</FieldFlex>
+								<FieldFlex direction="row" gap={0.5} full>
+									<Button
+										selected={examMode === '대면'}
+										on:click={() => (examMode = toggleOption(examMode, '대면'))}
+										style={{ flex: '1' }}
+									>
+										대면
+									</Button>
+									<Button
+										selected={examMode === '비대면'}
+										on:click={() => (examMode = toggleOption(examMode, '비대면'))}
+										style={{ flex: '1' }}
+									>
+										비대면
+									</Button>
+								</FieldFlex>
 							{:else}
 								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.exam_mode || '-'} />
 							{/if}
