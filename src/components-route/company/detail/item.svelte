@@ -2,24 +2,29 @@
 	import { Modal } from '@src/components-global/modal';
 	import { ButtonIcon } from '@src/components/buttonicon';
 	import { IconPropType } from '@src/util/icon';
+	import { ClickableListItem } from '@src/components/clickable-list-item';
 	import { mdiDelete } from '@mdi/js';
+	import { BCTypo } from '@src/components/typo';
+	import { FieldGrid } from '@src/components/field';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { API } from '@src/lib/api';
+	import { SectionDivider } from '@src/components/section';
+	import { ContainerGrid } from '@src/components/container';
 	import { createEventDispatcher } from 'svelte';
 
-	export let positionDetails: Array<{
-		exam_mode: string | null;
-		hidden_case: string | null;
-		note: string | null;
-		permit_ide: string | null;
-		permit_search: string | null;
+	export let positionDetails: {
+		exam_mode: string;
+		hidden_case: string;
+		note: string;
+		permit_ide: string;
+		permit_search: string;
 		position_name: string;
 		position_id: string;
-		problem_info: string | null;
+		problem_info: string;
 		support_languages: string[];
-		test_place: string | null;
-		test_time: string | null;
-	}> = [];
+		test_place: string;
+		test_time: string;
+	};
 
 	const dispatch = createEventDispatcher();
 
@@ -32,90 +37,43 @@
 	}
 </script>
 
-<table>
-	<thead>
-		<tr>
-			<th>포지션</th>
-			<th>시험 방식</th>
-			<th>히든케이스</th>
-			<th>IDE 사용</th>
-			<th>구글링</th>
-			<th>문제 수</th>
-			<th>지원언어</th>
-			<th>응시지역/장소</th>
-			<th>시험 시간</th>
-			<th>삭제</th>
-		</tr>
-	</thead>
-	<tbody>
-		{#each positionDetails as position}
-			<tr on:click={() => Modal.PositionListDetailModal.set({ data: position }).open()}>
-				<td>{position.position_name || '-'}</td>
-				<td>{position.exam_mode || '-'}</td>
-				<td>{position.hidden_case || '-'}</td>
-				<td>{position.permit_ide || '-'}</td>
-				<td>{position.permit_search || '-'}</td>
-				<td>{position.problem_info || '-'}</td>
-				<td>
-					{#if position.support_languages && position.support_languages.length > 0}
-						{position.support_languages.join(', ')}
-					{:else}
-						-
-					{/if}
-				</td>
-				<td>{position.test_place || '-'}</td>
-				<td>{position.test_time || '-'}</td>
-				<td>
-					<div on:click|stopPropagation on:keydown>
+<ClickableListItem
+	padding="0.5rem"
+	dark
+	style={{
+		border: 'solid 1px var(--hq-base-0400)',
+		borderRadius: '0.3rem'
+	}}
+	on:click={() => Modal.PositionListDetailModal.set({ data: positionDetails }).open()}
+>
+	<FieldGrid style={{ padding: '0 0 0 0.5rem' }}>
+		<ContainerGrid>
+			<FieldGrid column="1fr auto" gap={0.2}>
+				<ContainerGrid flexAlignCenter>
+					<BCTypo.Text
+						prop={{ h: 4 }}
+						paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+						text={positionDetails.position_name || '-'}
+					/>
+				</ContainerGrid>
+				<div on:click|stopPropagation on:keydown>
+					<ContainerGrid flexAlignCenter>
 						<ButtonIcon
 							icon={{
 								type: IconPropType.PATH,
 								src: mdiDelete,
 								scale: 1
 							}}
-							size={ComponentSizeProps.SM}
+							size={ComponentSizeProps.MD}
 							ghost
-							on:click={async () => await deletePosition(position.position_id)}
+							on:click={async () => await deletePosition(positionDetails.position_id)}
 						/>
-					</div>
-				</td>
-			</tr>
-		{/each}
-	</tbody>
-</table>
-
-<style lang="scss">
-	table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-
-	th,
-	td {
-		border: 1px solid var(--hq-base-0400);
-		color: var(--hq-base-2300);
-		font-size: 0.6rem;
-		padding: 8px;
-		text-align: left;
-	}
-
-	th {
-		background-color: var(--hq-base-1200);
-	}
-
-	tr:hover {
-		background-color: var(--hq-base-0500);
-	}
-
-	button {
-		background-color: var(--hq-danger-500);
-		color: white;
-		border: none;
-		padding: 4px 8px;
-		cursor: pointer;
-	}
-
-	button:hover {
-		background-color: var(--hq-danger-600);
-	}
-</style>
+					</ContainerGrid>
+				</div>
+			</FieldGrid>
+			<ContainerGrid style={{ padding: '0 0.5rem' }}>
+				<SectionDivider height={0.5} />
+			</ContainerGrid>
+		</ContainerGrid>
+	</FieldGrid>
+</ClickableListItem>

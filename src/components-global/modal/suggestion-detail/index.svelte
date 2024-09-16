@@ -54,7 +54,7 @@
 >
 	<CardModal
 		titleSize={2}
-		title="Review Detail"
+		title="Suggestion Detail"
 		padding="0.5rem"
 		closeListener={() => Modal.SuggestionDetailModal.close()}
 		scrollShade={300}
@@ -115,7 +115,7 @@
 								<ValueRow
 									{headerWidth}
 									titleSans
-									name="직무"
+									name="시험 정보"
 									styleRoot={{ alignItems: 'center' }}
 									value={SuggestionDetailData.position_name ?? '-'}
 									titleProp={{ h: 5, mid: true }}

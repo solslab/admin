@@ -12,6 +12,7 @@
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
 	import { IconPropType } from '@src/components/icon';
 	import { default as ReviewListItem } from './item.svelte';
+	import { BCUnitEmpty } from '@src/components/empty-box';
 
 	let searchWord = '';
 	let reviewList: any = [];
@@ -80,10 +81,16 @@
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
 	{:then reviewList}
-		<ContainerGrid overflow="scroll" style={{}}>
-			<FieldGrid>
-				<ReviewListItem reviews={reviewList} />
-			</FieldGrid>
-		</ContainerGrid>
+		{#if reviewList.length === 0}
+			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
+				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
+			</ContainerGrid>
+		{:else}
+			<ContainerGrid overflow="scroll" style={{}}>
+				<FieldGrid>
+					<ReviewListItem reviews={reviewList} />
+				</FieldGrid>
+			</ContainerGrid>
+		{/if}
 	{/await}
 </BCLayout.ContentsCenter>

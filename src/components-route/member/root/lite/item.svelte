@@ -17,7 +17,7 @@
 			<th>이름</th>
 			<th>이메일</th>
 			<th>가입 방식</th>
-			<th>가입 날짜</th>
+			<th>가입일</th>
 		</tr>
 	</thead>
 	<tbody>

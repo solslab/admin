@@ -2,6 +2,7 @@
 	interface Feedback {
 		rating: string;
 		feedback_content: string;
+		created_date: string;
 	}
 
 	export let feedbacks: Feedback[] = [];
@@ -21,6 +22,7 @@
 			<tr>
 				<th>별점</th>
 				<th>피드백</th>
+				<th>생성일</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -35,6 +37,7 @@
 						{/each}
 					</td>
 					<td>{feedback.feedback_content ? feedback.feedback_content : '-'}</td>
+					<td>{feedback.created_date ? feedback.created_date : '-'}</td>
 				</tr>
 			{/each}
 		</tbody>
