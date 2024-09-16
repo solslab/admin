@@ -29,6 +29,11 @@
 	function closeModal() {
 		active = false;
 	}
+
+	// Toggle helper function
+	function toggleOption(option: string, value: string) {
+		return option === value ? '' : value; // If already selected, deselect; otherwise, select
+	}
 </script>
 
 <BaseModal bind:active height="34rem">
@@ -71,11 +76,11 @@
 					<!-- Position Name -->
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="포지션" prop={{ bold: true }} />
+							<BCTypo.Text text="시험 정보" prop={{ bold: true }} />
 							<Input
 								type="text"
 								size={ComponentSizeProps.MD}
-								placeholder="직무 이름 입력"
+								placeholder="시험정보 입력"
 								width="100%"
 								bind:value={positionName}
 							/>
@@ -132,7 +137,7 @@
 								<Button
 									size="sm"
 									selected={permitIDE === '가능'}
-									on:click={() => (permitIDE = '가능')}
+									on:click={() => (permitIDE = toggleOption(permitIDE, '가능'))}
 									style={{ flex: '1' }}
 								>
 									가능
@@ -140,7 +145,7 @@
 								<Button
 									size="sm"
 									selected={permitIDE === '불가능'}
-									on:click={() => (permitIDE = '불가능')}
+									on:click={() => (permitIDE = toggleOption(permitIDE, '불가능'))}
 									style={{ flex: '1' }}
 								>
 									불가능
@@ -157,7 +162,7 @@
 								<Button
 									size="sm"
 									selected={permitSearch === '가능'}
-									on:click={() => (permitSearch = '가능')}
+									on:click={() => (permitSearch = toggleOption(permitSearch, '가능'))}
 									style={{ flex: '1' }}
 								>
 									가능
@@ -165,7 +170,7 @@
 								<Button
 									size="sm"
 									selected={permitSearch === '불가능'}
-									on:click={() => (permitSearch = '불가능')}
+									on:click={() => (permitSearch = toggleOption(permitSearch, '불가능'))}
 									style={{ flex: '1' }}
 								>
 									불가능
@@ -181,14 +186,14 @@
 							<FieldFlex direction="row" gap={0.5} full>
 								<Button
 									selected={hiddenCase === '있음'}
-									on:click={() => (hiddenCase = '있음')}
+									on:click={() => (hiddenCase = toggleOption(hiddenCase, '있음'))}
 									style={{ flex: '1' }}
 								>
 									있음
 								</Button>
 								<Button
 									selected={hiddenCase === '없음'}
-									on:click={() => (hiddenCase = '없음')}
+									on:click={() => (hiddenCase = toggleOption(hiddenCase, '없음'))}
 									style={{ flex: '1' }}
 								>
 									없음
@@ -204,14 +209,14 @@
 							<FieldFlex direction="row" gap={0.5} full>
 								<Button
 									selected={examMode === '대면'}
-									on:click={() => (examMode = '대면')}
+									on:click={() => (examMode = toggleOption(examMode, '대면'))}
 									style={{ flex: '1' }}
 								>
 									대면
 								</Button>
 								<Button
 									selected={examMode === '비대면'}
-									on:click={() => (examMode = '비대면')}
+									on:click={() => (examMode = toggleOption(examMode, '비대면'))}
 									style={{ flex: '1' }}
 								>
 									비대면

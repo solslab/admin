@@ -64,6 +64,11 @@
 		note?: string | null;
 	}
 
+	// Toggle helper function for IDE, Search, Hidden Case, etc.
+	function toggleOption(option: string, value: string) {
+		return option === value ? '' : value; // If already selected, deselect; otherwise, select
+	}
+
 	async function updatePosition() {
 		const languages = supportLanguages.split(',').map((lang) => lang.trim());
 		const invalidLanguages = languages.filter((lang) => !validLanguages.includes(lang));
@@ -141,7 +146,7 @@
 >
 	<CardModal
 		titleSize={2}
-		title="Position Detail"
+		title="Test Information Detail"
 		padding="0.5rem"
 		closeListener={() => Modal.PositionListDetailModal.close()}
 		scrollShade={300}
@@ -169,7 +174,6 @@
 							ghost
 							on:click={() => {
 								if (!isEditing) {
-									// When entering edit mode, set the current values to the inputs
 									positionName = $data.data.position_name || '';
 									supportLanguages = ($data.data.support_languages || []).join(', ');
 									testTime = $data.data.test_time || '';
@@ -190,273 +194,309 @@
 				</ContainerGrid>
 				<CardContentAccentArea border contentStyle={{ padding: '0 0.6rem' }} height="fit-content">
 					<FieldGrid gap="0rem" full>
-						<ContainerGrid style={{ paddingBottom: '0.2rem' }}>
-							<FieldGrid gap={0.3}>
-								<!-- Position Name -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="포지션"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={positionName}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Position Name"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text
-											prop={{ h: 5, mid: true }}
-											text={$data.data.position_name || '-'}
-										/>
-									{/if}
-								</ValueRow>
+						<!-- Position Name -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="시험 정보"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+								<Input
+									type="text"
+									bind:value={positionName}
+									size={ComponentSizeProps.MD}
+									placeholder="시험정보 입력"
+									width="100%"
+								/>
+							{:else}
+								<BCTypo.Text
+									prop={{ h: 5, mid: true }}
+									text={$data.data.position_name || '-'}
+								/>
+							{/if}
+						</ValueRow>
 
-								<!-- Support Languages -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="지원 언어"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={supportLanguages}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Support Languages (comma separated)"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text
-											prop={{ h: 5, mid: true }}
-											text={$data.data.support_languages.join(', ') || '-'}
-										/>
-									{/if}
-								</ValueRow>
+						<!-- Support Languages -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="지원 언어"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+								<Input
+									type="text"
+									bind:value={supportLanguages}
+									size={ComponentSizeProps.MD}
+									placeholder="Enter Support Languages (comma separated)"
+									width="100%"
+								/>
+							{:else}
+								<BCTypo.Text
+									prop={{ h: 5, mid: true }}
+									text={$data.data.support_languages.join(', ') || '-'}
+								/>
+							{/if}
+						</ValueRow>
 
-								<!-- Test Time -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="시험 시간"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={testTime}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Test Time"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.test_time || '-'} />
-									{/if}
-								</ValueRow>
+						<!-- Test Time -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="시험 시간"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+								<Input
+									type="text"
+									bind:value={testTime}
+									size={ComponentSizeProps.MD}
+									placeholder="시험시간 입력"
+									width="100%"
+								/>
+							{:else}
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.test_time || '-'} />
+							{/if}
+						</ValueRow>
 
-								<!-- Problem Info -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="문제 유형"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={problemInfo}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Problem Info"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.problem_info || '-'} />
-									{/if}
-								</ValueRow>
+						<!-- Problem Info -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="문제 유형"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+								<Input
+									type="text"
+									bind:value={problemInfo}
+									size={ComponentSizeProps.MD}
+									placeholder="문제 정보 입력"
+									width="100%"
+								/>
+							{:else}
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.problem_info || '-'} />
+							{/if}
+						</ValueRow>
 
-								<!-- Permit IDE -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="IDE 허용여부"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
+						<!-- Permit IDE -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="IDE 허용여부"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									size="sm"
+									selected={permitIDE === '가능'}
+									on:click={() => (permitIDE = toggleOption(permitIDE, '가능'))}
+									style={{ flex: '1' }}
 								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={permitIDE}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter IDE Permission (가능 or 불가능)"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.permit_ide || '-'} />
-									{/if}
-								</ValueRow>
+									가능
+								</Button>
+								<Button
+									size="sm"
+									selected={permitIDE === '불가능'}
+									on:click={() => (permitIDE = toggleOption(permitIDE, '불가능'))}
+									style={{ flex: '1' }}
+								>
+									불가능
+								</Button>
+							</FieldFlex>
+							{:else}
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.permit_ide || '-'} />
+							{/if}
+						</ValueRow>
 
-								<!-- Permit Search -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="구글링 허용여부"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
+						<!-- Permit Search -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="구글링 허용여부"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									size="sm"
+									selected={permitSearch === '가능'}
+									on:click={() => (permitSearch = toggleOption(permitSearch, '가능'))}
+									style={{ flex: '1' }}
 								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={permitSearch}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Search Permission (가능 or 불가능)"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text
-											prop={{ h: 5, mid: true }}
-											text={$data.data.permit_search || '-'}
-										/>
-									{/if}
-								</ValueRow>
+									가능
+								</Button>
+								<Button
+									size="sm"
+									selected={permitSearch === '불가능'}
+									on:click={() => (permitSearch = toggleOption(permitSearch, '불가능'))}
+									style={{ flex: '1' }}
+								>
+									불가능
+								</Button>
+							</FieldFlex>
+							{:else}
+								<BCTypo.Text
+									prop={{ h: 5, mid: true }}
+									text={$data.data.permit_search || '-'}
+								/>
+							{/if}
+						</ValueRow>
 
-								<!-- Hidden Case -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="히든케이스 존재여부"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
+						<!-- Hidden Case -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="히든케이스 존재여부"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									selected={hiddenCase === '있음'}
+									on:click={() => (hiddenCase = toggleOption(hiddenCase, '있음'))}
+									style={{ flex: '1' }}
 								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={hiddenCase}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Hidden Case (있음 or 없음)"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.hidden_case || '-'} />
-									{/if}
-								</ValueRow>
+									있음
+								</Button>
+								<Button
+									selected={hiddenCase === '없음'}
+									on:click={() => (hiddenCase = toggleOption(hiddenCase, '없음'))}
+									style={{ flex: '1' }}
+								>
+									없음
+								</Button>
+							</FieldFlex>
+							{:else}
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.hidden_case || '-'} />
+							{/if}
+						</ValueRow>
 
-								<!-- Exam Mode -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="시험 모드"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
+						<!-- Exam Mode -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="시험 모드"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									selected={examMode === '대면'}
+									on:click={() => (examMode = toggleOption(examMode, '대면'))}
+									style={{ flex: '1' }}
 								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={examMode}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Exam Mode (대면 or 비대면)"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.exam_mode || '-'} />
-									{/if}
-								</ValueRow>
+									대면
+								</Button>
+								<Button
+									selected={examMode === '비대면'}
+									on:click={() => (examMode = toggleOption(examMode, '비대면'))}
+									style={{ flex: '1' }}
+								>
+									비대면
+								</Button>
+							</FieldFlex>
+							{:else}
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.exam_mode || '-'} />
+							{/if}
+						</ValueRow>
 
-								<!-- Test Place -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="시험장소 / 플랫폼"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={testPlace}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Test Place"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.test_place || '-'} />
-									{/if}
-								</ValueRow>
+						<!-- Test Place -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="시험장소 / 플랫폼"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+								<Input
+									type="text"
+									bind:value={testPlace}
+									size={ComponentSizeProps.MD}
+									placeholder="시험장소 입력"
+									width="100%"
+								/>
+							{:else}
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.test_place || '-'} />
+							{/if}
+						</ValueRow>
 
-								<!-- Note -->
-								<ValueRow
-									{headerWidth}
-									titleSans
-									name="참고사항"
-									styleRoot={{ alignItems: 'center' }}
-									titleProp={{ h: 5, mid: true }}
-									paint={{
-										harmonyName: 'base',
-										harmonyShade: 2300
-									}}
-								>
-									{#if isEditing}
-										<Input
-											type="text"
-											bind:value={note}
-											size={ComponentSizeProps.MD}
-											placeholder="Enter Notes"
-											width="100%"
-										/>
-									{:else}
-										<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.note || '-'} />
-									{/if}
-								</ValueRow>
-								{#if isEditing}
-									<ContainerGrid style={{ paddingTop: '1rem' }}>
-										<Button on:click={updatePosition}>Update Position</Button>
-									</ContainerGrid>
-								{/if}
-							</FieldGrid>
-						</ContainerGrid>
+						<!-- Note -->
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="참고사항"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+								<Input
+									type="text"
+									bind:value={note}
+									size={ComponentSizeProps.MD}
+									placeholder="참고사항 입력"
+									width="100%"
+								/>
+							{:else}
+								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.note || '-'} />
+							{/if}
+						</ValueRow>
+						{#if isEditing}
+							<ContainerGrid style={{ paddingTop: '1rem' }}>
+								<Button on:click={updatePosition}>Update Position</Button>
+							</ContainerGrid>
+						{/if}
 					</FieldGrid>
 				</CardContentAccentArea>
 			{/if}
