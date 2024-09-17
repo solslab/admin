@@ -255,7 +255,7 @@
 				</FieldGrid>
 
 				<ContainerGrid style={{ paddingTop: '1rem' }}>
-					<Button on:click={createPosition}>Create Position</Button>
+					<Button on:click={createPosition}>Create Test Information</Button>
 				</ContainerGrid>
 			</CardContentAccentArea>
 		</FieldGrid>
