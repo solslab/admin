@@ -46,7 +46,7 @@
 		scrollShade={300}
 		containerHeight={'100%'}
 	>
-		<CardContentAccentArea disableArea height="100%" style={{ padding: '0 0.8rem' }}>
+		<CardContentAccentArea disableArea height="100%" style={{ padding: '0 0.8rem' }} overflow="scroll">
 			<ContainerGrid style={{ paddingBottom: '1rem' }}>
 				<SectionDivider height={0.1} line />
 			</ContainerGrid>
@@ -147,13 +147,13 @@
 									}}
 								>
 									{#if memberDetailData.prefer_languages && memberDetailData.prefer_languages.length > 0}
-										{#each memberDetailData.prefer_languages as language}
+
 											<BCTypo.Text
 												prop={{ h: 5, bold: true }}
 												paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-												text={language}
+												text={memberDetailData.prefer_languages.join(', ')}	
 											/>
-										{/each}
+									
 									{:else}
 										<BCTypo.Text
 											prop={{ h: 5, bold: true }}
