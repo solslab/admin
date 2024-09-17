@@ -407,7 +407,7 @@
 						<ValueRow
 							{headerWidth}
 							titleSans
-							name="시험 모드"
+							name="시험 방식"
 							styleRoot={{ alignItems: 'center' }}
 							titleProp={{ h: 5, mid: true }}
 							paint={{
@@ -488,7 +488,7 @@
 						</ValueRow>
 						{#if isEditing}
 							<ContainerGrid style={{ paddingTop: '1rem' }}>
-								<Button on:click={updatePosition}>Update Position</Button>
+								<Button on:click={updatePosition}>Update Test Information</Button>
 							</ContainerGrid>
 						{/if}
 					</FieldGrid>
