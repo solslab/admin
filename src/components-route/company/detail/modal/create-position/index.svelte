@@ -49,7 +49,7 @@
 			<ContainerGrid style={{ padding: '0.5 0rem' }}>
 				<FieldGrid column="1fr auto">
 					<ContainerGrid>
-						<BCTypo.Text text="직무 생성" prop={{ bold: true, h: 4 }} />
+						<BCTypo.Text text="코딩테스트 정보 생성" prop={{ bold: true, h: 4 }} />
 					</ContainerGrid>
 					<ContainerGrid>
 						<ButtonIcon

@@ -69,12 +69,12 @@
 
 		try {
 			await API.Position.createPosition(positionData);
-			alert('Position created successfully');
+			alert('Test Information created successfully');
 			await fetchCompanyDetails();
 			clearForm();
 			enablePositionModal = false;
 		} catch (error) {
-			alert('Failed to create position');
+			alert('Failed to create Test Information');
 		}
 	}
 
@@ -360,7 +360,7 @@
 				<BCTypo.Text
 					prop={{ h: 4, bold: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-					text="시기 / 직무별 시험정보"
+					text="코딩테스트 정보"
 				/>
 			</ContainerGrid>
 		</ContainerGrid>
