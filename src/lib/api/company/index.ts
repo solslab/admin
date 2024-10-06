@@ -7,9 +7,9 @@ import { get } from 'svelte/store';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export namespace __Company {
-	// 기업 전체 조회 함수 (No token required)
-	export async function getAllCompanies(): Promise<any> {
-		const url = `${BASE_URL}/company`;
+	// 기업 전체 조회 함수 (with pagination)
+	export async function getAllCompanies(args: { page: number; size: number }): Promise<any> {
+		const url = `${BASE_URL}/company?page=${args.page}&size=${args.size}`;
 
 		return await fetchData({
 			url,
@@ -17,7 +17,6 @@ export namespace __Company {
 			includeToken: false
 		});
 	}
-
 	// 기업 상세 조회 함수 (No token required)
 	export async function getCompanyDetails(args: { companyId: string }): Promise<any> {
 		const url = `${BASE_URL}/company/${args.companyId}`;

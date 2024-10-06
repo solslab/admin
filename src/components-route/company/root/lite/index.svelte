@@ -22,19 +22,53 @@
 	import { Companies } from '@src/util/company';
 	import { BCUnitEmpty } from '@src/components/empty-box';
 	import { IconPending } from '@src/components/icon-pending';
+	import { Pagination } from '@src/components/pagination';
 
 	let companyName = '';
 	let companyList: any = [];
 	let searchWord = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
-	$: asyncCompanyList = exec(async () => {
-		const companies = await API.Company.getAllCompanies();
-		companyList = companies;
-		return companies;
-	});
+	let currentPage = 1;
+	let totalPages = 1;
+	let pageSize = 5;
+	let totalCompanies = 0;
 
 	$: enableModal = false;
+
+	async function fetchCompanies(page = 1) {
+		const response = await API.Company.getAllCompanies({ page, size: pageSize });
+		companyList = response.companies;
+		totalPages = response.total_pages;
+		totalCompanies = response.total_elements;
+		currentPage = response.current_page;
+	}
+
+	$: asyncCompanyList = exec(() => fetchCompanies(currentPage));
+
+	async function handleSearchChange(evt: any) {
+		searchWord = evt.detail;
+
+		if (searchWord.trim() !== '') {
+			try {
+				const result = await API.Company.searchCompanies({ query: searchWord });
+				companyList = result;
+				totalPages = 1;
+			} catch (error) {
+				console.error('Error fetching companies:', error);
+			}
+		} else {
+			await fetchCompanies(1);
+		}
+	}
+
+	async function handlePageChange(page: number) {
+		await fetchCompanies(page);
+	}
+
+	async function handleRefresh() {
+		await fetchCompanies(currentPage);
+	}
 
 	function toggleIndustryType(type: __Model.IndustryType) {
 		if (selectedIndustryTypes.has(type)) {
@@ -62,28 +96,10 @@
 			enableModal = false;
 			companyName = '';
 			selectedIndustryTypes.clear();
-			companyList = await API.Company.getAllCompanies();
+			await fetchCompanies(currentPage);
 		} catch (error) {
 			console.error('Error creating company:', error);
 			alert('Failed to create company.');
-		}
-	}
-
-	// 검색어가 변경될 때마다 호출되는 함수
-	async function handleSearchChange(evt: any) {
-		searchWord = evt.detail;
-
-		if (searchWord.trim() !== '') {
-			try {
-				const result = await API.Company.searchCompanies({ query: searchWord });
-				companyList = result; // 검색 결과를 companies에 저장
-			} catch (error) {
-				console.error('Error fetching companies:', error);
-			}
-		} else {
-			// 검색어가 없으면 전체 리스트를 다시 불러옴
-			asyncCompanyList = API.Company.getAllCompanies();
-			companyList = await asyncCompanyList;
 		}
 	}
 </script>
@@ -104,7 +120,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${companyList.length})`}
+					text={`(${totalCompanies})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
@@ -117,18 +133,9 @@
 				<ButtonIcon
 					style={{ marginRight: '0.3rem' }}
 					size={ComponentSizeProps.MD}
-					icon={{
-						type: IconPropType.PATH,
-						src: mdiRefresh
-					}}
+					icon={{ type: IconPropType.PATH, src: mdiRefresh }}
 					borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
-					on:click={() => {
-						asyncCompanyList = exec(async () => {
-							const companies = await API.Company.getAllCompanies();
-							companyList = companies;
-							return companies;
-						});
-					}}
+					on:click={handleRefresh}
 				/>
 			</ContainerGrid>
 		</FieldFlex>
@@ -154,9 +161,7 @@
 						<ContainerGrid>
 							<ComapanyListItem
 								{company}
-								on:companyDeleted={async () => {
-									companyList = await API.Company.getAllCompanies();
-								}}
+								on:companyDeleted={async () => await fetchCompanies(currentPage)}
 							/>
 						</ContainerGrid>
 					{/each}
@@ -164,6 +169,21 @@
 			</ContainerGrid>
 		{/if}
 	{/await}
+	<ContainerGrid flexJustifyEnd>
+		<Pagination
+			style={{ paddingTop: '1rem' }}
+			items={companyList}
+			bind:page={currentPage}
+			options={{
+				disablePageEnd: false,
+				disablePageNext: false,
+				buttonCount: 10,
+				itemCountPerPage: 1,
+				totalCount: totalPages
+			}}
+			on:pageChange={(e) => handlePageChange(e.detail)}
+		/>
+	</ContainerGrid>
 </BCLayout.ContentsCenter>
 
 <BaseModal bind:active={enableModal}>

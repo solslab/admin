@@ -196,7 +196,7 @@
 
 		&[data-selected] {
 			border-radius: 0.2rem;
-			background: var(--hq-base-1800);
+			background: var(--hq-base-0800);
 			color: var(--hq-base-0300);
 		}
 	}
