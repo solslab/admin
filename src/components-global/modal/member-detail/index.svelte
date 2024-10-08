@@ -34,7 +34,7 @@
 	})}
 	height={Screen.responsive($screen, {
 		xs: '100%',
-		sm: '24rem'
+		sm: '26rem'
 	})}
 	bind:active={$openStatus}
 >
