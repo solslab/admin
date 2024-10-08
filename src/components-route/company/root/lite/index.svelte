@@ -9,7 +9,7 @@
 	import { mdiRefresh } from '@mdi/js';
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon';
 	import { Button } from '@src/components/button';
-	import { BaseModal } from '@src/components/basemodal';
+	import { BaseModal, ModalPosition } from '@src/components/basemodal';
 	import { IconPropType } from '@src/components/icon';
 	import { CardContentAccentArea } from '@src/components/content';
 	import { BCLayout } from '@src/components/layout';
@@ -23,10 +23,12 @@
 	import { BCUnitEmpty } from '@src/components/empty-box';
 	import { IconPending } from '@src/components/icon-pending';
 	import { Pagination } from '@src/components/pagination';
+	import { Screen, screen } from '@src/store/env';
 
 	let companyName = '';
 	let companyList: any = [];
 	let searchWord = '';
+	let searchTerms = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
 	let currentPage = 1;
@@ -86,11 +88,13 @@
 		}
 
 		const industryList = Array.from(selectedIndustryTypes);
+		const supportSearchTerms = searchTerms.split(',').map((term) => term.trim());
 
 		try {
 			await API.Company.createCompany({
 				company_name: companyName,
-				industry_type: industryList
+				industry_type: industryList,
+				search_terms: supportSearchTerms
 			});
 			alert('Company created successfully.');
 			enableModal = false;
@@ -186,7 +190,21 @@
 	</ContainerGrid>
 </BCLayout.ContentsCenter>
 
-<BaseModal bind:active={enableModal}>
+<BaseModal
+	modalPosition={Screen.responsive($screen, {
+		xs: ModalPosition.BOTTOM,
+		sm: ModalPosition.CENTER
+	})}
+	width={Screen.responsive($screen, {
+		xs: '100%',
+		sm: '39rem'
+	})}
+	height={Screen.responsive($screen, {
+		xs: '100%',
+		sm: '35rem'
+	})}
+	bind:active={enableModal}
+>
 	<CardContentAccentArea
 		style={{ padding: '1.5rem 1rem' }}
 		backgroundPaint={{
@@ -231,6 +249,18 @@
 								bind:value={companyName}
 								size={ComponentSizeProps.MD}
 								placeholder="Enter Company Name"
+								width="100%"
+							/>
+						</FieldFlex>
+					</ContainerGrid>
+					<ContainerGrid>
+						<FieldFlex direction="column" gap={0.5}>
+							<BCTypo.Text text="Search Terms" prop={{ bold: true }} />
+							<Input
+								type="text"
+								bind:value={searchTerms}
+								size={ComponentSizeProps.MD}
+								placeholder="Enter Search Terms (comma separated)"
 								width="100%"
 							/>
 						</FieldFlex>

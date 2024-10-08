@@ -5,8 +5,8 @@ export namespace __Suggestion {
 	const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 	// 정보 수정 요청 전체 목록을 조회하는 함수
-	export async function getAllSuggestion(): Promise<any> {
-		const url = `${BASE_URL}/suggestion`;
+	export async function getAllSuggestion(args: { page: number; size: number }): Promise<any> {
+		const url = `${BASE_URL}/suggestion?page=${args.page}&size=${args.size}`;
 
 		// GET 요청이므로 body는 필요 없음
 		return await fetchData({ url, method: 'GET' });
