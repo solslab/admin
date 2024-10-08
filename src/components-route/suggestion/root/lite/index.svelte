@@ -8,25 +8,37 @@
 	import { BCLayout } from '@src/components/layout';
 	import { IconPending } from '@src/components/icon-pending';
 	import { ComponentSizeProps } from '@src/util/component';
-	import { Search } from '@src/components/search';
-	import { mdiRefresh } from '@mdi/js';
 	import { IconPropType } from '@src/components/icon';
+	import { mdiRefresh } from '@mdi/js';
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
 	import { default as SuggestionListItem } from './item.svelte';
 	import { BCUnitEmpty } from '@src/components/empty-box';
+	import { Pagination } from '@src/components/pagination';
 
 	let suggestionList: any = [];
-	let searchWord = '';
 
-	$: asyncSuggestionList = exec(async () => {
-		const suggestions = await API.Suggestion.getAllSuggestion();
-		suggestionList = suggestions;
-		return suggestions;
-	});
+	let currentPage = 1;
+	let totalPages = 1;
+	let pageSize = 5;
+	let totalSuggestions = 0;
 
-	// $: filteredSuggestionList = suggestionList.filter((suggestion: any) => {
-	// 	return suggestion.company_name.toLowerCase().includes(searchWord);
-	// });
+	async function fetchSuggestions(page = 1) {
+		const response = await API.Suggestion.getAllSuggestion({ page, size: pageSize });
+		suggestionList = response.suggestions;
+		totalPages = response.total_pages;
+		totalSuggestions = response.total_elements;
+		currentPage = response.current_page;
+	}
+
+	$: asyncSuggestionList = exec(() => fetchSuggestions(currentPage));
+
+	async function handleRefresh() {
+		await fetchSuggestions(currentPage);
+	}
+
+	async function handlePageChange(page: number) {
+		await fetchSuggestions(page);
+	}
 </script>
 
 <BCLayout.ContentsCenter
@@ -45,7 +57,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${suggestionList.length})`}
+					text={`(${totalSuggestions})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
@@ -59,18 +71,9 @@
 					src: mdiRefresh
 				}}
 				borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
-				on:click={() => {
-					asyncSuggestionList = exec(async () => {
-						const suggestions = await API.Suggestion.getAllSuggestion();
-						suggestionList = suggestions;
-						return suggestions;
-					});
-				}}
+				on:click={handleRefresh}
 			/>
 		</ContainerGrid>
-		<!-- <ContainerGrid>
-			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
-		</ContainerGrid> -->
 	</FieldFlex>
 
 	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
@@ -81,15 +84,31 @@
 		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
-	{:then suggestionList}
+	{:then SuggestionList}
 		{#if suggestionList.length === 0}
 			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
 				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
 			</ContainerGrid>
 		{:else}
-			<ContainerGrid overflow="scroll" style={{}}>
+			<ContainerGrid overflow="scroll">
 				<SuggestionListItem suggestions={suggestionList} />
 			</ContainerGrid>
 		{/if}
 	{/await}
+
+	<ContainerGrid flexJustifyEnd>
+		<Pagination
+			style={{ paddingTop: '1rem' }}
+			items={suggestionList}
+			bind:page={currentPage}
+			options={{
+				disablePageEnd: false,
+				disablePageNext: false,
+				buttonCount: 10,
+				itemCountPerPage: 1,
+				totalCount: totalPages
+			}}
+			on:pageChange={(e) => handlePageChange(e.detail)}
+		/>
+	</ContainerGrid>
 </BCLayout.ContentsCenter>
