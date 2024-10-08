@@ -13,19 +13,31 @@
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
 	import { IconPropType } from '@src/components/icon';
 	import { BCUnitEmpty } from '@src/components/empty-box';
+	import { Pagination } from '@src/components/pagination';
 
-	let searchWord = '';
 	let memberList: any = [];
+	let currentPage = 1;
+	let totalPages = 1;
+	let pageSize = 10;
+	let totalMembers = 0;
 
-	$: asyncMemberList = exec(async () => {
-		const members = await API.Member.getAllMembers();
-		memberList = members;
-		return members;
-	});
+	async function fetchMembers(page = 1) {
+		const response = await API.Member.getAllMembers({ page, size: pageSize });
+		memberList = response.members;
+		totalPages = response.total_pages;
+		totalMembers = response.total_elements;
+		currentPage = response.current_page;
+	}
 
-	// $: filteredMemberList = memberList.filter((member: any) => {
-	// 	return member.name.toLowerCase().includes(searchWord);
-	// });
+	$: asyncMemberList = exec(() => fetchMembers(currentPage));
+
+	async function handleRefresh() {
+		await fetchMembers(currentPage);
+	}
+
+	async function handlePageChange(page: number) {
+		await fetchMembers(page);
+	}
 </script>
 
 <BCLayout.ContentsCenter
@@ -44,7 +56,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${memberList.length})`}
+					text={`(${totalMembers})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
@@ -58,18 +70,9 @@
 					src: mdiRefresh
 				}}
 				borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
-				on:click={() => {
-					asyncMemberList = exec(async () => {
-						const members = await API.Member.getAllMembers();
-						memberList = members;
-						return members;
-					});
-				}}
+				on:click={handleRefresh}
 			/>
 		</ContainerGrid>
-		<!-- <ContainerGrid>
-			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
-		</ContainerGrid> -->
 	</FieldFlex>
 
 	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
@@ -80,7 +83,7 @@
 		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
-	{:then memberList}
+	{:then MemberList}
 		{#if memberList.length === 0}
 			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
 				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
@@ -93,4 +96,20 @@
 			</ContainerGrid>
 		{/if}
 	{/await}
+
+	<!-- Pagination component with totalPages from the API -->
+	<ContainerGrid flexJustifyEnd>
+		<Pagination
+			style={{ paddingTop: '1rem' }}
+			bind:page={currentPage}
+			options={{
+				disablePageEnd: false,
+				disablePageNext: false,
+				buttonCount: 10,
+				itemCountPerPage: 1,
+				totalCount: totalPages
+			}}
+			on:pageChange={(e) => handlePageChange(e.detail)}
+		/>
+	</ContainerGrid>
 </BCLayout.ContentsCenter>
