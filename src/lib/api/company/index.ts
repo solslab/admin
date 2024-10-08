@@ -32,11 +32,13 @@ export namespace __Company {
 	export async function createCompany(args: {
 		company_name: string;
 		industry_type: __Model.IndustryType[];
+		search_terms?: string[];
 	}): Promise<any> {
 		const url = `${BASE_URL}/company`;
 		const body = {
 			company_name: args.company_name,
-			industry_type: args.industry_type
+			industry_type: args.industry_type,
+			search_terms: args.search_terms || []
 		};
 
 		return await fetchData({ url, method: 'POST', body });
