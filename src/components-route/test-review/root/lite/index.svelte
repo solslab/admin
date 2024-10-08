@@ -13,19 +13,33 @@
 	import { IconPropType } from '@src/components/icon';
 	import { default as ReviewListItem } from './item.svelte';
 	import { BCUnitEmpty } from '@src/components/empty-box';
+	import { Pagination } from '@src/components/pagination';
 
 	let searchWord = '';
 	let reviewList: any = [];
 
-	$: asyncTestReviewList = exec(async () => {
-		const testReviews = await API.Review.getTestReviews();
-		reviewList = testReviews;
-		return testReviews;
-	});
+	let currentPage = 1;
+	let totalPages = 1;
+	let pageSize = 5;
+	let totalReviews = 0;
 
-	// $: filteredReviewList = reviewList.filter((review: any) => {
-	// 	return review.company_name.toLowerCase().includes(searchWord);
-	// });
+	async function fetchReviews(page = 1) {
+		const response = await API.Review.getTestReviews({ page, size: pageSize });
+		reviewList = response.test_reviews;
+		totalPages = response.total_pages;
+		totalReviews = response.total_elements;
+		currentPage = response.current_page;
+	}
+
+	$: asyncTestReviewList = exec(() => fetchReviews(currentPage));
+
+	async function handleRefresh() {
+		await fetchReviews(currentPage);
+	}
+
+	async function handlePageChange(page: number) {
+		await fetchReviews(page);
+	}
 </script>
 
 <BCLayout.ContentsCenter
@@ -44,7 +58,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${reviewList.length})`}
+					text={`(${totalReviews})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
@@ -58,18 +72,9 @@
 					src: mdiRefresh
 				}}
 				borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
-				on:click={() => {
-					asyncTestReviewList = exec(async () => {
-						const testReviews = await API.Review.getTestReviews();
-						reviewList = testReviews;
-						return testReviews;
-					});
-				}}
+				on:click={handleRefresh}
 			/>
 		</ContainerGrid>
-		<!-- <ContainerGrid>
-			<Search on:onChange={(evt) => (searchWord = evt.detail)} style={{ width: '20rem' }} />
-		</ContainerGrid> -->
 	</FieldFlex>
 
 	<ContainerGrid style={{ paddingBottom: '1rem', paddingTop: '0.5rem' }}>
@@ -80,17 +85,33 @@
 		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
-	{:then reviewList}
+	{:then ReviewList}
 		{#if reviewList.length === 0}
 			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
 				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
 			</ContainerGrid>
 		{:else}
-			<ContainerGrid overflow="scroll" style={{}}>
+			<ContainerGrid overflow="scroll">
 				<FieldGrid>
 					<ReviewListItem reviews={reviewList} />
 				</FieldGrid>
 			</ContainerGrid>
 		{/if}
 	{/await}
+
+	<ContainerGrid flexJustifyEnd>
+		<Pagination
+			style={{ paddingTop: '1rem' }}
+			bind:page={currentPage}
+			items={reviewList}
+			options={{
+				disablePageEnd: false,
+				disablePageNext: false,
+				buttonCount: 10,
+				itemCountPerPage: 1,
+				totalCount: totalPages
+			}}
+			on:pageChange={(e) => handlePageChange(e.detail)}
+		/>
+	</ContainerGrid>
 </BCLayout.ContentsCenter>
