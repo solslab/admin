@@ -13,9 +13,16 @@
 	import { ButtonIcon, ButtonIconBorderRadiusProps } from '@src/components/buttonicon/index';
 	import { IconPropType } from '@src/components/icon';
 	import { BCUnitEmpty } from '@src/components/empty-box';
+	import { Pagination } from '@src/components/pagination';
 
+	let feedbackList: any = [];
 	let feedbackLength = 0;
 	let averageRating = '0';
+
+	let currentPage = 1;
+	let totalPages = 1;
+	let pageSize = 5;
+	let totalFeedbacks = 0;
 
 	function calculateAverageRating(feedbacks: any[]): string {
 		const feedbackLength = feedbacks.length;
@@ -26,12 +33,25 @@
 		return '0';
 	}
 
-	$: asyncFeedbackList = exec(async () => {
-		const feedbacks = await API.Feedback.getAllFeedbacks();
-		feedbackLength = feedbacks.feedback_list.length;
-		averageRating = calculateAverageRating(feedbacks.feedback_list);
-		return feedbacks;
-	});
+	async function fetchFeedbacks(page = 1) {
+		const response = await API.Feedback.getAllFeedbacks({ page, size: pageSize });
+		feedbackList = response.feedbacks;
+		totalPages = response.total_pages;
+		totalFeedbacks = response.total_elements;
+		currentPage = response.current_page;
+		feedbackLength = feedbackList.length;
+		averageRating = calculateAverageRating(feedbackList);
+	}
+
+	$: asyncFeedbackList = exec(() => fetchFeedbacks(currentPage));
+
+	async function handleRefresh() {
+		await fetchFeedbacks(currentPage);
+	}
+
+	async function handlePageChange(page: number) {
+		await fetchFeedbacks(page);
+	}
 </script>
 
 <BCLayout.ContentsCenter
@@ -50,7 +70,7 @@
 				<BCTypo.Text
 					prop={{ h: 2, mid: true }}
 					paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-					text={`(${feedbackLength})`}
+					text={`(${totalFeedbacks})`}
 				/>
 			</FieldFlex>
 		</ContainerGrid>
@@ -64,14 +84,7 @@
 					src: mdiRefresh
 				}}
 				borderRadius={ButtonIconBorderRadiusProps.MEDIUM}
-				on:click={() => {
-					asyncFeedbackList = exec(async () => {
-						const feedbacks = await API.Feedback.getAllFeedbacks();
-						feedbackLength = feedbacks.feedback_list.length;
-						averageRating = calculateAverageRating(feedbacks.feedback_list);
-						return feedbacks;
-					});
-				}}
+				on:click={handleRefresh}
 			/>
 		</ContainerGrid>
 	</FieldFlex>
@@ -84,8 +97,8 @@
 		<ContainerGrid full flexAlignCenter flexCenter minHeight="50vh">
 			<IconPending size={ComponentSizeProps.XL} />
 		</ContainerGrid>
-	{:then feedbackList}
-		{#if feedbackList.feedback_list.length === 0}
+	{:then FeedbackList}
+		{#if feedbackList.length === 0}
 			<ContainerGrid style={{ border: '1px solid var(--hq-base-0400)' }}>
 				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
 			</ContainerGrid>
@@ -104,11 +117,29 @@
 					/>
 				</FieldFlex>
 			</ContainerGrid>
+
 			<ContainerGrid overflow="scroll">
 				<FieldGrid>
-					<FeedbackListItem feedbacks={feedbackList.feedback_list} />
+					<FeedbackListItem feedbacks={feedbackList} />
 				</FieldGrid>
 			</ContainerGrid>
 		{/if}
 	{/await}
+
+	<!-- Pagination component with totalPages from the API -->
+	<ContainerGrid flexJustifyEnd>
+		<Pagination
+			style={{ paddingTop: '1rem' }}
+			items={feedbackList}
+			bind:page={currentPage}
+			options={{
+				disablePageEnd: false,
+				disablePageNext: false,
+				buttonCount: 10,
+				itemCountPerPage: 1,
+				totalCount: totalPages
+			}}
+			on:pageChange={(e) => handlePageChange(e.detail)}
+		/>
+	</ContainerGrid>
 </BCLayout.ContentsCenter>
