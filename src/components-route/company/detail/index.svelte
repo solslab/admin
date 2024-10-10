@@ -26,6 +26,7 @@
 	export let companyId: string;
 
 	let editedCompanyName = '';
+	let editedSearchTerms = '';
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
 	let positionName = '';
@@ -173,9 +174,12 @@
 
 	async function updateCompany() {
 		const industryList = Array.from(selectedIndustryTypes);
+		const supportSearchTerms = editedSearchTerms.split(',').map((term) => term.trim());
+
 		await API.Company.updateCompany({
 			companyId: companyId,
 			company_name: editedCompanyName,
+			search_terms: supportSearchTerms,
 			industry_type: industryList
 		});
 		const updatedData = await API.Company.getCompanyDetails({ companyId });
@@ -187,6 +191,7 @@
 
 	function openEditModal() {
 		editedCompanyName = $companyDetailData.company_name;
+		editedSearchTerms = $companyDetailData.search_terms.join(', ');
 		selectedIndustryTypes.clear();
 
 		if ($companyDetailData?.industry_type) {
@@ -265,6 +270,24 @@
 										prop={{ h: 5, bold: true }}
 										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
 										text={$companyDetailData.industry_type.join(', ') || '-'}
+									/>
+								</ValueRow>
+
+								<ValueRow
+									{headerWidth}
+									titleSans
+									name="검색어"
+									styleRoot={{ alignItems: 'center' }}
+									titleProp={{ h: 5, mid: true }}
+									paint={{
+										harmonyName: 'base',
+										harmonyShade: 2300
+									}}
+								>
+									<BCTypo.Text
+										prop={{ h: 5, bold: true }}
+										paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+										text={$companyDetailData.search_terms.join(', ') || '-'}
 									/>
 								</ValueRow>
 							</FieldGrid>
@@ -410,6 +433,7 @@
 <EditCompanyModal
 	bind:active={enableEditModal}
 	bind:companyName={editedCompanyName}
+	bind:searchTerms={editedSearchTerms}
 	industryTypes={selectedIndustryTypes}
 	{toggleIndustryType}
 	{updateCompany}
