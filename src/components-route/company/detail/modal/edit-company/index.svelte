@@ -16,6 +16,7 @@
 
 	export let active: boolean;
 	export let companyName: string;
+	export let searchTerms: string;
 	export let industryTypes: Set<__Model.IndustryType>;
 	export let toggleIndustryType: (type: __Model.IndustryType) => void;
 
@@ -72,6 +73,19 @@
 								placeholder="회사 이름 입력"
 								width="100%"
 								bind:value={companyName}
+							/>
+						</FieldFlex>
+					</ContainerGrid>
+
+					<ContainerGrid>
+						<FieldFlex direction="column" gap={0.5}>
+							<BCTypo.Text text="검색어 추가" prop={{ bold: true }} />
+							<Input
+								type="text"
+								bind:value={searchTerms}
+								size={ComponentSizeProps.MD}
+								placeholder="Enter Search Terms (comma separated)"
+								width="100%"
 							/>
 						</FieldFlex>
 					</ContainerGrid>

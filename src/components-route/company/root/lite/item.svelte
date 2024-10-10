@@ -78,8 +78,7 @@
 							border: '1px solid var(--hq-base-0400)',
 							borderRadius: '0.25rem',
 							padding: '0.3rem 0.8rem',
-							backgroundColor: 'var(--hq-base-0300)',
-			
+							backgroundColor: 'var(--hq-base-0300)'
 						}}
 					>
 						<BCTypo.Text
