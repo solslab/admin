@@ -3,7 +3,7 @@
 	import { BCTypo } from '@src/components/typo';
 	import { ClickableListItem } from '@src/components/clickable-list-item';
 	import { IconPropType } from '@src/util/icon';
-	import { FieldGrid } from '@src/components/field';
+	import { FieldGrid, FieldFlex } from '@src/components/field';
 	import { SectionDivider } from '@src/components/section';
 	import { ComponentSizeProps } from '@src/util/component';
 	import { ButtonIcon } from '@src/components/buttonicon';
@@ -17,15 +17,12 @@
 
 	const dispatch = createEventDispatcher();
 
-	// industry_type이 undefined나 null이면 빈 배열로 처리
-	const industryTypes = (company.industry_type || []).join(', ');
-
 	// 회사 삭제 함수
 	async function deleteCompany(companyId: string) {
 		if (confirm('삭제하시겠습니까?')) {
 			await API.Company.deleteCompany({ companyId: companyId });
 			alert('삭제되었습니다.');
-			dispatch('companyDeleted'); // Dispatch an event to notify the parent
+			dispatch('companyDeleted');
 		}
 	}
 </script>
@@ -74,6 +71,25 @@
 				<SectionDivider line height={1} />
 				<SectionDivider height={0.5} />
 			</ContainerGrid>
+			<FieldFlex gap={0.5}>
+				{#each company.industry_type as type}
+					<ContainerGrid
+						style={{
+							border: '1px solid var(--hq-base-0400)',
+							borderRadius: '0.25rem',
+							padding: '0.3rem 0.8rem',
+							backgroundColor: 'var(--hq-base-0300)'
+						}}
+					>
+						<BCTypo.Text
+							prop={{ h: 5, align: 'center' }}
+							paint={{ harmonyName: 'base', harmonyShade: 2300 }}
+							text={type}
+						/>
+					</ContainerGrid>
+				{/each}
+			</FieldFlex>
+			<SectionDivider height={0.5} />
 		</ContainerGrid>
 	</FieldGrid>
 </ClickableListItem>

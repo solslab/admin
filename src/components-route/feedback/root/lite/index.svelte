@@ -103,21 +103,6 @@
 				<BCUnitEmpty prop={{ title: 'No items to display', message: '' }} flexCenter />
 			</ContainerGrid>
 		{:else}
-			<ContainerGrid style={{ paddingBottom: '0.5rem' }}>
-				<FieldFlex alignItems="center" gap={0.3}>
-					<BCTypo.Text
-						prop={{ h: 2, bold: true }}
-						paint={{ harmonyName: 'base', harmonyShade: 2300 }}
-						text="평균 별점 :"
-					/>
-					<BCTypo.Text
-						prop={{ h: 2, mid: true }}
-						paint={{ harmonyName: 'base', harmonyShade: 1600 }}
-						text={`${averageRating}`}
-					/>
-				</FieldFlex>
-			</ContainerGrid>
-
 			<ContainerGrid overflow="scroll">
 				<FieldGrid>
 					<FeedbackListItem feedbacks={feedbackList} />
@@ -126,7 +111,6 @@
 		{/if}
 	{/await}
 
-	<!-- Pagination component with totalPages from the API -->
 	<ContainerGrid flexJustifyEnd>
 		<Pagination
 			style={{ paddingTop: '1rem' }}

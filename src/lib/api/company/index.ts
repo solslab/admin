@@ -81,12 +81,14 @@ export namespace __Company {
 	export async function updateCompany(args: {
 		companyId: string;
 		company_name: string;
+		search_terms?: string[];
 		industry_type: __Model.IndustryType[];
 	}): Promise<any> {
 		const url = `${BASE_URL}/company/${args.companyId}`;
 		const body = {
 			company_name: args.company_name,
-			industry_type: args.industry_type
+			industry_type: args.industry_type,
+			search_terms: args.search_terms || []
 		};
 
 		return await fetchData({
