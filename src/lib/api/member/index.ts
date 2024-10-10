@@ -7,8 +7,8 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export namespace __Member {
 	// 회원 전체 조회 함수
-	export async function getAllMembers(): Promise<any> {
-		const url = `${BASE_URL}/member/list`;
+	export async function getAllMembers(args: { page: number; size: number }): Promise<any> {
+		const url = `${BASE_URL}/member/list?page=${args.page}&size=${args.size}`;
 
 		// GET 요청이므로 body는 필요 없음
 		return await fetchData({
