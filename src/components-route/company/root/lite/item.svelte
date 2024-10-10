@@ -71,16 +71,15 @@
 				<SectionDivider line height={1} />
 				<SectionDivider height={0.5} />
 			</ContainerGrid>
-
 			<FieldFlex gap={0.5}>
 				{#each company.industry_type as type}
 					<ContainerGrid
 						style={{
 							border: '1px solid var(--hq-base-0400)',
 							borderRadius: '0.25rem',
-							padding: '0.3rem',
+							padding: '0.3rem 0.8rem',
 							backgroundColor: 'var(--hq-base-0300)',
-							width: '5rem'
+			
 						}}
 					>
 						<BCTypo.Text
@@ -91,7 +90,6 @@
 					</ContainerGrid>
 				{/each}
 			</FieldFlex>
-
 			<SectionDivider height={0.5} />
 		</ContainerGrid>
 	</FieldGrid>
