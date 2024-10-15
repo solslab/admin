@@ -24,6 +24,7 @@
 
 	let isEditing = false;
 	let positionName = '';
+	let isOfficial = false;
 	let supportLanguages = '';
 	let testTime = '';
 	let problemInfo = '';
@@ -53,6 +54,7 @@
 	interface CreatePositionRequest {
 		positionId: string;
 		position_name: string;
+		is_official: boolean;
 		support_languages: string[];
 		test_time?: string | null;
 		problem_info?: string | null;
@@ -64,9 +66,8 @@
 		note?: string | null;
 	}
 
-	// Toggle helper function for IDE, Search, Hidden Case, etc.
 	function toggleOption(option: string, value: string) {
-		return option === value ? '' : value; // If already selected, deselect; otherwise, select
+		return option === value ? '' : value;
 	}
 
 	async function updatePosition() {
@@ -81,6 +82,7 @@
 		const positionData: CreatePositionRequest = {
 			positionId: $data.data.position_id,
 			position_name: positionName,
+			is_official: isOfficial,
 			support_languages: languages,
 			test_time: testTime || null,
 			problem_info: problemInfo || null,
@@ -115,6 +117,7 @@
 
 	function clearForm() {
 		positionName = '';
+		isOfficial = false;
 		supportLanguages = '';
 		testTime = '';
 		problemInfo = '';
@@ -175,6 +178,7 @@
 							on:click={() => {
 								if (!isEditing) {
 									positionName = $data.data.position_name || '';
+									isOfficial = $data.data.is_official || false;
 									supportLanguages = ($data.data.support_languages || []).join(', ');
 									testTime = $data.data.test_time || '';
 									problemInfo = $data.data.problem_info || '';
@@ -216,6 +220,42 @@
 								/>
 							{:else}
 								<BCTypo.Text prop={{ h: 5, mid: true }} text={$data.data.position_name || '-'} />
+							{/if}
+						</ValueRow>
+
+						<ValueRow
+							{headerWidth}
+							titleSans
+							name="공식 여부"
+							styleRoot={{ alignItems: 'center' }}
+							titleProp={{ h: 5, mid: true }}
+							paint={{
+								harmonyName: 'base',
+								harmonyShade: 2300
+							}}
+						>
+							{#if isEditing}
+								<FieldFlex direction="row" gap={0.5} full>
+									<Button
+										selected={isOfficial}
+										on:click={() => (isOfficial = !isOfficial)}
+										style={{ flex: '1' }}
+									>
+										공식
+									</Button>
+									<Button
+										selected={!isOfficial}
+										on:click={() => (isOfficial = !isOfficial)}
+										style={{ flex: '1' }}
+									>
+										비공식
+									</Button>
+								</FieldFlex>
+							{:else}
+								<BCTypo.Text
+									prop={{ h: 5, mid: true }}
+									text={$data.data.is_official ? '공식' : '비공식'}
+								/>
 							{/if}
 						</ValueRow>
 

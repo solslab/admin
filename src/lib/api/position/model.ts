@@ -2,6 +2,7 @@ export namespace __Model {
 	export interface CreatePositionRequest {
 		companyId: string;
 		position_name: string;
+		is_official: boolean;
 		support_languages: string[];
 		test_time?: string | null;
 		problem_info?: string | null;
@@ -16,6 +17,7 @@ export namespace __Model {
 	export interface UpdatePositionRequest {
 		positionId: string;
 		position_name: string;
+		is_official: boolean;
 		support_languages: string[];
 		test_time?: string | null;
 		problem_info?: string | null;
