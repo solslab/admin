@@ -12,6 +12,7 @@ export namespace __Position {
 		const url = `${BASE_URL}/company/${args.companyId}/position`;
 		const body = {
 			position_name: args.position_name,
+			is_official: args.is_official,
 			support_languages: args.support_languages,
 			test_time: args.test_time || null,
 			problem_info: args.problem_info || null,
@@ -31,6 +32,7 @@ export namespace __Position {
 		const url = `${BASE_URL}/position/${args.positionId}`;
 		const body = {
 			position_name: args.position_name,
+			is_official: args.is_official,
 			support_languages: args.support_languages,
 			test_time: args.test_time ?? null,
 			problem_info: args.problem_info ?? null,

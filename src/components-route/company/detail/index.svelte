@@ -30,6 +30,7 @@
 	let selectedIndustryTypes: Set<__Model.IndustryType> = new Set();
 
 	let positionName = '';
+	let isOfficial = false;
 	let supportLanguages = '';
 	let testTime = '';
 	let problemInfo = '';
@@ -57,6 +58,7 @@
 		const positionData: Companies.CreatePositionRequest = {
 			companyId,
 			position_name: positionName,
+			is_official: isOfficial,
 			support_languages: languages,
 			test_time: testTime || null,
 			problem_info: problemInfo || null,
@@ -81,6 +83,7 @@
 
 	function clearForm() {
 		positionName = '';
+		isOfficial = false;
 		supportLanguages = '';
 		testTime = '';
 		problemInfo = '';
@@ -418,6 +421,7 @@
 <CreatePositionModal
 	bind:active={enablePositionModal}
 	bind:positionName
+	bind:isOfficial
 	bind:supportLanguages
 	bind:testTime
 	bind:problemInfo
