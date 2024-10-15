@@ -15,42 +15,43 @@
 	import { ModalGlobal } from '@src/components-global/modal';
 	import { Frame } from '@src/components/frame';
 	import { get } from 'svelte/store';
+	import { IconPending } from '@src/components/icon-pending';
+	import { tick } from 'svelte';
 
 	let id: string = '';
 	let password: string = '';
 	let errorMessage: string = '';
-
-	$: isLogin = get(accessToken);
+	let isLoading = false;
+	let isLogin = get(accessToken);
 
 	async function handleLogin() {
+		isLoading = true;
+		await tick();
+
 		try {
+			await new Promise((resolve) => setTimeout(resolve, 500));
 			await API.Admin.adminLogin(id, password);
+
 			isLogin = get(accessToken);
-		} catch (error) {}
+		} catch (error) {
+			errorMessage = 'Login failed. Please try again.';
+		} finally {
+			isLoading = false;
+		}
 	}
-
-	// function checkLoginStatus() {
-	// 	const token = get(accessToken);
-	// 	if (!token) {
-	// 		isLogin.set(false); // 토큰이 없으면 로그아웃 처리
-	// 		alert('로그인 세션이 만료되었습니다.');
-	// 	} else {
-	// 		isLogin.set(true); // 토큰이 있으면 로그인 처리
-	// 	}
-	// }
-
-	// onMountBrowser(() => {
-	// 	checkLoginStatus();
-	// 	intervalId = window.setInterval(checkLoginStatus, 60000);
-	// });
-
-	// onDestroy(() => {
-	// 	// 컴포넌트가 언마운트될 때 타이머 제거
-	// 	clearInterval(intervalId);
-	// });
 </script>
 
-{#if isLogin}
+{#if isLoading}
+	<ContainerGrid
+		style={{ background: 'var(--hq-base-0100)' }}
+		full
+		flexAlignCenter
+		flexCenter
+		minHeight="50vh"
+	>
+		<IconPending size={ComponentSizeProps.XL} />
+	</ContainerGrid>
+{:else if isLogin}
 	<!-- 로그인 후 화면 -->
 	<Frame>
 		<div class="root">
@@ -179,6 +180,7 @@
 		</ContainerGrid>
 	</FieldGrid>
 {/if}
+
 <ModalGlobal />
 
 <style lang="scss">
