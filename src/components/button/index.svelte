@@ -70,7 +70,6 @@
 			font-weight: bold;
 			// background: var(--hq-prussian-blue-0300);
 			// border-bottom: solid 1px var(--hq-sapphire-blue-1600);
-			box-shadow: 0 0.13rem 0 0 var(--hq-sapphire-blue-1600) !important;
 		}
 
 		&[data-selectedd] {

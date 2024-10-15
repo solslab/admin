@@ -14,6 +14,7 @@
 
 	export let active: boolean;
 	export let positionName = '';
+	export let isOfficial = false;
 	export let supportLanguages = '';
 	export let testTime = '';
 	export let problemInfo = '';
@@ -30,7 +31,6 @@
 		active = false;
 	}
 
-	// Toggle helper function
 	function toggleOption(option: string, value: string) {
 		return option === value ? '' : value; // If already selected, deselect; otherwise, select
 	}
@@ -225,6 +225,29 @@
 						</FieldFlex>
 					</ContainerGrid>
 
+					<!-- Official -->
+					<ContainerGrid>
+						<FieldFlex direction="column" gap={0.5}>
+							<BCTypo.Text text="공식 여부" prop={{ bold: true }} />
+							<FieldFlex direction="row" gap={0.5} full>
+								<Button
+									selected={isOfficial === true}
+									on:click={() => (isOfficial = true)}
+									style={{ flex: '1' }}
+								>
+									공식
+								</Button>
+								<Button
+									selected={isOfficial === false}
+									on:click={() => (isOfficial = false)}
+									style={{ flex: '1' }}
+								>
+									비공식
+								</Button>
+							</FieldFlex>
+						</FieldFlex>
+					</ContainerGrid>
+
 					<!-- Test Place -->
 					<ContainerGrid>
 						<FieldFlex direction="column" gap={0.5}>
@@ -240,19 +263,19 @@
 					</ContainerGrid>
 
 					<!-- Note -->
-					<ContainerGrid>
-						<FieldFlex direction="column" gap={0.5}>
-							<BCTypo.Text text="참고사항" prop={{ bold: true }} />
-							<Input
-								type="text"
-								size={ComponentSizeProps.MD}
-								placeholder="참고사항 입력"
-								width="100%"
-								bind:value={note}
-							/>
-						</FieldFlex>
-					</ContainerGrid>
 				</FieldGrid>
+				<ContainerGrid>
+					<FieldFlex direction="column" gap={0.5}>
+						<BCTypo.Text text="참고사항" prop={{ bold: true }} />
+						<Input
+							type="text"
+							size={ComponentSizeProps.MD}
+							placeholder="참고사항 입력"
+							width="100%"
+							bind:value={note}
+						/>
+					</FieldFlex>
+				</ContainerGrid>
 
 				<ContainerGrid style={{ paddingTop: '1rem' }}>
 					<Button on:click={createPosition}>Create Test Information</Button>
